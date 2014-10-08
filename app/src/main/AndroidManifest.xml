@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SampleActivity"
+            android:label="@string/title_sample_activity"
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleInstance"
+            />
     </application>
 
 </manifest>
