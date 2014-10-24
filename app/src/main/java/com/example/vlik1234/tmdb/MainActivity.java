@@ -18,7 +18,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void onStartSampleClick(View view) {
-        startActivity(new Intent(this, SampleActivity.class));
+        Intent intent = new Intent(MainActivity.this, SampleActivity.class);
+        intent.putExtra("DocumentInfo", new DocumentInfo("Матроскин", "Длинные", "Белые", "Пушистый"));
+        startActivity(intent);
     }
 
     @Override
