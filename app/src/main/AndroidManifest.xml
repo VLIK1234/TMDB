@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.vlik1234.tmdb" >
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -19,6 +20,9 @@
             android:name=".LoginActivity"
             android:label="@string/title_login_activity"/>
         <activity
+            android:name=".VkLoginActivity"
+            android:label="@string/title_vk_login_activity"/>
+        <activity
             android:name=".MainActivity"
             android:label="@string/title_main_activity"
             android:launchMode="singleTask"
@@ -29,6 +33,9 @@
             android:label="@string/title_sample_activity"
             android:parentActivityName=".MainActivity"
             />
+        <activity
+            android:name=".FragmentActivity"
+            android:label="@string/title_fragment_activity"/>
     </application>
 
 </manifest>
