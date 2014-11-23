@@ -53,7 +53,7 @@ public class Film extends JSONObjectWrapper {
     }
 
     public String getPosterPath() {
-        return getString("https://image.tmdb.org/t/p/w92" + getString(POSTER_PATH));
+        return "https://image.tmdb.org/t/p/w92" + getString(POSTER_PATH);
     }
 
     public void initTitle() {

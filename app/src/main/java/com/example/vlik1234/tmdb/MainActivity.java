@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
     }
 
    private HttpDataSource getHttpDataSource() {
-        return  new  TMDBDataSource();
+        return  new TMDBDataSource();
     }
 
     private void update(HttpDataSource dataSource, FilmArrayProcessor processor) {
@@ -139,7 +139,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
 
                             }
 
-                        }, url, HttpDataSource.get(MainActivity.this), new BitmapProcessor());
+                        }, url, new TMDBDataSource(), new BitmapProcessor());
                     }
                     return convertView;
                 }

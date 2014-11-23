@@ -12,7 +12,7 @@
         android:id="@+id/poster"
         android:layout_width="54dip"
         android:scaleType="centerCrop"
-        android:layout_height="54dip"
+        android:layout_height="92dip"
         android:layout_marginRight="8dip"/>
 
     <TextView
