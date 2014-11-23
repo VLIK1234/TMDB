@@ -33,6 +33,12 @@
             android:label="@string/title_sample_activity"
             android:parentActivityName=".MainActivity"
             />
+
+        <activity
+            android:name=".CollectionActivity"
+            android:label="@string/title_collection_activity"
+            />
+
         <activity
             android:name=".FragmentActivity"
             android:label="@string/title_fragment_activity"/>

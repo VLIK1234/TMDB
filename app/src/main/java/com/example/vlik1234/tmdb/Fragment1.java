@@ -1,70 +1,26 @@
 package com.example.vlik1234.tmdb;
         import android.app.Activity;
         import android.app.Fragment;
+        import android.app.ListFragment;
         import android.os.Bundle;
         import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
+        import android.widget.ArrayAdapter;
 
-public class Fragment1 extends Fragment {
-
-    final String LOG_TAG = "myLogs";
+public class Fragment1 extends ListFragment {
+    String data[] = new String[] { "Add New Movie", "Movies", "TV Shows", "People", "Featured List"};
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        Log.d(LOG_TAG, "Fragment1 onAttach");
-    }
-
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(LOG_TAG, "Fragment1 onCreate");
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        Log.d(LOG_TAG, "Fragment1 onCreateView");
-        return inflater.inflate(R.layout.fragment1, null);
-    }
-
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(LOG_TAG, "Fragment1 onActivityCreated");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1, data);
+        setListAdapter(adapter);
     }
 
-    public void onStart() {
-        super.onStart();
-        Log.d(LOG_TAG, "Fragment1 onStart");
-    }
 
-    public void onResume() {
-        super.onResume();
-        Log.d(LOG_TAG, "Fragment1 onResume");
-    }
 
-    public void onPause() {
-        super.onPause();
-        Log.d(LOG_TAG, "Fragment1 onPause");
-    }
 
-    public void onStop() {
-        super.onStop();
-        Log.d(LOG_TAG, "Fragment1 onStop");
-    }
-
-    public void onDestroyView() {
-        super.onDestroyView();
-        Log.d(LOG_TAG, "Fragment1 onDestroyView");
-    }
-
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(LOG_TAG, "Fragment1 onDestroy");
-    }
-
-    public void onDetach() {
-        super.onDetach();
-        Log.d(LOG_TAG, "Fragment1 onDetach");
-    }
 }
