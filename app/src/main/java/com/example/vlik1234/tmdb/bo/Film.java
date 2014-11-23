@@ -41,22 +41,22 @@ public class Film extends JSONObjectWrapper {
     }
 
     public String getTitle() {
-        return TITLE;
+        return getString(TITLE);
     }
 
     public String getReleaseDate() {
-        return RELEASE_DATE;
+        return getString(RELEASE_DATE);
     }
 
     public String getVoteAverage() {
-        return VOTE_AVERAGE;
+        return getString(VOTE_AVERAGE);
     }
 
     public String getPosterPath() {
-        return getString("https://image.tmdb.org/t/p/w92"+POSTER_PATH);
+        return getString("https://image.tmdb.org/t/p/w92" + getString(POSTER_PATH));
     }
 
-    public void iniTitle() {
+    public void initTitle() {
         set(NAME, getTitle() + " " + getReleaseDate());
     }
 

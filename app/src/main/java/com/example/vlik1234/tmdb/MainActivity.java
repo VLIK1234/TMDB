@@ -108,12 +108,12 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
                         convertView = View.inflate(MainActivity.this, R.layout.adapter_item, null);
                     }
                     Film item = getItem(position);
-                    TextView textView1 = (TextView) convertView.findViewById(android.R.id.text1);
+                    TextView textView1 = (TextView) convertView.findViewById(R.id.title);
                     textView1.setText(item.getName());
                     TextView textView2 = (TextView) convertView.findViewById(android.R.id.text2);
                     textView2.setText(item.getTitle());
                     convertView.setTag(item.getId());
-                    final ImageView imageView = (ImageView) convertView.findViewById(android.R.id.icon);
+                    final ImageView imageView = (ImageView) convertView.findViewById(R.id.poster);
                     final String url = item.getPosterPath();
                     imageView.setImageBitmap(null);
                     imageView.setTag(url);
