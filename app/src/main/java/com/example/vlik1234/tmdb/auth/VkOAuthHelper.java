@@ -27,11 +27,8 @@ public class VkOAuthHelper {
     public static final String AUTORIZATION_URL = "https://oauth.vk.com/authorize?client_id=4616332&scope=offline,wall,photos,status&redirect_uri=" + REDIRECT_URL + "&display=touch&response_type=token";
 
     public static String sign(String url) {
-        if (url.contains("?")) {
-            return url + "&access_token="+sToken;
-        } else {
-            return url + "?access_token="+sToken;
-        }
+            return url + "?api_key=f413bc4bacac8dff174a909f8ef535ae";
+
     }
 
     public static boolean isLogged() {

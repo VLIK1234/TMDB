@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
     }
 
    private HttpDataSource getHttpDataSource() {
-        return  TMDBDataSource.get(MainActivity.this);
+        return  new  TMDBDataSource();
     }
 
     private void update(HttpDataSource dataSource, FilmArrayProcessor processor) {
@@ -74,7 +74,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
     }
 
     private String getUrl() {
-        return Api.FRIENDS_GET;
+        return ApiTMDB.DISCOVER_MOVIE_GET;
     }
 
     @Override

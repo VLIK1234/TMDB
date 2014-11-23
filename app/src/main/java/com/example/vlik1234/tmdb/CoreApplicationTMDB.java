@@ -51,7 +51,7 @@ public class CoreApplicationTMDB extends Application {
             systemService = (T) context.getSystemService(key);
         }
         if (systemService == null) {
-            throw new IllegalStateException(key + " nota available");
+            throw new IllegalStateException(key + " not available");
         }
         return systemService;
     }

@@ -18,7 +18,7 @@ public class HttpDataSource implements DataSource<InputStream, String> {
     public static final String KEY = "HttpDataSource";
 
     public static HttpDataSource get(Context context) {
-        return CoreApplication.get(context, KEY);
+        return CoreApplicationTMDB.get(context, KEY);
     }
 
     @Override
