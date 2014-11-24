@@ -8,14 +8,16 @@ import com.example.vlik1234.tmdb.bo.NoteGsonModel;
 
 
 public class DetailsActivity extends ActionBarActivity {
+    TextView film_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        NoteGsonModel noteGsonModel = (NoteGsonModel) getIntent().getSerializableExtra("item");
-        ((TextView)findViewById(android.R.id.text1)).setText(noteGsonModel.getTitle());
-        ((TextView)findViewById(android.R.id.text2)).setText(noteGsonModel.getContent());
+        film_id = (TextView) findViewById(R.id.id_film);
+        MainActivity mainActivity = getIntent().getParcelableExtra("MainActivity");
+        film_id.setText(mainActivity.selectItemID);
+
     }
 
 }

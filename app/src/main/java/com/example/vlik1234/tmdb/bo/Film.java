@@ -5,6 +5,10 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Film extends JSONObjectWrapper {
 
     private static final String ID = "id";
@@ -45,7 +49,18 @@ public class Film extends JSONObjectWrapper {
     }
 
     public String getReleaseDate() {
-        return getString(RELEASE_DATE);
+        String date = getString(RELEASE_DATE);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+        Date testDate = null;
+        try {
+            testDate = sdf.parse(date);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        sdf = new SimpleDateFormat("dd/mm/yyyy");
+        String newFormat = sdf.format(testDate);
+
+        return newFormat;
     }
 
     public String getVoteAverage() {
@@ -53,11 +68,11 @@ public class Film extends JSONObjectWrapper {
     }
 
     public String getPosterPath() {
-        return "https://image.tmdb.org/t/p/w92" + getString(POSTER_PATH);
+        return "https://image.tmdb.org/t/p/w185" + getString(POSTER_PATH);
     }
 
     public void initTitle() {
-        set(NAME, getTitle() + " " + getReleaseDate());
+        set(NAME, getTitle() + "\n" + getReleaseDate());
     }
 
     public String getName() {

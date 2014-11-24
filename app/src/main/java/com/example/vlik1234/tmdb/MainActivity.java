@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
@@ -29,11 +31,26 @@ import com.example.vlik1234.tmdb.source.TMDBDataSource;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements DataManager.Callback<List<Film>>{
+public class MainActivity extends ActionBarActivity implements DataManager.Callback<List<Film>>, Parcelable{
 
     private ArrayAdapter mAdapter;
     private FilmArrayProcessor mFilmArrayProcessor = new FilmArrayProcessor();
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    String selectItemID ="";
+
+    public MainActivity(){
+
+    }
+
+    private MainActivity(String selectItemID){
+        this.selectItemID = selectItemID;
+    }
+
+    private MainActivity(Parcel in){
+        String[] data = new String[1];
+        in.readStringArray(data);
+        this.selectItemID = data[0];
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +68,29 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
         update(dataSource, processor);
     }
 
-    /*public void onStartCollectionClick(View view) {
-        Intent intent = new Intent(MainActivity.this, CollectionActivity.class);
-        //intent.putExtra("DocumentInfo", new DocumentInfo("Матроскин", "Длинные", "Белые", "Пушистый"));
-        startActivity(intent);
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-    }*/
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(new String[]{selectItemID});
+    }
+
+    public static final Parcelable.Creator<MainActivity> CREATOR = new Parcelable.Creator<MainActivity>() {
+
+        @Override
+        public MainActivity createFromParcel(Parcel source) {
+            return new MainActivity(source);
+        }
+
+        @Override
+        public MainActivity[] newArray(int size) {
+            return new MainActivity[size];
+        }
+
+    };
 
     private FilmArrayProcessor getProcessor() {
         return mFilmArrayProcessor;
@@ -74,7 +108,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
     }
 
     private String getUrl() {
-        return ApiTMDB.DISCOVER_MOVIE_GET;
+        return ApiTMDB.NOW_PLAYING_GET;
     }
 
     @Override
@@ -145,14 +179,15 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
                 }
 
             };
+
             listView.setAdapter(mAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
                     Film item = (Film) mAdapter.getItem(position);
-                    NoteGsonModel note = new NoteGsonModel(item.getId(), item.getTitle(), item.getReleaseDate());
-                    intent.putExtra("item", note);
+                    selectItemID = item.getId().toString();
+                    Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+                    intent.putExtra("MainActivity", new MainActivity(selectItemID));
                     startActivity(intent);
                 }
             });

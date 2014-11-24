@@ -8,6 +8,11 @@
     android:paddingBottom="48dip"
     tools:context=".DetailsActivity">
 
-    <include layout="@layout/adapter_item"/>
+    <TextView
+        android:id="@+id/id_film"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
 
 </RelativeLayout>
