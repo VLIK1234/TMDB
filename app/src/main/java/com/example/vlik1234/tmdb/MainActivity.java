@@ -147,7 +147,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
 
                     convertView.setTag(item.getId());
                     final ImageView imageView = (ImageView) convertView.findViewById(R.id.poster);
-                    final String url = item.getPosterPath();
+                    final String url = item.getPosterPath(185);
                     imageView.setImageBitmap(null);
                     imageView.setTag(url);
                     if (!TextUtils.isEmpty(url)) {

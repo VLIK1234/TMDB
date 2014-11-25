@@ -16,6 +16,7 @@ public class Film extends JSONObjectWrapper {
     private static final String RELEASE_DATE = "release_date";
     private static final String VOTE_AVERAGE = "vote_average";
     private static final String POSTER_PATH = "poster_path";
+    private static final String BACKDROP_PATH = "backdrop_path";
     private static final String OVERVIEW = "overview";
 
 
@@ -71,8 +72,11 @@ public class Film extends JSONObjectWrapper {
         return getString(VOTE_AVERAGE);
     }
 
-    public String getPosterPath() {
-        return "https://image.tmdb.org/t/p/w185" + getString(POSTER_PATH);
+    public String getPosterPath(int size) {
+        return "https://image.tmdb.org/t/p/w"+ size + getString(POSTER_PATH);
+    }
+    public String getBackdropPath() {
+        return "https://image.tmdb.org/t/p/w500" + getString(BACKDROP_PATH);
     }
 
     public void initTitle() {

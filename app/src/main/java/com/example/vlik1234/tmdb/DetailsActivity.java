@@ -2,11 +2,14 @@ package com.example.vlik1234.tmdb;
 
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,21 +24,22 @@ import com.example.vlik1234.tmdb.source.TMDBDataSource;
 public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film> {
 
     private FilmProcessor mFilmProcessor = new FilmProcessor();
+
     String id_film = "";
-    TextView error ;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
 
-        error = (TextView) findViewById(R.id.error);
         MainActivity mainActivity = getIntent().getParcelableExtra("MainActivity");
         this.id_film = mainActivity.selectItemID;
-        error.setText(id_film);
         update(dataSource, processor);
+        imageView = (ImageView) findViewById(R.id.poster);
     }
     private FilmProcessor getProcessor() {
         return mFilmProcessor;
@@ -64,53 +68,61 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(Film data) {
+        Film item = data;
 
-                    Film item = data;
+        TextView title = (TextView) findViewById(R.id.title);
+        title.setText(item.getTitle());
+        TextView overview = (TextView) findViewById(R.id.overview);
+        overview.setText(item.getOverview());
 
-                    TextView title = (TextView) findViewById(R.id.title);
-                    title.setText(item.getTitle());
-                    TextView overview = (TextView) findViewById(R.id.overview);
-                    overview.setText(item.getOverview());
-
-                    final ImageView imageView = (ImageView) findViewById(R.id.poster);
-                    final String url = item.getPosterPath();
-                    imageView.setImageBitmap(null);
-                    imageView.setTag(url);
-                    if (!TextUtils.isEmpty(url)) {
-                        //TODO add delay and cancel old request or create limited queue
-                        //TODO create sync Map to check existing request and existing callbacks
-                        //TODO create separate thread pool for manager
-                        DataManager.loadData(new DataManager.Callback<Bitmap>() {
-                            @Override
-                            public void onDataLoadStart() {
-
-                            }
-
-                            @Override
-                            public void onDone(Bitmap bitmap) {
-                                if (url.equals(imageView.getTag())) {
-                                    imageView.setImageBitmap(bitmap);
-                                }
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-
-                            }
-
-                        }, url, new TMDBDataSource(), new BitmapProcessor());
-                    }
+        this.imageView = (ImageView) findViewById(R.id.poster);
+        final String url = item.getPosterPath(780);
+        imageView.setImageBitmap(null);
+        imageView.setTag(url);
+        if (!TextUtils.isEmpty(url)) {
+            //TODO add delay and cancel old request or create limited queue
+            //TODO create sync Map to check existing request and existing callbacks
+            //TODO create separate thread pool for manager
+            DataManager.loadData(new DataManager.Callback<Bitmap>() {
+                @Override
+                public void onDataLoadStart() {
 
                 }
 
+                @Override
+                public void onDone(Bitmap bitmap) {
+                    if (url.equals(imageView.getTag())) {
+                        imageView.setImageBitmap(bitmap);
+                        //colorize(bitmap);
+                    }
+                }
 
-
+                @Override
+                public void onError(Exception e) {
+                }
+            }, url, new TMDBDataSource(), new BitmapProcessor());
+        }
+    }
 
     @Override
     public void onError(Exception e) {
         e.printStackTrace();
-        error.setText(e.getMessage());
-
     }
 
+    private void colorize(Bitmap photo) {
+        Palette palette = Palette.generate(photo);
+        applyPalette(palette);
+    }
+
+    private void applyPalette(Palette palette) {
+        getWindow().setBackgroundDrawable(new ColorDrawable(palette.getDarkMutedColor().getRgb()));
+
+        TextView titleView = (TextView) findViewById(R.id.title);
+        titleView.setTextColor(palette.getVibrantColor().getRgb());
+
+        TextView descriptionView = (TextView) findViewById(R.id.overview);
+        descriptionView.setTextColor(palette.getLightVibrantColor().getRgb());
+
+
+    }
 }

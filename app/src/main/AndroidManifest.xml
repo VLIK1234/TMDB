@@ -32,15 +32,6 @@
             android:parentActivityName=".MainActivity"
             />
 
-        <activity
-            android:name=".SampleActivity"
-            android:label="@string/title_sample_activity"
-            android:parentActivityName=".MainActivity"
-            />
-
-        <activity
-            android:name=".FragmentActivity"
-            android:label="@string/title_fragment_activity"/>
     </application>
 
 </manifest>
