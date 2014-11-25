@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vlik1234.tmdb.bo.Film;
-import com.example.vlik1234.tmdb.bo.NoteGsonModel;
 import com.example.vlik1234.tmdb.helper.DataManager;
 import com.example.vlik1234.tmdb.processing.BitmapProcessor;
 import com.example.vlik1234.tmdb.processing.FilmArrayProcessor;
@@ -134,6 +133,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
         AdapterView listView = (AbsListView) findViewById(android.R.id.list);
         if (mAdapter == null) {
             mData = data;
+
             mAdapter = new ArrayAdapter<Film>(this, R.layout.adapter_item, android.R.id.text1, data) {
 
                 @Override
@@ -143,9 +143,8 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
                     }
                     Film item = getItem(position);
                     TextView textView1 = (TextView) convertView.findViewById(R.id.title);
-                    textView1.setText(item.getName());
-                    TextView textView2 = (TextView) convertView.findViewById(android.R.id.text2);
-                    textView2.setText(item.getTitle());
+                    textView1.setText(item.getTitleName());
+
                     convertView.setTag(item.getId());
                     final ImageView imageView = (ImageView) convertView.findViewById(R.id.poster);
                     final String url = item.getPosterPath();

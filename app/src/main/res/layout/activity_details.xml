@@ -2,17 +2,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="48dip"
-    android:paddingBottom="48dip"
+    android:paddingLeft="16dip"
+    android:paddingRight="16dip"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dip"
     tools:context=".DetailsActivity">
 
+    <ImageView
+        android:id="@+id/poster"
+        android:layout_width="164dip"
+        android:scaleType="centerCrop"
+        android:layout_height="231dip"
+        android:layout_marginRight="8dip"/>
     <TextView
-        android:id="@+id/id_film"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:layout_toRightOf="@id/poster"
+        android:textSize="34sp"
+        android:paddingBottom="40dp"/>
+    <TextView
+        android:id="@+id/overview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/poster"
+        android:layout_below="@id/title"
+        android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/poster"/>
 
 
 </RelativeLayout>

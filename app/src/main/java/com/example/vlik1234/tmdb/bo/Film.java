@@ -16,6 +16,7 @@ public class Film extends JSONObjectWrapper {
     private static final String RELEASE_DATE = "release_date";
     private static final String VOTE_AVERAGE = "vote_average";
     private static final String POSTER_PATH = "poster_path";
+    private static final String OVERVIEW = "overview";
 
 
     //INTERNAL
@@ -47,6 +48,9 @@ public class Film extends JSONObjectWrapper {
     public String getTitle() {
         return getString(TITLE);
     }
+    public String getOverview() {
+        return getString(OVERVIEW);
+    }
 
     public String getReleaseDate() {
         String date = getString(RELEASE_DATE);
@@ -75,7 +79,7 @@ public class Film extends JSONObjectWrapper {
         set(NAME, getTitle() + "\n" + getReleaseDate());
     }
 
-    public String getName() {
+    public String getTitleName() {
         return getString(NAME);
     }
 
