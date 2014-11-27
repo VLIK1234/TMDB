@@ -31,10 +31,17 @@ import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity implements DataManager.Callback<List<Film>>, Parcelable{
+    static class ViewHolder {
+        TextView titlenDate;
+        ImageView poster;
+        SwipeRefreshLayout mSwipeRefreshLayout;
+        AdapterView listView;
+    }
+    ViewHolder holder = new ViewHolder();
 
     private ArrayAdapter mAdapter;
     private FilmArrayProcessor mFilmArrayProcessor = new FilmArrayProcessor();
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+
     String selectItemID ="";
 
     public MainActivity(){
@@ -55,10 +62,10 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        holder.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        holder.mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 update(dataSource, processor);
@@ -112,7 +119,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
 
     @Override
     public void onDataLoadStart() {
-        if (!mSwipeRefreshLayout.isRefreshing()) {
+        if (!holder.mSwipeRefreshLayout.isRefreshing()) {
             findViewById(android.R.id.progress).setVisibility(View.VISIBLE);
         }
         findViewById(android.R.id.empty).setVisibility(View.GONE);
@@ -123,14 +130,14 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(List<Film> data) {
-        if (mSwipeRefreshLayout.isRefreshing()) {
-            mSwipeRefreshLayout.setRefreshing(false);
+        if (holder.mSwipeRefreshLayout.isRefreshing()) {
+            holder.mSwipeRefreshLayout.setRefreshing(false);
         }
         findViewById(android.R.id.progress).setVisibility(View.GONE);
         if (data == null || data.isEmpty()) {
             findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
         }
-        AdapterView listView = (AbsListView) findViewById(android.R.id.list);
+        holder.listView = (AbsListView) findViewById(android.R.id.list);
         if (mAdapter == null) {
             mData = data;
 
@@ -142,14 +149,14 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
                         convertView = View.inflate(MainActivity.this, R.layout.adapter_item, null);
                     }
                     Film item = getItem(position);
-                    TextView textView1 = (TextView) convertView.findViewById(R.id.title);
-                    textView1.setText(item.getTitleName());
+                    holder.titlenDate = (TextView) convertView.findViewById(R.id.title);
+                    holder.titlenDate.setText(item.getTitlenDate());
 
                     convertView.setTag(item.getId());
-                    final ImageView imageView = (ImageView) convertView.findViewById(R.id.poster);
-                    final String url = item.getPosterPath(185);
-                    imageView.setImageBitmap(null);
-                    imageView.setTag(url);
+                    final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
+                    final String url = item.getPosterPath(Film.SizePoster.w154);
+                    poster.setImageBitmap(null);
+                    poster.setTag(url);
                     if (!TextUtils.isEmpty(url)) {
                         //TODO add delay and cancel old request or create limited queue
                         //TODO create sync Map to check existing request and existing callbacks
@@ -162,8 +169,8 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
 
                             @Override
                             public void onDone(Bitmap bitmap) {
-                                if (url.equals(imageView.getTag())) {
-                                    imageView.setImageBitmap(bitmap);
+                                if (url.equals(poster.getTag())) {
+                                    poster.setImageBitmap(bitmap);
                                 }
                             }
 
@@ -179,8 +186,8 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
 
             };
 
-            listView.setAdapter(mAdapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            holder.listView.setAdapter(mAdapter);
+            holder.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Film item = (Film) mAdapter.getItem(position);

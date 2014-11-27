@@ -2,9 +2,12 @@ package com.example.vlik1234.tmdb.auth;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.example.vlik1234.tmdb.LoginActivity;
+import com.example.vlik1234.tmdb.MainActivity;
 import com.example.vlik1234.tmdb.VkLoginActivity;
 import com.example.vlik1234.tmdb.auth.secure.EncrManager;
 import org.apache.http.auth.AuthenticationException;
@@ -26,6 +29,8 @@ public class VkOAuthHelper {
     public static final String REDIRECT_URL = "https://oauth.vk.com/blank.html";
     public static final String AUTORIZATION_URL = "https://oauth.vk.com/authorize?client_id=4616332&scope=offline,wall,photos,status&redirect_uri=" + REDIRECT_URL + "&display=touch&response_type=token";
 
+    static SharedPreferences mToken;
+
     public static String sign(String url) {
             return url + "?api_key=f413bc4bacac8dff174a909f8ef535ae";
 
@@ -42,9 +47,14 @@ public class VkOAuthHelper {
             Uri parsedFragment = Uri.parse("http://temp.com?" + fragment);
             String accessToken = parsedFragment.getQueryParameter("access_token");
             if (!TextUtils.isEmpty(accessToken)) {
-                //TODO save sToken to the secure store
+
                 //TODO create account in account manager
+
+                // TODO save sToken to the secure store
+                SharedPreferences.Editor editor = mToken.edit();
+                //editor.putString("Token", EncrManager.encrypt(LoginActivity.class, accessToken));
                 sToken = accessToken;
+
                 callbacks.onSuccess();
                 return true;
             } else {

@@ -19,9 +19,19 @@ public class Film extends JSONObjectWrapper {
     private static final String BACKDROP_PATH = "backdrop_path";
     private static final String OVERVIEW = "overview";
 
+    //Poster size PSIZE_(approximate size height in ppi)
+    public enum SizePoster{
+        w92,
+        w154,
+        w185,
+        w342,
+        w500,
+        w780,
+        w1000,
+        original
+    }
 
-    //INTERNAL
-    private static final String NAME = "NAME";
+    private static final String TITLEnDATE = "TITLE&DATE";
 
     public static final Parcelable.Creator<Film> CREATOR
             = new Parcelable.Creator<Film>() {
@@ -72,19 +82,19 @@ public class Film extends JSONObjectWrapper {
         return getString(VOTE_AVERAGE);
     }
 
-    public String getPosterPath(int size) {
-        return "https://image.tmdb.org/t/p/w"+ size + getString(POSTER_PATH);
+    public String getPosterPath(SizePoster size) {
+        return "https://image.tmdb.org/t/p/"+ size + getString(POSTER_PATH);
     }
-    public String getBackdropPath() {
-        return "https://image.tmdb.org/t/p/w500" + getString(BACKDROP_PATH);
+    public String getBackdropPath(String size) {
+        return "https://image.tmdb.org/t/p/"+ size + getString(BACKDROP_PATH);
     }
 
     public void initTitle() {
-        set(NAME, getTitle() + "\n" + getReleaseDate());
+        set(TITLEnDATE, getTitle() + "\n" + getReleaseDate());
     }
 
-    public String getTitleName() {
-        return getString(NAME);
+    public String getTitlenDate() {
+        return getString(TITLEnDATE);
     }
 
     public Long getId() {

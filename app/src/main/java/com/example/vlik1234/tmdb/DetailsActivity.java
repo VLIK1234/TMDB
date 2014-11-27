@@ -23,10 +23,17 @@ import com.example.vlik1234.tmdb.source.TMDBDataSource;
 
 public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film> {
 
+    static class ViewHolder {
+        TextView title;
+        TextView overview;
+        ImageView poster;
+    }
+    ViewHolder holder = new ViewHolder();
+
     private FilmProcessor mFilmProcessor = new FilmProcessor();
 
     String id_film = "";
-    ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +46,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         MainActivity mainActivity = getIntent().getParcelableExtra("MainActivity");
         this.id_film = mainActivity.selectItemID;
         update(dataSource, processor);
-        imageView = (ImageView) findViewById(R.id.poster);
+        holder.poster = (ImageView) findViewById(R.id.poster);
     }
     private FilmProcessor getProcessor() {
         return mFilmProcessor;
@@ -70,15 +77,14 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     public void onDone(Film data) {
         Film item = data;
 
-        TextView title = (TextView) findViewById(R.id.title);
-        title.setText(item.getTitle());
-        TextView overview = (TextView) findViewById(R.id.overview);
-        overview.setText(item.getOverview());
+        holder.title = (TextView) findViewById(R.id.title);
+        holder.title.setText(item.getTitle());
+        holder.overview = (TextView) findViewById(R.id.overview);
+        if(!item.getOverview().equals("null"))holder.overview.setText(item.getOverview());
 
-        this.imageView = (ImageView) findViewById(R.id.poster);
-        final String url = item.getPosterPath(780);
-        imageView.setImageBitmap(null);
-        imageView.setTag(url);
+        final String url = item.getPosterPath(Film.SizePoster.w780);
+        holder.poster.setImageBitmap(null);
+        holder.poster.setTag(url);
         if (!TextUtils.isEmpty(url)) {
             //TODO add delay and cancel old request or create limited queue
             //TODO create sync Map to check existing request and existing callbacks
@@ -91,9 +97,9 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
 
                 @Override
                 public void onDone(Bitmap bitmap) {
-                    if (url.equals(imageView.getTag())) {
-                        imageView.setImageBitmap(bitmap);
-                        //colorize(bitmap);
+                    if (url.equals(holder.poster.getTag())&&bitmap!=null) {
+                        holder.poster.setImageBitmap(bitmap);
+                        colorize(bitmap);
                     }
                 }
 
@@ -109,19 +115,17 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         e.printStackTrace();
     }
 
-    private void colorize(Bitmap photo) {
-        Palette palette = Palette.generate(photo);
+    private void colorize(Bitmap image) {
+        Palette palette = Palette.generate(image);
         applyPalette(palette);
     }
 
     private void applyPalette(Palette palette) {
         getWindow().setBackgroundDrawable(new ColorDrawable(palette.getDarkMutedColor().getRgb()));
 
-        TextView titleView = (TextView) findViewById(R.id.title);
-        titleView.setTextColor(palette.getVibrantColor().getRgb());
+        holder.title.setTextColor(palette.getVibrantColor().getRgb());
 
-        TextView descriptionView = (TextView) findViewById(R.id.overview);
-        descriptionView.setTextColor(palette.getLightVibrantColor().getRgb());
+        holder.overview.setTextColor(palette.getLightVibrantColor().getRgb());
 
 
     }
