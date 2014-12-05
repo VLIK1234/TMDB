@@ -24,6 +24,7 @@ import com.example.vlik1234.tmdb.bo.Film;
 import com.example.vlik1234.tmdb.helper.DataManager;
 import com.example.vlik1234.tmdb.processing.BitmapProcessor;
 import com.example.vlik1234.tmdb.processing.FilmArrayProcessor;
+import com.example.vlik1234.tmdb.source.CashedDataSource;
 import com.example.vlik1234.tmdb.source.HttpDataSource;
 import com.example.vlik1234.tmdb.source.TMDBDataSource;
 
@@ -179,7 +180,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
 
                             }
 
-                        }, url, new TMDBDataSource(), new BitmapProcessor());
+                        }, url, CashedDataSource.get(MainActivity.this), new BitmapProcessor());
                     }
                     return convertView;
                 }

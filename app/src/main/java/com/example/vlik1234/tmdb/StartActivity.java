@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-
+import com.example.vlik1234.tmdb.utils.AuthUtils;
 
 
 public class StartActivity extends ActionBarActivity {
@@ -14,7 +14,7 @@ public class StartActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (false) {
+        if (AuthUtils.isLogged()) {
             startMainActivity();
         } else {
             startActivityForResult(new Intent(this, LoginActivity.class), REQUEST_LOGIN);

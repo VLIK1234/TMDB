@@ -19,15 +19,19 @@ public class Film extends JSONObjectWrapper {
     private static final String BACKDROP_PATH = "backdrop_path";
     private static final String OVERVIEW = "overview";
 
-    //Poster size PSIZE_(approximate size height in ppi)
+    //Poster size PSIZE_(size in ppi), h-height, w-width; if original
     public enum SizePoster{
+        w45,
         w92,
         w154,
         w185,
+        w300,
         w342,
         w500,
+        h632,
         w780,
         w1000,
+        w1280,
         original
     }
 

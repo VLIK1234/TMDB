@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.vlik1234.tmdb.utils.AuthUtils;
 
@@ -29,13 +30,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void onLoginClick(View view) {
-        setLoginSuccess();
-    }
-
-    private void setLoginSuccess() {
-        AuthUtils.setLogged(true);
-        setResult(RESULT_OK);
-        finish();
+        Toast.makeText(this, "implement me", Toast.LENGTH_SHORT).show();;
     }
 
     public void onVkAuthClick(View view) {
@@ -47,7 +42,8 @@ public class LoginActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_VK && resultCode == RESULT_OK)  {
-            setLoginSuccess();
+            setResult(RESULT_OK);
+            finish();
         }
     }
 

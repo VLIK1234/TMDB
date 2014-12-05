@@ -52,7 +52,7 @@ public class VkOAuthHelper {
 
                 // TODO save sToken to the secure store
                 SharedPreferences.Editor editor = mToken.edit();
-                //editor.putString("Token", EncrManager.encrypt(LoginActivity.class, accessToken));
+                //editor.putString("Token", EncrManager.encrypt(this, accessToken));
                 sToken = accessToken;
 
                 callbacks.onSuccess();
