@@ -3,7 +3,6 @@ package com.example.vlik1234.tmdb.source;
 import android.content.Context;
 
 import com.example.vlik1234.tmdb.CoreApplication;
-import com.example.vlik1234.tmdb.CoreApplicationTMDB;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -18,7 +17,7 @@ public class HttpDataSource implements DataSource<InputStream, String> {
     public static final String KEY = "HttpDataSource";
 
     public static HttpDataSource get(Context context) {
-        return CoreApplicationTMDB.get(context, KEY);
+        return CoreApplication.get(context, KEY);
     }
 
     @Override
@@ -26,7 +25,8 @@ public class HttpDataSource implements DataSource<InputStream, String> {
         //download data and return
         URL url = new URL(p);
         // Read all the text returned by the server
-        return url.openStream();
+        InputStream inputStream = url.openStream();
+        return inputStream;
     }
 
     public static void close(Closeable in) {

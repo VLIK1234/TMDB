@@ -22,9 +22,10 @@ import android.widget.TextView;
 
 import com.example.vlik1234.tmdb.bo.Film;
 import com.example.vlik1234.tmdb.helper.DataManager;
+import com.example.vlik1234.tmdb.image.ImageLoader;
 import com.example.vlik1234.tmdb.processing.BitmapProcessor;
 import com.example.vlik1234.tmdb.processing.FilmArrayProcessor;
-import com.example.vlik1234.tmdb.source.CashedDataSource;
+import com.example.vlik1234.tmdb.source.CachedDataSource;
 import com.example.vlik1234.tmdb.source.HttpDataSource;
 import com.example.vlik1234.tmdb.source.TMDBDataSource;
 
@@ -34,14 +35,15 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity implements DataManager.Callback<List<Film>>, Parcelable{
     static class ViewHolder {
         TextView titlenDate;
-        ImageView poster;
         SwipeRefreshLayout mSwipeRefreshLayout;
-        AdapterView listView;
+        AbsListView listView;
     }
     ViewHolder holder = new ViewHolder();
 
     private ArrayAdapter mAdapter;
     private FilmArrayProcessor mFilmArrayProcessor = new FilmArrayProcessor();
+
+    private ImageLoader mImageLoader;
 
     String selectItemID ="";
 
@@ -63,6 +65,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mImageLoader = ImageLoader.get(MainActivity.this);
         holder.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
@@ -156,38 +159,33 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
                     convertView.setTag(item.getId());
                     final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
                     final String url = item.getPosterPath(Film.SizePoster.w154);
-                    poster.setImageBitmap(null);
-                    poster.setTag(url);
-                    if (!TextUtils.isEmpty(url)) {
-                        //TODO add delay and cancel old request or create limited queue
-                        //TODO create sync Map to check existing request and existing callbacks
-                        //TODO create separate thread pool for manager
-                        DataManager.loadData(new DataManager.Callback<Bitmap>() {
-                            @Override
-                            public void onDataLoadStart() {
-
-                            }
-
-                            @Override
-                            public void onDone(Bitmap bitmap) {
-                                if (url.equals(poster.getTag())) {
-                                    poster.setImageBitmap(bitmap);
-                                }
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-
-                            }
-
-                        }, url, CashedDataSource.get(MainActivity.this), new BitmapProcessor());
-                    }
+                    mImageLoader.loadAndDisplay(url, poster);
                     return convertView;
                 }
 
             };
-
             holder.listView.setAdapter(mAdapter);
+            holder.listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                    switch (scrollState) {
+                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                            mImageLoader.resume();
+                            break;
+                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                            mImageLoader.pause();
+                            break;
+                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                            mImageLoader.pause();
+                            break;
+                    }
+                }
+
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                }
+            });
             holder.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -214,25 +212,5 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
         errorView.setVisibility(View.VISIBLE);
         errorView.setText(errorView.getText() + "\n" + e.getMessage());
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
 }

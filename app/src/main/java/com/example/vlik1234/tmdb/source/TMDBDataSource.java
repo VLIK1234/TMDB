@@ -23,7 +23,7 @@ public class TMDBDataSource extends HttpDataSource {
 
     @Override
     public InputStream getResult(String p) throws Exception {
-        String signUrl = VkOAuthHelper.sign(p);
+        String signUrl = p+"?api_key=f413bc4bacac8dff174a909f8ef535ae";
         return super.getResult(signUrl);
     }
 

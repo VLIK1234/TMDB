@@ -14,18 +14,18 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class CashedDataSource extends HttpDataSource {
+public class CachedDataSource extends HttpDataSource {
 
     public static final String KEY = "CachedDataSource";
-    public static final String TAG = "cache_http_data_source";
+    public static final String TAG = "cache_data_source";
 
     private Context mContext;
 
-    public CashedDataSource(Context context) {
+    public CachedDataSource(Context context) {
         mContext = context;
     }
 
-    public static CashedDataSource get(Context context) {
+    public static CachedDataSource get(Context context) {
        return CoreApplication.get(context, KEY);
     }
 

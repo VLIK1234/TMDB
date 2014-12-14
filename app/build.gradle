@@ -13,7 +13,7 @@ android {
     }
     buildTypes {
         release {
-            apply plugin: 'idea'
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
