@@ -3,6 +3,8 @@ package com.example.vlik1234.tmdb;
 import android.app.Application;
 import android.content.Context;
 
+import com.example.vlik1234.tmdb.image.ImageLoader;
+import com.example.vlik1234.tmdb.source.CachedDataSource;
 import com.example.vlik1234.tmdb.source.HttpDataSource;
 import com.example.vlik1234.tmdb.source.TMDBDataSource;
 import com.example.vlik1234.tmdb.source.VkDataSource;
@@ -15,6 +17,8 @@ public class CoreApplication extends Application {
     private HttpDataSource mHttpDataSource;
     private VkDataSource mVkDataSource;
     private TMDBDataSource mTMDBDataSource;
+    private ImageLoader mImageLoader;
+    private CachedDataSource mCachedDataSource;
 
     @Override
     public void onCreate() {
@@ -26,6 +30,20 @@ public class CoreApplication extends Application {
 
     @Override
     public Object getSystemService(String name) {
+        if (ImageLoader.KEY.equals(name)) {
+            //for android kitkat +
+            if (mImageLoader == null) {
+                mImageLoader = new ImageLoader(this);
+            }
+            return mImageLoader;
+        }
+        if (CachedDataSource.KEY.equals(name)) {
+            //for android kitkat +
+            if (mCachedDataSource == null) {
+                mCachedDataSource = new CachedDataSource(this);
+            }
+            return mCachedDataSource;
+        }
         if (HttpDataSource.KEY.equals(name)) {
             //for android kitkat +
             if (mHttpDataSource == null) {
