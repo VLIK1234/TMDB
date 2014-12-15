@@ -85,7 +85,7 @@ public class ImageLoader {
 
     private Processor<Bitmap, InputStream> mProcessor;
 
-    private DataManager.Loader<Bitmap, InputStream, String> mMySuperLoader;
+    private DataManager.Loader<Bitmap, InputStream, String> mLoader;
 
     private LruCache<String, Bitmap> mLruCache = new LruCache<String, Bitmap>(MAX_SIZE) {
 
@@ -104,7 +104,7 @@ public class ImageLoader {
         this.mDataSource = dataSource;
         this.mProcessor = processor;
         //TODO can be customizable
-        this.mMySuperLoader = new DataManager.Loader<Bitmap, InputStream, String>() {
+        this.mLoader = new DataManager.Loader<Bitmap, InputStream, String>() {
 
             final int COUNT_CORES = Runtime.getRuntime().availableProcessors();
             private ExecutorService executorService = new ThreadPoolExecutor(COUNT_CORES, COUNT_CORES, 0, TimeUnit.MILLISECONDS,
@@ -160,8 +160,7 @@ public class ImageLoader {
             return;
         }
         if (!TextUtils.isEmpty(url)) {
-            //TODO create sync Map to check existing request and existing callbacks
-            //TODO add delay and cancel old request or create limited queue
+
             DataManager.loadData(new DataManager.Callback<Bitmap>() {
                 @Override
                 public void onDataLoadStart() {
@@ -183,7 +182,7 @@ public class ImageLoader {
 
                 }
 
-            }, url, mDataSource, mProcessor, mMySuperLoader);
+            }, url, mDataSource, mProcessor, mLoader);
         }
     }
 }
