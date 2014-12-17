@@ -2,4 +2,5 @@
 <resources>
     <color name="photo_tint">#7f101010</color>
     <color name="backColor">#F8F8FF</color>
+    <color name="cardview_initial_background">#71C3DE</color>
 </resources>

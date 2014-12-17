@@ -25,9 +25,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Created by IstiN on 10.12.2014.
- */
 public class ImageLoader {
 
     public static final String KEY = "ImageLoader";
@@ -40,39 +37,39 @@ public class ImageLoader {
         return CoreApplication.get(context, KEY);
     }
 
-    private class ComparableRunnable implements Runnable {
+    private class BitmapLoader implements Runnable {
 
         private Handler mHandler;
 
-        private DataManager.Callback<Bitmap> callback;
-        private String s;
-        private DataSource<InputStream, String> dataSource;
-        private Processor<Bitmap, InputStream> processor;
+        private DataManager.Callback<Bitmap> mCallback;
+        private String mS;
+        private DataSource<InputStream, String> mDataSource;
+        private Processor<Bitmap, InputStream> mProcessor;
 
-        public ComparableRunnable(Handler handler, DataManager.Callback<Bitmap> callback, String s, DataSource<InputStream, String> dataSource, Processor<Bitmap, InputStream> processor) {
-            mHandler = handler;
-            this.callback = callback;
-            this.s = s;
-            this.dataSource = dataSource;
-            this.processor = processor;
+        public BitmapLoader(Handler handler, DataManager.Callback<Bitmap> callback, String s, DataSource<InputStream, String> DataSource, Processor<Bitmap, InputStream> Processor) {
+            this.mHandler = handler;
+            this.mCallback = callback;
+            this.mS = s;
+            this.mDataSource = DataSource;
+            this.mProcessor = Processor;
         }
 
         @Override
         public void run() {
             try {
-                InputStream result = dataSource.getResult(s);
-                final Bitmap bitmap = processor.process(result);
+                InputStream result = mDataSource.getResult(mS);
+                final Bitmap bitmap = mProcessor.process(result);
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        callback.onDone(bitmap);
+                        mCallback.onDone(bitmap);
                     }
                 });
             } catch (final Exception e) {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        callback.onError(e);
+                        mCallback.onError(e);
                     }
                 });
             }
@@ -99,10 +96,10 @@ public class ImageLoader {
         }
     };
 
-    public ImageLoader(Context context, DataSource<InputStream, String> dataSource, Processor<Bitmap, InputStream> processor) {
+    public ImageLoader(Context context, DataSource<InputStream, String> mDataSource, Processor<Bitmap, InputStream> mProcessor) {
         this.mContext = context;
-        this.mDataSource = dataSource;
-        this.mProcessor = processor;
+        this.mDataSource = mDataSource;
+        this.mProcessor = mProcessor;
         //TODO can be customizable
         this.mLoader = new DataManager.Loader<Bitmap, InputStream, String>() {
 
@@ -111,11 +108,11 @@ public class ImageLoader {
                     new LIFOLinkedBlockingDeque<Runnable>());
 
             @Override
-            public void load(final DataManager.Callback<Bitmap> callback, final String s, final DataSource<InputStream, String> dataSource, final Processor<Bitmap, InputStream> processor) {
+            public void load(final DataManager.Callback<Bitmap> callback, final String s, final DataSource<InputStream, String> mDataSource, final Processor<Bitmap, InputStream> mProcessor) {
                 callback.onDataLoadStart();
                 final Looper looper = Looper.myLooper();
                 final Handler handler = new Handler(looper);
-                executorService.execute(new ComparableRunnable(handler, callback, s, dataSource, processor));
+                executorService.execute(new BitmapLoader(handler, callback, s, mDataSource, mProcessor));
             }
 
         };
