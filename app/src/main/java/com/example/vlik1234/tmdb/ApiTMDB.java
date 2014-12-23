@@ -1,5 +1,7 @@
 package com.example.vlik1234.tmdb;
 
+import java.util.Locale;
+
 /**
  * Created by ASUS on 22.11.2014.
  */
@@ -8,6 +10,8 @@ public class ApiTMDB {
     public static final String DISCOVER_MOVIE = "/discover/movie";
     public static final String NOW_PLAYING = "/movie/now_playing";
     private static final String MOVIE = "/movie/";
+
+
 
     public static final String DISCOVER_MOVIE_GET = BASE_PATH + DISCOVER_MOVIE;
     public static final String NOW_PLAYING_GET = BASE_PATH + NOW_PLAYING;

@@ -13,22 +13,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin">
 
 
-        <com.example.vlik1234.tmdb.ui.CardFrameLayout
-            android:id="@+id/frame"
-            style="@style/Card">
 
-            <ImageView
-                style="@style/CardPhoto"
-                android:id="@+id/photo"
-                android:transitionName="photo1"
-                android:src="@drawable/ic_launcher" />
-
-            <TextView
-                style="@style/CardTitle"
-                android:id="@+id/show_photo_1"
-                android:text="Pacifica Pier"/>
-
-        </com.example.vlik1234.tmdb.ui.CardFrameLayout>
 
     </LinearLayout>
 

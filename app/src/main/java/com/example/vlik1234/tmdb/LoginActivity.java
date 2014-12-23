@@ -33,6 +33,10 @@ public class LoginActivity extends ActionBarActivity {
         Toast.makeText(this, "implement me", Toast.LENGTH_SHORT).show();;
     }
 
+    public void onTestClick(View view){
+
+    }
+
     public void onVkAuthClick(View view) {
         Intent intent = new Intent(this, VkLoginActivity.class);
         startActivityForResult(intent, REQUEST_CODE_VK);

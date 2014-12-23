@@ -93,9 +93,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         holder.poster.setTag(url);
 
         mImageLoader.loadAndDisplay(url, holder.poster);
-        Bitmap bitmap = ((BitmapDrawable) holder.poster.getDrawable()).getBitmap();
-
-        colorize(bitmap);
+        //Bitmap bitmap = ((BitmapDrawable) holder.poster.getDrawable()).getBitmap();
+        //colorize(bitmap);
     }
 
     @Override
