@@ -51,9 +51,6 @@ public class VkOAuthHelper {
             Uri parsedFragment = Uri.parse("http://temp.com?" + fragment);
             String accessToken = parsedFragment.getQueryParameter("access_token");
             if (!TextUtils.isEmpty(accessToken)) {
-                //TODO save sToken to the secure store
-                //TODO create account in account manager
-                sToken = accessToken;
                 callbacks.onSuccess();
                 return true;
             } else {
