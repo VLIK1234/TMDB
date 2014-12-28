@@ -3,11 +3,13 @@ package com.example.vlik1234.tmdb.bo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class Film extends JSONObjectWrapper {
 
@@ -18,6 +20,7 @@ public class Film extends JSONObjectWrapper {
     private static final String POSTER_PATH = "poster_path";
     private static final String BACKDROP_PATH = "backdrop_path";
     private static final String OVERVIEW = "overview";
+    private static final String GENRES = "genres";
 
     //Poster size PSIZE_(size in ppi), h-height, w-width; if original
     public enum SizePoster{
@@ -82,6 +85,15 @@ public class Film extends JSONObjectWrapper {
         return newFormat;
     }
 
+    public String getGenres() throws JSONException {
+        List<String> array = getArray(GENRES, "name");
+        StringBuilder genres = new StringBuilder();
+        for (int i = 0; i <array.size(); i++) {
+            genres.append(i!=array.size()-1?array.get(i)+" | ":array.get(i));
+        }
+        return genres.toString();
+    }
+
     public String getVoteAverage() {
         return getString(VOTE_AVERAGE);
     }
@@ -89,7 +101,7 @@ public class Film extends JSONObjectWrapper {
     public String getPosterPath(SizePoster size) {
         return "https://image.tmdb.org/t/p/"+ size + getString(POSTER_PATH);
     }
-    public String getBackdropPath(String size) {
+    public String getBackdropPath(SizePoster size) {
         return "https://image.tmdb.org/t/p/"+ size + getString(BACKDROP_PATH);
     }
 

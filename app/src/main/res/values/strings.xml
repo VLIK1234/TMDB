@@ -11,6 +11,11 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="empty_message">Data is empty.</string>
+    <string name="error_message">Data is empty.</string>
+
+    <string name="poster_content_description">Poster</string>
+    <string name="backdrop_content_description">Backdrop</string>
 
     <string name="item1">Item1</string>
     <string name="item2">Item2</string>

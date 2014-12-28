@@ -10,8 +10,10 @@
         android:layout_height="match_parent">
         <ListView
             android:id="@android:id/list"
+            android:background="@color/divider"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
@@ -19,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Ничего нет!!!"
+        android:text="@string/empty_message"
         android:visibility="gone" />
 
 
@@ -28,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="БабАХ!!!"
+        android:text="@string/error_message"
         android:visibility="gone" />
 
     <ProgressBar

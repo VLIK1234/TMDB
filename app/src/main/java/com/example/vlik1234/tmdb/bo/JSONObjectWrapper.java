@@ -3,12 +3,13 @@ package com.example.vlik1234.tmdb.bo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by IstiN on 21.10.2014.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class JSONObjectWrapper implements Parcelable {
 
     private JSONObject mJO;
@@ -31,6 +32,18 @@ public class JSONObjectWrapper implements Parcelable {
 
     protected String getString(String key) {
         return mJO.optString(key);
+    }
+
+    protected List<String> getArray(String key, String... keyArray)throws JSONException{
+        JSONArray array = mJO.getJSONArray(key);
+        List<String> arrayReturn = new ArrayList<String>();
+        for (int i =0;i<array.length();i++){
+            JSONObject jsonObject = array.getJSONObject(i);
+            for (int j =0;j<keyArray.length;j++) {
+                arrayReturn.add(jsonObject.getString(keyArray[j]));
+            }
+        }
+        return  arrayReturn;
     }
 
     protected Boolean getBoolean(String key) {

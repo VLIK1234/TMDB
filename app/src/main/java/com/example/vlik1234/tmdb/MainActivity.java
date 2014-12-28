@@ -158,7 +158,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
 
                     convertView.setTag(item.getId());
                     final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
-                    final String url = item.getPosterPath(Film.SizePoster.w300);
+                    final String url = item.getPosterPath(Film.SizePoster.w185);
                     mImageLoader.loadAndDisplay(url, poster);
                     return convertView;
                 }
