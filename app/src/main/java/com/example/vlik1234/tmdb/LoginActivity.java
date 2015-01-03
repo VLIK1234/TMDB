@@ -15,6 +15,7 @@ import com.example.vlik1234.tmdb.utils.AuthUtils;
 
 public class LoginActivity extends ActionBarActivity {
     public static final int REQUEST_CODE_VK = 0;
+    public static final int REQUEST_CODE_RV = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,8 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void onTestClick(View view){
-
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivityForResult(intent,REQUEST_CODE_RV);
     }
 
     public void onVkAuthClick(View view) {

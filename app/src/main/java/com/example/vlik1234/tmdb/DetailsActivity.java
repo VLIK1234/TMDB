@@ -1,6 +1,7 @@
 package com.example.vlik1234.tmdb;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,6 +15,8 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -100,11 +103,12 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         holder.genres = (TextView) findViewById(R.id.genres);
 
         holder.title.setText(data.getTitle());
+        setTitle(holder.title.getText());
         if (!data.getOverview().equals("null")) holder.overview.setText(data.getOverview());
         try {
             holder.genres.setText(data.getGenres());
         } catch (JSONException e) {
-            e.printStackTrace();//TODO do normal exeption post
+            e.printStackTrace();//TODO do normal exepction post
         }
 
         final String urlPoster = data.getPosterPath(Film.SizePoster.w342);
@@ -113,19 +117,14 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
 
         mImageLoader.loadAndDisplay(urlPoster, holder.poster);
 
-
-        final ViewTreeObserver vto = holder.poster.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                holder.poster.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                finalHeight = holder.poster.getMeasuredHeight();
-                finalWidth = holder.poster.getMeasuredWidth();
-                makeSpan();
-            }
-        });
         //Bitmap bitmap = ((BitmapDrawable) holder.poster.getDrawable()).getBitmap();
         //colorize(bitmap);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override

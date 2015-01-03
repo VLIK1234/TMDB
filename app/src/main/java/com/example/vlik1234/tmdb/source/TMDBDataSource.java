@@ -9,6 +9,7 @@ import com.example.vlik1234.tmdb.CoreApplication;
 import com.example.vlik1234.tmdb.auth.VkOAuthHelper;
 
 import java.io.InputStream;
+import java.util.Locale;
 
 /**
  * Created by ASUS on 22.11.2014.
@@ -23,7 +24,7 @@ public class TMDBDataSource extends HttpDataSource {
 
     @Override
     public InputStream getResult(String p) throws Exception {
-        String signUrl = p+"?api_key=f413bc4bacac8dff174a909f8ef535ae";
+        String signUrl = p+"?api_key=f413bc4bacac8dff174a909f8ef535ae&language="+ Locale.getDefault().getLanguage();
         return super.getResult(signUrl);
     }
 

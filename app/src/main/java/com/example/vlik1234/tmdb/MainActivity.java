@@ -2,16 +2,13 @@ package com.example.vlik1234.tmdb;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -23,9 +20,7 @@ import android.widget.TextView;
 import com.example.vlik1234.tmdb.bo.Film;
 import com.example.vlik1234.tmdb.helper.DataManager;
 import com.example.vlik1234.tmdb.image.ImageLoader;
-import com.example.vlik1234.tmdb.processing.BitmapProcessor;
 import com.example.vlik1234.tmdb.processing.FilmArrayProcessor;
-import com.example.vlik1234.tmdb.source.CachedDataSource;
 import com.example.vlik1234.tmdb.source.HttpDataSource;
 import com.example.vlik1234.tmdb.source.TMDBDataSource;
 
@@ -211,6 +206,12 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
         TextView errorView = (TextView) findViewById(R.id.error);
         errorView.setVisibility(View.VISIBLE);
         errorView.setText(errorView.getText() + "\n" + e.getMessage());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
 }

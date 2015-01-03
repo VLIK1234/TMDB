@@ -40,6 +40,7 @@
             android:id="@+id/genres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:textSize="15sp"
             android:layout_toRightOf="@id/poster"
             android:layout_toEndOf="@id/poster"
@@ -50,6 +51,7 @@
             android:id="@+id/overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="6dp"
             android:textSize="15sp"
             android:lineSpacingMultiplier="1.2"
             android:layout_below="@id/poster"/>
