@@ -53,7 +53,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     private ImageLoader mImageLoader;
     private final Object mDelayedLock = new Object();
 
-    String id_film = "";
+    Long id_film;
     int finalHeight, finalWidth;
 
     @Override
@@ -61,12 +61,16 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
         mImageLoader = ImageLoader.get(DetailsActivity.this);
-        MainActivity mainActivity = getIntent().getParcelableExtra("MainActivity");
-        this.id_film = mainActivity.selectItemID;
-            update(dataSource, processor);
+
+        DescriptionOfTheFilm description = getIntent().getParcelableExtra(
+                DescriptionOfTheFilm.class.getCanonicalName());
+        this.id_film = description.getId();
+        update(dataSource, processor);
 
         holder.poster = (ImageView) findViewById(R.id.poster);
     }

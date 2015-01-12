@@ -8,52 +8,24 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="@color/backColor"
     tools:context=".LoginActivity">
-
-    <EditText
-        android:id="@+id/login_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Login"
-        />
-    <EditText
-        android:id="@+id/password_txtv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_below="@+id/login_text"/>
-
-    <Button
-        android:id="@+id/login_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/password_txtv"
-        android:onClick="onLoginClick"
-        />
-    <Button
-        android:id="@+id/cancel_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/password_txtv"
-        android:layout_toLeftOf="@id/login_btn"
-        android:text="Cancel"
-        />
-    <LinearLayout
-        android:layout_below="@id/cancel_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/vk_auth"
+            style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:padding="8dp"
             android:onClick="onVkAuthClick"
             android:text="VK"/>
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/no_auth"
+            style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:padding="8dp"
+            android:layout_below="@+id/vk_auth"
             android:onClick="onTestClick"
             android:text="Test"/>
-    </LinearLayout>
 
 </RelativeLayout>

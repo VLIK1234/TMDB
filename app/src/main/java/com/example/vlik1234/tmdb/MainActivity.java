@@ -1,14 +1,16 @@
 package com.example.vlik1234.tmdb;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -27,7 +29,7 @@ import com.example.vlik1234.tmdb.source.TMDBDataSource;
 import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity implements DataManager.Callback<List<Film>>, Parcelable{
+public class MainActivity extends ActionBarActivity implements DataManager.Callback<List<Film>>, SearchView.OnQueryTextListener{
     static class ViewHolder {
         TextView titlenDate;
         SwipeRefreshLayout mSwipeRefreshLayout;
@@ -40,26 +42,14 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
 
     private ImageLoader mImageLoader;
 
-    String selectItemID ="";
+    private Long selectItemID;
 
-    public MainActivity(){
-
-    }
-
-    private MainActivity(String selectItemID){
-        this.selectItemID = selectItemID;
-    }
-
-    private MainActivity(Parcel in){
-        String[] data = new String[1];
-        in.readStringArray(data);
-        this.selectItemID = data[0];
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mImageLoader = ImageLoader.get(MainActivity.this);
         holder.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         final HttpDataSource dataSource = getHttpDataSource();
@@ -72,30 +62,6 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
         });
         update(dataSource, processor);
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[]{selectItemID});
-    }
-
-    public static final Parcelable.Creator<MainActivity> CREATOR = new Parcelable.Creator<MainActivity>() {
-
-        @Override
-        public MainActivity createFromParcel(Parcel source) {
-            return new MainActivity(source);
-        }
-
-        @Override
-        public MainActivity[] newArray(int size) {
-            return new MainActivity[size];
-        }
-
-    };
 
     private FilmArrayProcessor getProcessor() {
         return mFilmArrayProcessor;
@@ -185,9 +151,11 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Film item = (Film) mAdapter.getItem(position);
-                    selectItemID = item.getId().toString();
+                    selectItemID = item.getId();
+
+                    DescriptionOfTheFilm description = new DescriptionOfTheFilm(selectItemID);
                     Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-                    intent.putExtra("MainActivity", new MainActivity(selectItemID));
+                    intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
                     startActivity(intent);
                 }
             });
@@ -211,6 +179,21 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint("Search");
+        searchView.setOnQueryTextListener(this);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
         return true;
     }
 

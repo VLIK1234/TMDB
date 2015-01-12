@@ -15,7 +15,7 @@ public class ApiTMDB {
 
     public static final String DISCOVER_MOVIE_GET = BASE_PATH + DISCOVER_MOVIE;
     public static final String NOW_PLAYING_GET = BASE_PATH + NOW_PLAYING;
-    public static final String getMovie(String id){return BASE_PATH + MOVIE + id;}
+    public static final String getMovie(Long id){return BASE_PATH + MOVIE + id;}
 
 
 }

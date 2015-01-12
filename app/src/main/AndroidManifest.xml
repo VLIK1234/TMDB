@@ -25,15 +25,26 @@
             android:label="@string/title_vk_login_activity"/>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_main_activity"
-            />
+            android:label="@string/title_main_activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".RecycleViewActivity"
             android:label="@string/title_main_activity"
             />
+        <!-- Source - http://developer.android.com/training/implementing-navigation/ancestral.html-->
         <activity
             android:name=".DetailsActivity"
-            />
+            android:parentActivityName=".MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.vlik1234.tmdb.MainActivity" />
+            </activity>
 
     </application>
 
