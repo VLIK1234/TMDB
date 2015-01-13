@@ -1,15 +1,13 @@
 package com.example.vlik1234.tmdb;
 
-import java.util.Locale;
-
 /**
  * Created by ASUS on 22.11.2014.
  */
 public class ApiTMDB {
-    public static final String BASE_PATH = "https://api.themoviedb.org/3";
-    public static final String DISCOVER_MOVIE = "/discover/movie";
-    public static final String NOW_PLAYING = "/movie/now_playing";
-    private static final String MOVIE = "/movie/";
+    private static final String BASE_PATH = "https://api.themoviedb.org/3/";
+    private static final String DISCOVER_MOVIE = "discover/movie";
+    private static final String NOW_PLAYING = "movie/now_playing";
+    private static final String MOVIE = "movie/";
 
 
 

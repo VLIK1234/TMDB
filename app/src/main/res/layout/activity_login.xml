@@ -16,7 +16,7 @@
             android:layout_centerInParent="true"
             android:padding="8dp"
             android:onClick="onVkAuthClick"
-            android:text="VK"/>
+            android:text="@string/button_log_vkauth"/>
         <Button
             android:id="@+id/no_auth"
             style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
@@ -25,7 +25,17 @@
             android:layout_centerInParent="true"
             android:padding="8dp"
             android:layout_below="@+id/vk_auth"
-            android:onClick="onTestClick"
-            android:text="Test"/>
+            android:onClick="onNoAuthClick"
+            android:text="@string/button_log_noauth"/>
+    <Button
+        android:id="@+id/fragment_intent"
+        style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:padding="8dp"
+        android:layout_above="@+id/vk_auth"
+        android:onClick="onFragmentClick"
+        android:text="Intent fragment"/>
 
 </RelativeLayout>

@@ -6,10 +6,6 @@ import com.example.vlik1234.tmdb.os.AsyncTask;
 import com.example.vlik1234.tmdb.processing.Processor;
 import com.example.vlik1234.tmdb.source.DataSource;
 
-
-/**
- * Created by IstiN on 15.10.2014.
- */
 public class DataManager {
 
     public static final boolean IS_ASYNC_TASK = true;

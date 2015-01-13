@@ -3,8 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
-    <item android:id="@+id/action_search"
+
+    <item android:id="@+id/action_internet"
+        android:icon="@drawable/ic_internet"
         android:title="@string/action_internet"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_search"
+        android:title="@string/search_hint"
         android:icon="@android:drawable/ic_menu_search"
         android:orderInCategory="1"
         app:showAsAction="always"

@@ -1,21 +1,20 @@
 package com.example.vlik1234.tmdb;
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.vlik1234.tmdb.bo.Film;
@@ -27,38 +26,66 @@ import com.example.vlik1234.tmdb.source.TMDBDataSource;
 
 import java.util.List;
 
+/**
+ * Created by VLIK on 12.01.2015.
+ */
+public class FragmentPart extends Fragment implements DataManager.Callback<List<Film>>{
 
-public class MainActivity extends ActionBarActivity implements DataManager.Callback<List<Film>>, SearchView.OnQueryTextListener{
     static class ViewHolder {
         TextView titlenDate;
-        SwipeRefreshLayout mSwipeRefreshLayout;
-        AbsListView listView;
     }
     ViewHolder holder = new ViewHolder();
 
-    private ArrayAdapter mAdapter;
-    private FilmArrayProcessor mFilmArrayProcessor = new FilmArrayProcessor();
-
-    private ImageLoader mImageLoader;
+    String mUrl = ApiTMDB.NOW_PLAYING_GET;
 
     private Long selectItemID;
 
+    private ArrayAdapter mAdapter;
+    private FilmArrayProcessor mFilmArrayProcessor = new FilmArrayProcessor();
+    private ImageLoader mImageLoader;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    AbsListView listView;
+    TextView err;
+    TextView empty;
+    ProgressBar progressBar;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_list, container, false);
+
+        err = (TextView)v.findViewById(R.id.errorr);
+        empty = (TextView)v.findViewById(R.id.emptyr);
+        progressBar = (ProgressBar)v.findViewById(R.id.progressr);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_containerr);
+        listView = (AbsListView)v.findViewById(R.id.listr);
+
+        return v;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        mImageLoader = ImageLoader.get(MainActivity.this);
-        holder.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        //this.mUrl = getArguments().getString("edttext");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mImageLoader = ImageLoader.get(getActivity().getApplicationContext());
+
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
-        holder.mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 update(dataSource, processor);
             }
         });
+
         update(dataSource, processor);
     }
 
@@ -66,27 +93,27 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
         return mFilmArrayProcessor;
     }
 
-   private HttpDataSource getHttpDataSource() {
+    private HttpDataSource getHttpDataSource() {
         return  new TMDBDataSource();
     }
 
     private void update(HttpDataSource dataSource, FilmArrayProcessor processor) {
-        DataManager.loadData(MainActivity.this,
+        DataManager.loadData(this,
                 getUrl(),
                 dataSource,
                 processor);
     }
 
     private String getUrl() {
-        return ApiTMDB.NOW_PLAYING_GET;
+        return mUrl;
     }
 
     @Override
     public void onDataLoadStart() {
-        if (!holder.mSwipeRefreshLayout.isRefreshing()) {
-            findViewById(android.R.id.progress).setVisibility(View.VISIBLE);
+        if (!mSwipeRefreshLayout.isRefreshing()) {
+            progressBar.setVisibility(View.VISIBLE);
         }
-        findViewById(android.R.id.empty).setVisibility(View.GONE);
+        empty.setVisibility(View.GONE);
     }
 
     private List<Film> mData;
@@ -94,23 +121,22 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(List<Film> data) {
-        if (holder.mSwipeRefreshLayout.isRefreshing()) {
-            holder.mSwipeRefreshLayout.setRefreshing(false);
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(false);
         }
-        findViewById(android.R.id.progress).setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
         if (data == null || data.isEmpty()) {
-            findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+            empty.setVisibility(View.VISIBLE);
         }
-        holder.listView = (AbsListView) findViewById(android.R.id.list);
         if (mAdapter == null) {
             mData = data;
 
-            mAdapter = new ArrayAdapter<Film>(this, R.layout.adapter_item, android.R.id.text1, data) {
+            mAdapter = new ArrayAdapter<Film>(getActivity().getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data) {
 
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     if (convertView == null) {
-                        convertView = View.inflate(MainActivity.this, R.layout.adapter_item, null);
+                        convertView = View.inflate(getActivity().getApplicationContext(), R.layout.adapter_item, null);
                     }
                     Film item = getItem(position);
                     holder.titlenDate = (TextView) convertView.findViewById(R.id.title);
@@ -124,8 +150,8 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
                 }
 
             };
-            holder.listView.setAdapter(mAdapter);
-            holder.listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            listView.setAdapter(mAdapter);
+            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
                     switch (scrollState) {
@@ -146,14 +172,14 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
 
                 }
             });
-            holder.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Film item = (Film) mAdapter.getItem(position);
                     selectItemID = item.getId();
 
                     DescriptionOfTheFilm description = new DescriptionOfTheFilm(selectItemID);
-                    Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+                    Intent intent = new Intent(getActivity().getApplicationContext(), DetailsActivity.class);
                     intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
                     startActivity(intent);
                 }
@@ -168,32 +194,15 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
     @Override
     public void onError(Exception e) {
         e.printStackTrace();
-        findViewById(android.R.id.progress).setVisibility(View.GONE);
-        findViewById(android.R.id.empty).setVisibility(View.GONE);
-        TextView errorView = (TextView) findViewById(R.id.error);
-        errorView.setVisibility(View.VISIBLE);
-        errorView.setText(errorView.getText() + "\n" + e.getMessage());
+        progressBar.setVisibility(View.GONE);
+        empty.setVisibility(View.GONE);
+        err.setVisibility(View.VISIBLE);
+        err.setText(err.getText() + "\n" + e.getMessage());
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+    public void onDestroyView() {
+        super.onDestroyView();
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setQueryHint("Search");
-        searchView.setOnQueryTextListener(this);
-        return true;
     }
-
-    @Override
-    public boolean onQueryTextSubmit(String s) {
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String s) {
-        return true;
-    }
-
 }

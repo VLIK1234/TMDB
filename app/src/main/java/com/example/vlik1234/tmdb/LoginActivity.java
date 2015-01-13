@@ -4,6 +4,7 @@ package com.example.vlik1234.tmdb;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.*;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,30 +23,15 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // app icon in action bar clicked; goto parent activity.
-                this.finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    public void onTestClick(View view){
+    public void onNoAuthClick(View view){
         Intent intent = new Intent(this, MainActivity.class);
+        startActivityForResult(intent,REQUEST_CODE_RV);
+    }
+
+    public void onFragmentClick(View view){
+        Intent intent = new Intent(this, FragmentWithActivity.class);
         startActivityForResult(intent,REQUEST_CODE_RV);
     }
 
