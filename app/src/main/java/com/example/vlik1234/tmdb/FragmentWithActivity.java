@@ -15,6 +15,7 @@ import android.view.View;
  */
 public class FragmentWithActivity extends ActionBarActivity implements SearchView.OnQueryTextListener{
 
+    //TODO accessors, renames
     FragmentTransaction ft;
 
     Fragment fragmentPart;
@@ -26,6 +27,7 @@ public class FragmentWithActivity extends ActionBarActivity implements SearchVie
         setContentView(R.layout.activity_fragment);
 
 
+        //TODO check savedInstance for null
         this.fragmentPart = new FragmentPart();
 
         this.ft = getFragmentManager().beginTransaction();
@@ -35,6 +37,7 @@ public class FragmentWithActivity extends ActionBarActivity implements SearchVie
 
 
 
+    //TODO remove
     public void onClickNext(View view){
         this.fragment2 = new Fragment2();
 

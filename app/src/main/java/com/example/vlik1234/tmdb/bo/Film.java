@@ -23,6 +23,7 @@ public class Film extends JSONObjectWrapper {
     private static final String GENRES = "genres";
     private static final String TAGLINE = "tagline";
 
+    //TODO move out from this class
     public enum AppendToResponse{
         alternative_titles,
         credits,

@@ -34,11 +34,14 @@ import java.util.List;
 /**
  * Created by VLIK on 12.01.2015.
  */
+//TODO rename
 public class FragmentPart extends Fragment implements DataManager.Callback<List<Film>>{
 
     static class ViewHolder {
         TextView title;
     }
+
+    //TODO accessors
     ViewHolder holder = new ViewHolder();
 
     String mUrl = ApiTMDB.getNowPlayingGet(1);
@@ -79,10 +82,12 @@ public class FragmentPart extends Fragment implements DataManager.Callback<List<
     @Override
     public void onResume() {
         super.onResume();
+        //TODO move to onCreate
         mImageLoader = ImageLoader.get(getActivity().getApplicationContext());
 
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
+        //TODO move to onCreate
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -145,7 +150,9 @@ public class FragmentPart extends Fragment implements DataManager.Callback<List<
                     Film item = getItem(position);
                     holder.title = (TextView) convertView.findViewById(R.id.title);
 
+                    //TODO create variable
                     final SpannableString text = new SpannableString(item.getTitle()+" "+item.getReleaseDate());
+                    //TODO magic number
                     text.setSpan(new RelativeSizeSpan(0.8f), text.length() - item.getReleaseDate().length(), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     text.setSpan(new TypefaceSpan("serif"), text.length() - item.getReleaseDate().length(), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 

@@ -24,7 +24,7 @@ public class TMDBDataSource extends HttpDataSource {
         sb.append(baseUrlAndAppResponse);
         sb.append("?api_key=f413bc4bacac8dff174a909f8ef535ae&language=");
         //Locale.getDefault().getLanguage()
-        sb.append("en");
+        sb.append("ru");
 
         return super.getResult(sb.toString());
     }
