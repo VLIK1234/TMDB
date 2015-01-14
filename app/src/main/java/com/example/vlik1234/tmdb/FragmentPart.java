@@ -37,10 +37,23 @@ import java.util.List;
 //TODO rename
 public class FragmentPart extends Fragment implements DataManager.Callback<List<Film>>{
 
+    public static final String EXTRA_LANG = "extra_lang";
+
     static class ViewHolder {
         TextView title;
     }
 
+    public static Fragment newInstance(String language) {
+        FragmentPart fragmentPart = new FragmentPart();
+        Bundle args = new Bundle();
+        args.putString(EXTRA_LANG, language);
+        fragmentPart.setArguments(args);
+        return fragmentPart;
+    }
+
+    private String getLanguage() {
+        return getArguments().getString(EXTRA_LANG);
+    }
     //TODO accessors
     ViewHolder holder = new ViewHolder();
 
