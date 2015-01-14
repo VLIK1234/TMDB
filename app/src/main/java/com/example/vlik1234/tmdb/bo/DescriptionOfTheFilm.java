@@ -1,10 +1,10 @@
-package com.example.vlik1234.tmdb;
+package com.example.vlik1234.tmdb.bo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by ASUS on 12.01.2015.
+ * Created by VLIK on 12.01.2015.
  */
 public class DescriptionOfTheFilm implements Parcelable{
 

@@ -5,10 +5,9 @@ import android.content.Context;
 import com.example.vlik1234.tmdb.CoreApplication;
 
 import java.io.InputStream;
-import java.util.Locale;
 
 /**
- * Created by ASUS on 22.11.2014.
+ * Created by VLIK on 22.11.2014.
  */
 public class TMDBDataSource extends HttpDataSource {
 
@@ -24,7 +23,8 @@ public class TMDBDataSource extends HttpDataSource {
 
         sb.append(baseUrlAndAppResponse);
         sb.append("?api_key=f413bc4bacac8dff174a909f8ef535ae&language=");
-        sb.append(Locale.getDefault().getLanguage());
+        //Locale.getDefault().getLanguage()
+        sb.append("en");
 
         return super.getResult(sb.toString());
     }

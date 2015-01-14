@@ -1,7 +1,7 @@
 package com.example.vlik1234.tmdb;
 
 /**
- * Created by ASUS on 22.11.2014.
+ * Created by VLIK on 22.11.2014.
  */
 public class ApiTMDB {
 
@@ -28,10 +28,11 @@ public class ApiTMDB {
     private static final String TV = "tv/";
     private static final String ON_THE_AIR ="tv/on_the_air";
 
+    private static final String PAGE = "&page=";
 
     public static final String ON_THE_AIR_GET = BASE_PATH + ON_THE_AIR;
     public static final String DISCOVER_MOVIE_GET = BASE_PATH + DISCOVER_MOVIE;
-    public static final String NOW_PLAYING_GET = BASE_PATH + NOW_PLAYING;
+    public static final String getNowPlayingGet(int pageNumber){return BASE_PATH + NOW_PLAYING;}//+ PAGE + pageNumber;
     public static  String getMovie(Long id){return BASE_PATH + MOVIE + id;}
     public static  String getTV(Long id){return BASE_PATH + TV + id;}
 

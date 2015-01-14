@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.vlik1234.tmdb.bo.DescriptionOfTheFilm;
 import com.example.vlik1234.tmdb.bo.Film;
 import com.example.vlik1234.tmdb.helper.DataManager;
 import com.example.vlik1234.tmdb.image.ImageLoader;
@@ -36,7 +37,7 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
     }
     ViewHolder holder = new ViewHolder();
 
-    String mUrl = ApiTMDB.ON_THE_AIR_GET;
+    String mUrl = ApiTMDB.getNowPlayingGet(2);
 
     private Long selectItemID;
 
@@ -67,7 +68,8 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().setTitle("On the air");
+        //getActivity().setTitle("On the air");
+        getActivity().setTitle("Now playing");
     }
 
     @Override
@@ -182,7 +184,7 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
                     Film item = (Film) mAdapter.getItem(position);
                     selectItemID = item.getId();
 
-                    DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getTV(selectItemID));
+                    DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(selectItemID));
                     Intent intent = new Intent(getActivity().getApplicationContext(), DetailsActivity.class);
                     intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
                     startActivity(intent);

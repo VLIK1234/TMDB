@@ -15,7 +15,7 @@ public class FilmArrayProcessor implements Processor<List<Film>,InputStream>{
     public List<Film> process(InputStream inputStream) throws Exception {
         String string = new StringProcessor().process(inputStream);
         JSONArray array = new JSONObject(string).getJSONArray("results");
-        //TODO wrapper for array
+
         List<Film> noteArray = new ArrayList<Film>(array.length());
         for (int i = 0; i < array.length(); i++) {
             JSONObject jsonObject = array.getJSONObject(i);

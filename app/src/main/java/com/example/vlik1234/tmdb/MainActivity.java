@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.vlik1234.tmdb.bo.DescriptionOfTheFilm;
 import com.example.vlik1234.tmdb.bo.Film;
 import com.example.vlik1234.tmdb.helper.DataManager;
 import com.example.vlik1234.tmdb.image.ImageLoader;
@@ -84,7 +85,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
     }
 
     private String getUrl() {
-        return ApiTMDB.NOW_PLAYING_GET;
+        return ApiTMDB.getNowPlayingGet(1);
     }
 
     @Override

@@ -73,6 +73,7 @@ public class Film extends JSONObjectWrapper {
 
         return sb.toString();
     }
+
     public String getTitle() {
         return getString(TITLE);
     }

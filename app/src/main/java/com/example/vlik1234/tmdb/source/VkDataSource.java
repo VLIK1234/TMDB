@@ -10,9 +10,6 @@ import com.example.vlik1234.tmdb.auth.VkOAuthHelper;
 
 import java.io.InputStream;
 
-/**
- * Created by IstiN on 17.10.2014.
- */
 public class VkDataSource extends HttpDataSource {
 
     public static final String KEY = "VkDataSource";

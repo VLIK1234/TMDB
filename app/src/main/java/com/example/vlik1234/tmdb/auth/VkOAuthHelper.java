@@ -7,9 +7,6 @@ import android.text.TextUtils;
 
 import org.apache.http.auth.AuthenticationException;
 
-/**
- * Created by IstiN on 29.10.2014.
- */
 public class VkOAuthHelper {
 
     public static interface Callbacks {

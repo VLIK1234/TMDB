@@ -8,9 +8,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by IstiN on 24.10.2014.
- */
 public abstract class AsyncTask<Params, Progress, Result> {
 
     private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();

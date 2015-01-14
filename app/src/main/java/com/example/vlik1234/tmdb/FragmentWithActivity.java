@@ -53,7 +53,7 @@ public class FragmentWithActivity extends ActionBarActivity implements SearchVie
     }
 
     public String getUrlFromFragment(){
-        return ApiTMDB.NOW_PLAYING_GET;
+        return ApiTMDB.getNowPlayingGet(1);
     }
 
     @Override

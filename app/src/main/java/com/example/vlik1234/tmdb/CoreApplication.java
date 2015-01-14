@@ -9,9 +9,6 @@ import com.example.vlik1234.tmdb.source.HttpDataSource;
 import com.example.vlik1234.tmdb.source.TMDBDataSource;
 import com.example.vlik1234.tmdb.source.VkDataSource;
 
-/**
- * Created by IstiN on 17.10.2014.
- */
 public class CoreApplication extends Application {
 
     private HttpDataSource mHttpDataSource;

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.vlik1234.tmdb.bo.DescriptionOfTheFilm;
 import com.example.vlik1234.tmdb.bo.Film;
 import com.example.vlik1234.tmdb.helper.DataManager;
 import com.example.vlik1234.tmdb.image.ImageLoader;
@@ -40,7 +41,7 @@ public class FragmentPart extends Fragment implements DataManager.Callback<List<
     }
     ViewHolder holder = new ViewHolder();
 
-    String mUrl = ApiTMDB.NOW_PLAYING_GET;
+    String mUrl = ApiTMDB.getNowPlayingGet(1);
 
     private Long selectItemID;
 

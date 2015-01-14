@@ -1,8 +1,5 @@
 package com.example.vlik1234.tmdb;
 
-/**
- * Created by IstiN on 14.11.2014.
- */
 public class Api {
 
     public static final String BASE_PATH = "https://api.vk.com/method/";

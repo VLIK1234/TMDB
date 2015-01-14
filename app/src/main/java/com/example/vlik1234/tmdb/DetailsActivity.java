@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vlik1234.tmdb.bo.DescriptionOfTheFilm;
 import com.example.vlik1234.tmdb.bo.Film;
 import com.example.vlik1234.tmdb.helper.DataManager;
 import com.example.vlik1234.tmdb.image.ImageLoader;

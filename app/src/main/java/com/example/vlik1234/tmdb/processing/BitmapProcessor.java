@@ -7,9 +7,6 @@ import com.example.vlik1234.tmdb.source.HttpDataSource;
 
 import java.io.InputStream;
 
-/**
- * Created by IstiN on 14.11.2014.
- */
 public class BitmapProcessor implements Processor<Bitmap, InputStream> {
 
     @Override
