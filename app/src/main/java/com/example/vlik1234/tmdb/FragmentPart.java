@@ -7,6 +7,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +36,7 @@ import java.util.List;
 public class FragmentPart extends Fragment implements DataManager.Callback<List<Film>>{
 
     static class ViewHolder {
-        TextView titlenDate;
+        TextView title;
     }
     ViewHolder holder = new ViewHolder();
 
@@ -67,14 +71,13 @@ public class FragmentPart extends Fragment implements DataManager.Callback<List<
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getActivity().setTitle("Now playing");
 
-        //this.mUrl = getArguments().getString("edttext");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
         mImageLoader = ImageLoader.get(getActivity().getApplicationContext());
 
         final HttpDataSource dataSource = getHttpDataSource();
@@ -139,12 +142,17 @@ public class FragmentPart extends Fragment implements DataManager.Callback<List<
                         convertView = View.inflate(getActivity().getApplicationContext(), R.layout.adapter_item, null);
                     }
                     Film item = getItem(position);
-                    holder.titlenDate = (TextView) convertView.findViewById(R.id.title);
-                    holder.titlenDate.setText(item.getTitlenDate());
+                    holder.title = (TextView) convertView.findViewById(R.id.title);
+
+                    final SpannableString text = new SpannableString(item.getTitle()+" "+item.getReleaseDate());
+                    text.setSpan(new RelativeSizeSpan(0.8f), text.length() - item.getReleaseDate().length(), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    text.setSpan(new TypefaceSpan("serif"), text.length() - item.getReleaseDate().length(), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    holder.title.setText(text);
 
                     convertView.setTag(item.getId());
                     final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
-                    final String url = item.getPosterPath(Film.SizePoster.w185);
+                    final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
                     mImageLoader.loadAndDisplay(url, poster);
                     return convertView;
                 }
@@ -178,7 +186,7 @@ public class FragmentPart extends Fragment implements DataManager.Callback<List<
                     Film item = (Film) mAdapter.getItem(position);
                     selectItemID = item.getId();
 
-                    DescriptionOfTheFilm description = new DescriptionOfTheFilm(selectItemID);
+                    DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(selectItemID));
                     Intent intent = new Intent(getActivity().getApplicationContext(), DetailsActivity.class);
                     intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
                     startActivity(intent);

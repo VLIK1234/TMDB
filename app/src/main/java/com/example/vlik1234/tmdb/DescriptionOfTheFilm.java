@@ -10,14 +10,14 @@ public class DescriptionOfTheFilm implements Parcelable{
 
 
 
-    private long id;
+    private String detailsUrl;
 
-    public DescriptionOfTheFilm(Long id) {
-        this.id = id;
+    public DescriptionOfTheFilm(String id) {
+        this.detailsUrl = id;
     }
 
     public DescriptionOfTheFilm(Parcel in) {
-        this.id = in.readLong();
+        this.detailsUrl = in.readString();
     }
 
     public static final Parcelable.Creator<DescriptionOfTheFilm> CREATOR
@@ -38,10 +38,10 @@ public class DescriptionOfTheFilm implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeLong(this.id);
+        out.writeString(this.detailsUrl);
     }
 
-    public long getId() {
-        return id;
+    public String getDetailsUrl() {
+        return detailsUrl;
     }
 }

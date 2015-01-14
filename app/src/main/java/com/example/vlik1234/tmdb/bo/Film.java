@@ -3,12 +3,12 @@ package com.example.vlik1234.tmdb.bo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.vlik1234.tmdb.ApiTMDB;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 public class Film extends JSONObjectWrapper {
@@ -21,24 +21,22 @@ public class Film extends JSONObjectWrapper {
     private static final String BACKDROP_PATH = "backdrop_path";
     private static final String OVERVIEW = "overview";
     private static final String GENRES = "genres";
+    private static final String TAGLINE = "tagline";
 
-    //Poster size PSIZE_(size in ppi), h-height, w-width; if original
-    public enum SizePoster{
-        w45,
-        w92,
-        w154,
-        w185,
-        w300,
-        w342,
-        w500,
-        h632,
-        w780,
-        w1000,
-        w1280,
-        original
+    public enum AppendToResponse{
+        alternative_titles,
+        credits,
+        images,
+        keywords,
+        releases,
+        videos,
+        translations,
+        similar,
+        reviews,
+        lists
     }
 
-    private static final String TITLEnDATE = "TITLE&DATE";
+    private static final String KEY = "KEY";
 
     public static final Parcelable.Creator<Film> CREATOR
             = new Parcelable.Creator<Film>() {
@@ -63,8 +61,23 @@ public class Film extends JSONObjectWrapper {
         super(in);
     }
 
+    public static String getAppendToResponse(AppendToResponse... appResp){
+        StringBuilder sb = new StringBuilder();
+        sb.append("&append_to_response=");
+
+        if (appResp.length>1) {
+            for (int i = 0; i < appResp.length; i++) {
+                sb.append((i <= appResp.length - 1)? sb.append(appResp[i]) : sb.append(String.format(appResp[i] + ",")));
+            }
+        }else sb.append(appResp[0]);
+
+        return sb.toString();
+    }
     public String getTitle() {
         return getString(TITLE);
+    }
+    public String getTagline() {
+        return getString(TAGLINE);
     }
     public String getOverview() {
         return getString(OVERVIEW);
@@ -72,17 +85,10 @@ public class Film extends JSONObjectWrapper {
 
     public String getReleaseDate() {
         String date = getString(RELEASE_DATE);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-        Date testDate = null;
-        try {
-            testDate = sdf.parse(date);
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        sdf = new SimpleDateFormat("dd/mm/yyyy");
-        String newFormat = sdf.format(testDate);
-
-        return newFormat;
+        Calendar calendar = Calendar.getInstance();
+        java.sql.Date javaSqlDate = java.sql.Date.valueOf(date);
+        calendar.setTime(javaSqlDate);
+        return "("+String.valueOf(calendar.get(Calendar.YEAR))+")";
     }
 
     public String getGenres() throws JSONException {
@@ -98,19 +104,15 @@ public class Film extends JSONObjectWrapper {
         return getString(VOTE_AVERAGE);
     }
 
-    public String getPosterPath(SizePoster size) {
+    public String getPosterPath(ApiTMDB.SizePoster size) {
         return "https://image.tmdb.org/t/p/"+ size + getString(POSTER_PATH);
     }
-    public String getBackdropPath(SizePoster size) {
+    public String getBackdropPath(ApiTMDB.SizePoster size) {
         return "https://image.tmdb.org/t/p/"+ size + getString(BACKDROP_PATH);
     }
 
     public void initTitle() {
-        set(TITLEnDATE, getTitle() + "\n" + getReleaseDate());
-    }
-
-    public String getTitlenDate() {
-        return getString(TITLEnDATE);
+        set(KEY, getTitle() + "\n" + getReleaseDate());
     }
 
     public Long getId() {

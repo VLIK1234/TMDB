@@ -1,16 +1,10 @@
 package com.example.vlik1234.tmdb.auth;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.example.vlik1234.tmdb.LoginActivity;
-import com.example.vlik1234.tmdb.MainActivity;
-import com.example.vlik1234.tmdb.VkLoginActivity;
-import com.example.vlik1234.tmdb.auth.secure.EncrManager;
 import org.apache.http.auth.AuthenticationException;
 
 /**
@@ -60,8 +54,6 @@ public class VkOAuthHelper {
                 if (!TextUtils.isEmpty(error)) {
                     callbacks.onError(new AuthenticationException(error+", reason : " + errorReason +"("+errorDescription+")"));
                     return false;
-                } else {
-                    //WTF?
                 }
             }
         }

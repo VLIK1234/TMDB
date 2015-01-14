@@ -1,24 +1,22 @@
 package com.example.vlik1234.tmdb;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.graphics.Palette;
-import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.util.DisplayMetrics;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
 import android.view.Menu;
-import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,25 +24,20 @@ import android.widget.Toast;
 import com.example.vlik1234.tmdb.bo.Film;
 import com.example.vlik1234.tmdb.helper.DataManager;
 import com.example.vlik1234.tmdb.image.ImageLoader;
-import com.example.vlik1234.tmdb.processing.BitmapProcessor;
 import com.example.vlik1234.tmdb.processing.FilmProcessor;
 import com.example.vlik1234.tmdb.source.HttpDataSource;
 import com.example.vlik1234.tmdb.source.TMDBDataSource;
-import com.example.vlik1234.tmdb.ui.TextViewSpan;
 
 import org.json.JSONException;
-import org.w3c.dom.Text;
-
-import java.io.InterruptedIOException;
-import java.util.Objects;
 
 
 public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film> {
 
     static class ViewHolder {
         TextView title;
-        TextView overview;
         TextView genres;
+        TextView tagline;
+        TextView overview;
         ImageView poster;
     }
     ViewHolder holder = new ViewHolder();
@@ -53,13 +46,16 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     private ImageLoader mImageLoader;
     private final Object mDelayedLock = new Object();
 
-    Long id_film;
+    String detailUrl;
+
     int finalHeight, finalWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        holder.poster = (ImageView) findViewById(R.id.poster);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -69,10 +65,9 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
 
         DescriptionOfTheFilm description = getIntent().getParcelableExtra(
                 DescriptionOfTheFilm.class.getCanonicalName());
-        this.id_film = description.getId();
-        update(dataSource, processor);
+        this.detailUrl = description.getDetailsUrl();
 
-        holder.poster = (ImageView) findViewById(R.id.poster);
+        update(dataSource, processor);
     }
     private FilmProcessor getProcessor() {
         return mFilmProcessor;
@@ -90,7 +85,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     }
 
     private String getUrl() {
-        return ApiTMDB.getMovie(id_film);
+        return detailUrl+Film.getAppendToResponse(Film.AppendToResponse.releases);
     }
 
     @Override
@@ -101,13 +96,24 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(Film data){
-
         holder.title = (TextView) findViewById(R.id.title);
-        holder.overview = (TextView) findViewById(R.id.overview);
         holder.genres = (TextView) findViewById(R.id.genres);
+        holder.tagline = (TextView) findViewById(R.id.tagline);
+        holder.overview = (TextView) findViewById(R.id.overview);
 
-        holder.title.setText(data.getTitle());
+        final SpannableString text = new SpannableString(data.getTitle()+" "+data.getReleaseDate());
+        text.setSpan(new RelativeSizeSpan(0.8f), text.length() - data.getReleaseDate().length(), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        text.setSpan(new TypefaceSpan("serif"), text.length() - data.getReleaseDate().length(), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.title.setText(text);
+
         setTitle(holder.title.getText());
+
+        final SpannableString text_tag = new SpannableString("Tagline\n" + data.getTagline());
+        text_tag.setSpan(new StyleSpan(Typeface.BOLD | Typeface.ITALIC), 0, text_tag.length() - data.getTagline().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        text_tag.setSpan(new TypefaceSpan("serif"), text_tag.length() - data.getTagline().length(), text_tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        holder.tagline.setText(text_tag);
+
         if (!data.getOverview().equals("null")) holder.overview.setText(data.getOverview());
         try {
             holder.genres.setText(data.getGenres());
@@ -115,7 +121,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
             e.printStackTrace();//TODO do normal exepction post
         }
 
-        final String urlPoster = data.getPosterPath(Film.SizePoster.w342);
+        final String urlPoster = data.getPosterPath(ApiTMDB.SizePoster.w342);
         holder.poster.setImageBitmap(null);
         holder.poster.setTag(urlPoster);
 
@@ -132,6 +138,26 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_internet:
+                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+                intent.putExtra(SearchManager.QUERY, holder.title.getText());
+                Toast.makeText(this, holder.title.getText(), Toast.LENGTH_LONG).show();
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+
+    @Override
     public void onError(Exception e) {
         e.printStackTrace();
     }
@@ -139,37 +165,6 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     private void colorize(Bitmap image) {
         Palette palette = Palette.generate(image);
         applyPalette(palette);
-    }
-
-    private void makeSpan() {
-        String plainText =  holder.overview.getText().toString();
-        Spanned htmlText = Html.fromHtml(plainText);
-        SpannableString mSpannableString= new SpannableString(htmlText);
-
-        int allTextStart = 0;
-        int allTextEnd = htmlText.length() - 1;
-
-        /**
-         * Calculate the lines number = image height.
-         * You can improve it... it is just an example
-         */
-        int lines;
-        Rect bounds = new Rect();
-        holder.overview.getPaint().getTextBounds(plainText.substring(0,10), 0, 1, bounds);
-
-        //float textLineHeight = mTextView.getPaint().getTextSize();
-        float fontSpacing = holder.overview.getPaint().getFontSpacing();
-        lines = (int) (finalHeight/(fontSpacing));
-
-        /**
-         * Build the layout with LeadingMarginSpan2
-         */
-        TextViewSpan span = new TextViewSpan(lines, finalWidth +10 );
-        mSpannableString.setSpan(span, allTextStart, allTextEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-
-        holder.overview.setText(mSpannableString);
-
     }
 
     private void applyPalette(Palette palette) {

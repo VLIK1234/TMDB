@@ -1,12 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#7700ff00">
+    tools:context=".MainActivity"
+    android:background="#80000000">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_containerr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000">
+        <ListView
+            android:id="@+id/listr"
+            android:background="#80000000"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
+        android:id="@+id/emptyr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fragment2"/>
+        android:layout_centerInParent="true"
+        android:text="@string/empty_message"
+        android:visibility="gone" />
 
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/errorr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/error_message"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

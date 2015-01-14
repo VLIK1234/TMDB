@@ -1,39 +1,29 @@
 package com.example.vlik1234.tmdb;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-
-import com.example.vlik1234.tmdb.image.ImageLoader;
 
 /**
  * Created by VLIK on 12.01.2015.
  */
-public class FragmentWithActivity extends Activity {
+public class FragmentWithActivity extends ActionBarActivity implements SearchView.OnQueryTextListener{
 
     FragmentTransaction ft;
 
     Fragment fragmentPart;
     Fragment fragment2;
 
-    public ImageLoader mImageLoader;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
-
-        mImageLoader = ImageLoader.get(FragmentWithActivity.this);
-
-        /*Bundle bundle = new Bundle();
-        bundle.putString("edttext", ApiTMDB.NOW_PLAYING_GET);
-        // set Fragmentclass Arguments
-        FragmentPart fragobj = new FragmentPart();
-        fragobj.setArguments(bundle);*/
 
 
         this.fragmentPart = new FragmentPart();
@@ -66,12 +56,24 @@ public class FragmentWithActivity extends Activity {
         return ApiTMDB.NOW_PLAYING_GET;
     }
 
-    public void onMainClick(View view){
-        ((TextView)findViewById(R.id.text_frag)).setText("Fragment");
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
 
-        DescriptionOfTheFilm description = new DescriptionOfTheFilm((long)127585);
-        Intent intent = new Intent(FragmentWithActivity.this, DetailsActivity.class);
-        intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
-        startActivity(intent);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint("Search");
+        searchView.setOnQueryTextListener(this);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        return true;
     }
 }

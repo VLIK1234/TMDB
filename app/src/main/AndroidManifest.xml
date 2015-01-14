@@ -22,8 +22,7 @@
             android:label="@string/title_login_activity"/>
 
         <activity
-            android:name=".FragmentWithActivity"
-            android:label="@string/title_fragment_with_activity"/>
+            android:name=".FragmentWithActivity"/>
 
         <activity
             android:name=".VkLoginActivity"

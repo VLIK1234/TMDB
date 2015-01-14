@@ -48,6 +48,17 @@
 
         <TextView
             style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+            android:id="@+id/tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/poster"
+            android:layout_toEndOf="@id/poster"
+            android:layout_below="@+id/genres"/>
+
+        <TextView
+            style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
             android:id="@+id/overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -8,6 +8,10 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.TypefaceSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +34,7 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements DataManager.Callback<List<Film>>, SearchView.OnQueryTextListener{
     static class ViewHolder {
-        TextView titlenDate;
+        TextView title;
         SwipeRefreshLayout mSwipeRefreshLayout;
         AbsListView listView;
     }
@@ -49,6 +53,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (savedInstanceState != null){
         mImageLoader = ImageLoader.get(MainActivity.this);
         holder.mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         final HttpDataSource dataSource = getHttpDataSource();
@@ -60,6 +65,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
             }
         });
         update(dataSource, processor);
+        }
     }
 
     private FilmArrayProcessor getProcessor() {
@@ -93,7 +99,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
-    public void onDone(List<Film> data) {
+    public void onDone(final List<Film> data) {
         if (holder.mSwipeRefreshLayout.isRefreshing()) {
             holder.mSwipeRefreshLayout.setRefreshing(false);
         }
@@ -113,12 +119,17 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
                         convertView = View.inflate(MainActivity.this, R.layout.adapter_item, null);
                     }
                     Film item = getItem(position);
-                    holder.titlenDate = (TextView) convertView.findViewById(R.id.title);
-                    holder.titlenDate.setText(item.getTitlenDate());
+                    holder.title = (TextView) convertView.findViewById(R.id.title);
+
+                    final SpannableString text = new SpannableString(item.getTitle()+" "+item.getReleaseDate());
+                    text.setSpan(new RelativeSizeSpan(0.8f), text.length() - item.getReleaseDate().length(), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    text.setSpan(new TypefaceSpan("serif"), text.length() - item.getReleaseDate().length(), text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    holder.title.setText(item.getTitle());
 
                     convertView.setTag(item.getId());
                     final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
-                    final String url = item.getPosterPath(Film.SizePoster.w185);
+                    final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
                     mImageLoader.loadAndDisplay(url, poster);
                     return convertView;
                 }
@@ -152,7 +163,7 @@ public class MainActivity extends ActionBarActivity implements DataManager.Callb
                     Film item = (Film) mAdapter.getItem(position);
                     selectItemID = item.getId();
 
-                    DescriptionOfTheFilm description = new DescriptionOfTheFilm(selectItemID);
+                    DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(selectItemID));
                     Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
                     intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
                     startActivity(intent);

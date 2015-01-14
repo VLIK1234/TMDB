@@ -20,7 +20,6 @@ public class FilmArrayProcessor implements Processor<List<Film>,InputStream>{
         for (int i = 0; i < array.length(); i++) {
             JSONObject jsonObject = array.getJSONObject(i);
             Film film = new Film(jsonObject);
-            film.initTitle();
             noteArray.add(film);
         }
         return noteArray;

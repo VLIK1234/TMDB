@@ -12,7 +12,9 @@
     <string name="action_internet">Internet</string>
 
     <string name="empty_message">Data is empty.</string>
-    <string name="error_message">Data is empty.</string>
+    <string name="error_message">Data is wrong.</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available.</string>
+
 
     <string name="poster_content_description">Poster</string>
     <string name="backdrop_content_description">Backdrop</string>

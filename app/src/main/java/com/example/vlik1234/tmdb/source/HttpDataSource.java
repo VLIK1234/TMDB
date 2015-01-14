@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-/**
- * Created by IstiN on 17.10.2014.
- */
 public class HttpDataSource implements DataSource<InputStream, String> {
 
     public static final String KEY = "HttpDataSource";
@@ -25,8 +22,7 @@ public class HttpDataSource implements DataSource<InputStream, String> {
         //download data and return
         URL url = new URL(p);
         // Read all the text returned by the server
-        InputStream inputStream = url.openStream();
-        return inputStream;
+        return url.openStream();
     }
 
     public static void close(Closeable in) {
