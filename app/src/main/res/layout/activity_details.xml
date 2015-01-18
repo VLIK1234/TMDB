@@ -34,6 +34,17 @@
             android:textStyle="bold"
             android:layout_toRightOf="@id/poster"
             android:layout_toEndOf="@id/poster"/>
+        <TextView
+            style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            android:layout_margin="8dp"
+            android:layout_toRightOf="@id/poster"
+            android:layout_toEndOf="@id/poster"
+            android:layout_below="@id/title"/>
 
         <TextView
             style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
@@ -44,7 +55,7 @@
             android:textSize="15sp"
             android:layout_toRightOf="@id/poster"
             android:layout_toEndOf="@id/poster"
-            android:layout_below="@+id/title"/>
+            android:layout_below="@+id/date"/>
 
         <TextView
             style="@style/Base.Theme.AppCompat.Light.DarkActionBar"

@@ -17,19 +17,59 @@
             <ImageView
                 android:id="@+id/poster"
                 android:contentDescription="@string/poster_content_description"
+                android:scaleType="centerCrop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <TextView
+            style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:layout_toRightOf="@+id/poster"
+            android:layout_toEndOf="@+id/poster"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:textColor="@color/icons"/>
+
+            <TextView
                 style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
-                android:id="@+id/title"
+                android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_below="@id/title"
                 android:layout_toRightOf="@+id/poster"
                 android:layout_toEndOf="@+id/poster"
-                android:textStyle="bold"
-                android:textSize="15sp"
+                android:textStyle="normal"
+                android:textSize="14sp"
+                android:textColor="@color/icons"/>
+
+            <RatingBar
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_below="@id/date"
+            android:layout_toRightOf="@+id/poster"
+            android:layout_toEndOf="@+id/poster"
+            style="?android:attr/ratingBarStyleSmall"
+            android:numStars="10"
+            android:stepSize="0.1"/>
+
+            <TextView
+                style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+                android:id="@+id/rating_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_below="@id/date"
+                android:layout_toRightOf="@+id/rating"
+                android:layout_toEndOf="@+id/rating"
+                android:textStyle="normal"
+                android:textSize="12sp"
                 android:textColor="@color/icons"/>
 
         </RelativeLayout>

@@ -3,34 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/pageNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/pagePrevious"
-            android:layout_toEndOf="@+id/pagePrevious"
-            android:onClick="onClickNext"
-            android:text="Next"/>
-        <Button
-            android:id="@+id/pagePrevious"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClickPrevious"
-            android:text="Previous"/>
-        <TextView
-            android:id="@+id/text_frag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textColor="@color/bright_foreground_inverse_material_dark"
-            android:layout_toRightOf="@id/pageNext"
-            android:layout_toEndOf="@id/pageNext"/>
-
-    </RelativeLayout>
-
     <FrameLayout
         android:id="@+id/frame_dinamic"
         android:layout_width="match_parent"
