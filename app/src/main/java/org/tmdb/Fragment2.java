@@ -13,8 +13,12 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.tmdb.bo.DescriptionOfTheFilm;
@@ -35,27 +39,18 @@ import java.util.List;
 public class Fragment2 extends Fragment implements DataManager.Callback<List<Film>>{
 
     public static final String EXTRA_LANG = "extra_lang";
+    public static int PAGE = 1;
 
     static class ViewHolder {
         TextView title;
         TextView date;
+        RatingBar rating;
+        TextView rating_text;
     }
 
-    public static Fragment newInstance(String language) {
-        FragmentPart fragmentPart = new FragmentPart();
-        Bundle args = new Bundle();
-        args.putString(EXTRA_LANG, language);
-        fragmentPart.setArguments(args);
-        return fragmentPart;
-    }
-
-    private String getLanguage() {
-        return getArguments().getString(EXTRA_LANG);
-    }
-    //TODO accessors
     private ViewHolder holder = new ViewHolder();
 
-    private String mUrl = ApiTMDB.getNowPlayingGet(2)+"?page=2";
+    private String mUrl = "";
 
     private Long selectItemID;
 
@@ -63,22 +58,24 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
     private FilmArrayProcessor mFilmArrayProcessor = new FilmArrayProcessor();
     private ImageLoader mImageLoader;
 
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    AbsListView listView;
-    TextView err;
-    TextView empty;
-    ProgressBar progressBar;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    public ListView listView;
+    //public AbsListView listView;
+    private TextView err;
+    private TextView empty;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_list, container, false);
+        View v = inflater.inflate(R.layout.fragment2, container, false);
 
         err = (TextView)v.findViewById(R.id.errorr);
         empty = (TextView)v.findViewById(R.id.emptyr);
         progressBar = (ProgressBar)v.findViewById(R.id.progressr);
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_containerr);
-        listView = (AbsListView)v.findViewById(R.id.listr);
+        listView = (ListView)v.findViewById(R.id.listr);
+        //listView = (AbsListView)v.findViewById(R.id.listr);
         return v;
     }
 
@@ -87,12 +84,12 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getActivity().setTitle("Now playing");
-
         mImageLoader = ImageLoader.get(getActivity().getApplicationContext());
 
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
+
+        mUrl = getLanguage();
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -101,6 +98,18 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
         });
 
         update(dataSource, processor);
+    }
+
+    public static Fragment newInstance(String language) {
+        Fragment2 fragmentPart = new Fragment2();
+        Bundle args = new Bundle();
+        args.putString(EXTRA_LANG, language);
+        fragmentPart.setArguments(args);
+        return fragmentPart;
+    }
+
+    private String getLanguage() {
+        return getArguments().getString(EXTRA_LANG);
     }
 
     private FilmArrayProcessor getProcessor() {
@@ -113,13 +122,13 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
 
     private void update(HttpDataSource dataSource, FilmArrayProcessor processor) {
         DataManager.loadData(this,
-                getUrl(),
+                getUrl(PAGE),
                 dataSource,
                 processor);
     }
 
-    private String getUrl() {
-        return mUrl+"?language="+getLanguage();
+    private String getUrl(int page) {
+        return mUrl+"&page="+page;
     }
 
     @Override
@@ -132,19 +141,30 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
 
     private List<Film> mData;
 
+    private boolean isPagingEnabled = true;
+
+    private View footerProgress;
+
+    private boolean isImageLoaderControlledByDataManager = false;
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(List<Film> data) {
+        PAGE=1;
         if (mSwipeRefreshLayout.isRefreshing()) {
+
             mSwipeRefreshLayout.setRefreshing(false);
         }
         progressBar.setVisibility(View.GONE);
         if (data == null || data.isEmpty()) {
             empty.setVisibility(View.VISIBLE);
         }
+
+        if(footerProgress==null)
+            footerProgress = View.inflate(getActivity().getApplicationContext(), R.layout.view_footer_progress, null);
+        refreshFooter();
         if (mAdapter == null) {
             mData = data;
-
             mAdapter = new ArrayAdapter<Film>(getActivity().getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data) {
 
                 @Override
@@ -155,9 +175,13 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
                     Film item = getItem(position);
                     holder.title = (TextView) convertView.findViewById(R.id.title);
                     holder.date = (TextView) convertView.findViewById(R.id.date);
+                    holder.rating = (RatingBar) convertView.findViewById(R.id.rating);
+                    holder.rating_text = (TextView) convertView.findViewById(R.id.rating_text);
 
                     holder.title.setText(item.getTitle());
                     holder.date.setText(item.getReleaseDate());
+                    holder.rating.setRating(Float.valueOf(item.getVoteAverage()));
+                    holder.rating_text.setText(item.getVoteAverage()+"/10"+" ("+item.getVoteCount()+")");
 
                     convertView.setTag(item.getId());
                     final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
@@ -167,26 +191,72 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
                 }
 
             };
+            listView.setFooterDividersEnabled(true);
+            listView.addFooterView(footerProgress, null, false);
             listView.setAdapter(mAdapter);
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+                private int previousTotal = 0;
+
+                private int visibleThreshold = 5;
+
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
                     switch (scrollState) {
                         case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                            mImageLoader.resume();
+                            if (!isImageLoaderControlledByDataManager) {
+                                mImageLoader.resume();
+                            }
                             break;
                         case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                            mImageLoader.pause();
+                            if (!isImageLoaderControlledByDataManager) {
+                                mImageLoader.pause();
+                            }
                             break;
                         case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                            mImageLoader.pause();
+                            if (!isImageLoaderControlledByDataManager) {
+                                mImageLoader.pause();
+                            }
                             break;
                     }
                 }
 
                 @Override
                 public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                    ListAdapter adapter = view.getAdapter();
+                    int count = getRealAdapterCount(adapter);
+                    if (count == 0) {
+                        return;
+                    }
+                    if (previousTotal != totalItemCount && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                        previousTotal = totalItemCount;
+                        isImageLoaderControlledByDataManager = true;
+                        PAGE++;
+                        DataManager.loadData(new DataManager.Callback<List<Film>>() {
+                                                 @Override
+                                                 public void onDataLoadStart() {
+                                                     mImageLoader.pause();
+                                                 }
 
+                                                 @Override
+                                                 public void onDone(List<Film> data) {
+                                                     updateAdapter(data);
+                                                     refreshFooter();
+                                                     mImageLoader.resume();
+                                                     isImageLoaderControlledByDataManager = false;
+                                                 }
+
+                                                 @Override
+                                                 public void onError(Exception e) {
+                                                     Fragment2.this.onError(e);
+                                                     mImageLoader.resume();
+                                                     isImageLoaderControlledByDataManager = false;
+                                                 }
+                                             },
+                                getUrl(PAGE),
+                                getHttpDataSource(),
+                                getProcessor());
+                    }
                 }
             });
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -201,10 +271,52 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
                     startActivity(intent);
                 }
             });
+            if (data != null && data.size() == 100) {
+                isPagingEnabled = true;
+            } else {
+                isPagingEnabled = false;
+            }
         } else {
             mData.clear();
+            updateAdapter(data);
+        }
+        refreshFooter();
+    }
+
+    private void updateAdapter(List<Film> data) {
+        if (data != null && data.size() == 100) {
+            isPagingEnabled = true;
+            listView.addFooterView(footerProgress, null, false);
+        } else {
+            isPagingEnabled = false;
+            listView.removeFooterView(footerProgress);
+        }
+        if (data != null) {
             mData.addAll(data);
-            mAdapter.notifyDataSetChanged();
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public static int getRealAdapterCount(ListAdapter adapter) {
+        if (adapter == null) {
+            return 0;
+        }
+        int count = adapter.getCount();
+
+        if (adapter instanceof HeaderViewListAdapter) {
+            HeaderViewListAdapter headerViewListAdapter = (HeaderViewListAdapter) adapter;
+            count = count - headerViewListAdapter.getFootersCount() - headerViewListAdapter.getHeadersCount();
+        }
+        return count;
+    }
+
+    private void refreshFooter() {
+        if (footerProgress != null) {
+            if (isPagingEnabled) {
+                footerProgress.setVisibility(View.VISIBLE);
+            } else {
+                footerProgress.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -215,11 +327,5 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
         empty.setVisibility(View.GONE);
         err.setVisibility(View.VISIBLE);
         err.setText(err.getText() + "\n" + e.getMessage());
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
     }
 }

@@ -32,6 +32,8 @@ import org.tmdb.source.HttpDataSource;
 import org.tmdb.source.TMDBDataSource;
 import org.tmdb.vlik1234.R;
 
+import java.util.Locale;
+
 
 public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film>,SearchView.OnQueryTextListener{
 
@@ -85,7 +87,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     }
 
     private String getUrl() {
-        return detailUrl+"?language=ru"+Film.getAppendToResponse(Film.AppendToResponse.releases);
+        return detailUrl+"?language="+ Locale.getDefault().getLanguage()+Film.getAppendToResponse(Film.AppendToResponse.releases);
     }
 
     @Override
@@ -159,7 +161,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     }
 
     private void onSearch(String search){
-        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(search));
+        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(search), search);
         Intent intent = new Intent(DetailsActivity.this, SearchActivity.class);
         intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
         startActivity(intent);

@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import org.tmdb.bo.DescriptionOfTheFilm;
 import org.tmdb.vlik1234.R;
 
+import java.util.Locale;
+
 /**
  * Created by VLIK on 12.01.2015.
  */
@@ -32,7 +34,7 @@ public class FragmentWithActivity extends ActionBarActivity implements SearchVie
 
         setTitle("Now playing");
         //TODO check savedInstance for null
-        this.fragmentPart = FragmentPart.newInstance(ApiTMDB.getNowPlayingGet(1)+"?language=ru");
+        this.fragmentPart = FragmentPart.newInstance(ApiTMDB.getNowPlayingGet(1)+"?language="+ Locale.getDefault());
 
         this.ft = getFragmentManager().beginTransaction();
         this.ft.add(R.id.frame_dinamic, fragmentPart);

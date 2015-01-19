@@ -39,7 +39,7 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
         setTitle("Search by \""+description.getQueryWord()+"\"");
 
         //TODO check savedInstance for null
-        this.fragmentPart = FragmentPart.newInstance(description.getDetailsUrl());
+        this.fragmentPart = Fragment2.newInstance(description.getDetailsUrl());
 
         this.ft = getFragmentManager().beginTransaction();
         this.ft.add(R.id.frame_dinamic, fragmentPart);

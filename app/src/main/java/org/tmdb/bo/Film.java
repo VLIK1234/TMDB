@@ -23,6 +23,7 @@ public class Film extends JSONObjectWrapper {
     private static final String OVERVIEW = "overview";
     private static final String GENRES = "genres";
     private static final String TAGLINE = "tagline";
+    private static final String TOTAL_PAGES = "total_pages";
 
     //TODO move out from this class
     public enum AppendToResponse{
@@ -112,6 +113,10 @@ public class Film extends JSONObjectWrapper {
 
     public String getVoteCount() {
         return getString(VOTE_COUNT);
+    }
+
+    public  String getTotalPages(){
+        return getString(TOTAL_PAGES);
     }
 
     public String getPosterPath(ApiTMDB.SizePoster size) {
