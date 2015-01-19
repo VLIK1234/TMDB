@@ -26,7 +26,7 @@
             android:label="@string/title_login_activity"/>
         <activity
             android:name="org.tmdb.SearchActivity"
-            android:launchMode="singleTask"
+            android:launchMode="standard"
             android:screenOrientation="fullSensor"
             android:parentActivityName="org.tmdb.MainScreenActivity">
             <intent-filter>
