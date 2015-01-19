@@ -25,7 +25,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void onFragmentClick(View view){
-        Intent intent = new Intent(this, FragmentWithActivity.class);
+        Intent intent = new Intent(this, MainScreenActivity.class);
         startActivityForResult(intent,REQUEST_CODE_RV);
     }
 

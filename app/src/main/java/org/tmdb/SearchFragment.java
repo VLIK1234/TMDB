@@ -36,7 +36,7 @@ import java.util.List;
  * Created by VLIK on 12.01.2015.
  */
 //TODO rename
-public class Fragment2 extends Fragment implements DataManager.Callback<List<Film>>{
+public class SearchFragment extends Fragment implements DataManager.Callback<List<Film>>{
 
     public static final String EXTRA_LANG = "extra_lang";
     public static int PAGE = 1;
@@ -101,7 +101,7 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
     }
 
     public static Fragment newInstance(String language) {
-        Fragment2 fragmentPart = new Fragment2();
+        SearchFragment fragmentPart = new SearchFragment();
         Bundle args = new Bundle();
         args.putString(EXTRA_LANG, language);
         fragmentPart.setArguments(args);
@@ -248,7 +248,7 @@ public class Fragment2 extends Fragment implements DataManager.Callback<List<Fil
 
                                                  @Override
                                                  public void onError(Exception e) {
-                                                     Fragment2.this.onError(e);
+                                                     SearchFragment.this.onError(e);
                                                      mImageLoader.resume();
                                                      isImageLoaderControlledByDataManager = false;
                                                  }

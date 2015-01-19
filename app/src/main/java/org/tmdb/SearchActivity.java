@@ -18,12 +18,11 @@ import org.tmdb.vlik1234.R;
  */
 public class SearchActivity extends ActionBarActivity implements SearchView.OnQueryTextListener{
 
-    //TODO accessors, renames
-    FragmentTransaction ft;
 
-    Fragment fragmentPart;
+    private FragmentTransaction fragmentTransaction;
 
-    String search_query;
+    private Fragment fragment;
+
 
     public static final String EXTRA_LANG = "extra_lang";
 
@@ -36,14 +35,14 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
         DescriptionOfTheFilm description = getIntent().getParcelableExtra(
                 DescriptionOfTheFilm.class.getCanonicalName());
 
-        setTitle("Search by \""+description.getQueryWord()+"\"");
+        setTitle("Search by \"" + description.getQueryWord() + "\"");
 
         //TODO check savedInstance for null
-        this.fragmentPart = Fragment2.newInstance(description.getDetailsUrl());
+        this.fragment = SearchFragment.newInstance(description.getDetailsUrl());
 
-        this.ft = getFragmentManager().beginTransaction();
-        this.ft.add(R.id.frame_dinamic, fragmentPart);
-        this.ft.commit();
+        this.fragmentTransaction = getFragmentManager().beginTransaction();
+        this.fragmentTransaction.add(R.id.frame_dinamic, fragment);
+        this.fragmentTransaction.commit();
     }
 
     @Override

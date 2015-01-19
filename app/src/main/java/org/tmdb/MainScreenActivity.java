@@ -18,12 +18,12 @@ import java.util.Locale;
 /**
  * Created by VLIK on 12.01.2015.
  */
-public class FragmentWithActivity extends ActionBarActivity implements SearchView.OnQueryTextListener{
+public class MainScreenActivity extends ActionBarActivity implements SearchView.OnQueryTextListener{
 
-    //TODO accessors, renames
-    FragmentTransaction ft;
 
-    Fragment fragmentPart;
+    private FragmentTransaction fragmentTransaction;
+
+    private Fragment fragment;
 
     public static final String EXTRA_LANG = "extra_lang";
 
@@ -34,11 +34,11 @@ public class FragmentWithActivity extends ActionBarActivity implements SearchVie
 
         setTitle("Now playing");
         //TODO check savedInstance for null
-        this.fragmentPart = FragmentPart.newInstance(ApiTMDB.getNowPlayingGet(1)+"?language="+ Locale.getDefault());
+        this.fragment = MainFragment.newInstance(ApiTMDB.getNowPlayingGet(1) + "?language=" + Locale.getDefault());
 
-        this.ft = getFragmentManager().beginTransaction();
-        this.ft.add(R.id.frame_dinamic, fragmentPart);
-        this.ft.commit();
+        this.fragmentTransaction = getFragmentManager().beginTransaction();
+        this.fragmentTransaction.add(R.id.frame_dinamic, fragment);
+        this.fragmentTransaction.commit();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class FragmentWithActivity extends ActionBarActivity implements SearchVie
 
     private void onSearch(String search){
         DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(search), search);
-        Intent intent = new Intent(FragmentWithActivity.this, SearchActivity.class);
+        Intent intent = new Intent(MainScreenActivity.this, SearchActivity.class);
         intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
         startActivity(intent);
     }

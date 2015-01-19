@@ -28,7 +28,7 @@
             android:name="org.tmdb.SearchActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor"
-            android:parentActivityName="org.tmdb.FragmentWithActivity">
+            android:parentActivityName="org.tmdb.MainScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -36,10 +36,10 @@
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.tmdb.FragmentWithActivity" />
+                android:value="org.tmdb.MainScreenActivity" />
         </activity>
         <activity
-            android:name="org.tmdb.FragmentWithActivity"
+            android:name="org.tmdb.MainScreenActivity"
             android:launchMode="standard"
             android:screenOrientation="fullSensor"/>
         <activity
