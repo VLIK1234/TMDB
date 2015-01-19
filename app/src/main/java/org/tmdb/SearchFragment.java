@@ -39,7 +39,7 @@ import java.util.List;
 public class SearchFragment extends Fragment implements DataManager.Callback<List<Film>>{
 
     public static final String EXTRA_LANG = "extra_lang";
-    public static int PAGE = 1;
+    public static int PAGE;
 
     static class ViewHolder {
         TextView title;
@@ -88,11 +88,13 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
 
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
+        PAGE = 1;
 
         mUrl = getLanguage();
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                PAGE = 1;
                 update(dataSource, processor);
             }
         });
