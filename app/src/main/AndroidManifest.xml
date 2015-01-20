@@ -25,6 +25,12 @@
             android:screenOrientation="fullSensor"
             android:label="@string/title_login_activity"/>
         <activity
+            android:name="org.tmdb.ReturnActivity"
+            android:label="@string/app_name"
+            android:launchMode="standard"
+            android:screenOrientation="fullSensor">
+        </activity>
+        <activity
             android:name="org.tmdb.SearchActivity"
             android:launchMode="standard"
             android:screenOrientation="fullSensor"
@@ -46,11 +52,10 @@
             android:name="org.tmdb.VkLoginActivity"
             android:launchMode="standard"
             android:label="@string/title_vk_login_activity"/>
-
         <!-- Source - http://developer.android.com/training/implementing-navigation/ancestral.html-->
         <activity
             android:name="org.tmdb.DetailsActivity"
-            android:parentActivityName="org.tmdb.MainScreenActivity">
+            android:parentActivityName="org.tmdb.ReturnActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -58,7 +63,7 @@
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.tmdb.MainScreenActivity" />
+                android:value="org.tmdb.ReturnActivity" />
             </activity>
 
     </application>
