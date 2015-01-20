@@ -146,7 +146,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_internet:
-                String parameterSearch = " online html5";
+                String parameterSearch = " online";
                 Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
                 intent.putExtra(SearchManager.QUERY, holder.title.getText()+ parameterSearch);
                 if (intent.resolveActivity(getPackageManager()) != null) {
