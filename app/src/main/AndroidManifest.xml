@@ -5,7 +5,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_tmdb"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:name="org.tmdb.CoreApplication">
@@ -46,21 +46,11 @@
             android:name="org.tmdb.VkLoginActivity"
             android:launchMode="standard"
             android:label="@string/title_vk_login_activity"/>
-        <activity
-            android:name="org.tmdb.MainActivity"
-            android:launchMode="standard"
-            android:screenOrientation="fullSensor"
-            android:label="@string/title_main_activity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <!-- Source - http://developer.android.com/training/implementing-navigation/ancestral.html-->
         <activity
             android:name="org.tmdb.DetailsActivity"
-            android:parentActivityName="org.tmdb.MainActivity">
+            android:parentActivityName="org.tmdb.MainScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -68,7 +58,7 @@
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.tmdb.MainActivity" />
+                android:value="org.tmdb.MainScreenActivity" />
             </activity>
 
     </application>
