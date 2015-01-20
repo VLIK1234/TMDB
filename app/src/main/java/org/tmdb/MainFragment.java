@@ -31,6 +31,7 @@ import org.tmdb.source.TMDBDataSource;
 import org.tmdb.vlik1234.R;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by VLIK on 12.01.2015.
@@ -68,7 +69,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         err = (TextView)v.findViewById(R.id.errorr);
         empty = (TextView)v.findViewById(R.id.emptyr);
@@ -130,7 +131,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     }
 
     private String getUrl(int page) {
-        return mUrl+"&page="+page;
+        return mUrl+"&page="+page+"&language="+ Locale.getDefault().getLanguage();
     }
 
     @Override

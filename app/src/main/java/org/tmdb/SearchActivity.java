@@ -29,7 +29,7 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+        setContentView(R.layout.activity_main_screen);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         DescriptionOfTheFilm description = getIntent().getParcelableExtra(

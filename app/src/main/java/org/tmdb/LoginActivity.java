@@ -20,11 +20,6 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     public void onNoAuthClick(View view){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivityForResult(intent,REQUEST_CODE_RV);
-    }
-
-    public void onFragmentClick(View view){
         Intent intent = new Intent(this, MainScreenActivity.class);
         startActivityForResult(intent,REQUEST_CODE_RV);
     }
