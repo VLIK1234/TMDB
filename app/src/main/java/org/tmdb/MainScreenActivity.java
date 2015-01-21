@@ -20,7 +20,6 @@ import java.util.Locale;
  */
 public class MainScreenActivity extends ActionBarActivity implements SearchView.OnQueryTextListener{
 
-
     private FragmentTransaction fragmentTransaction;
 
     private Fragment fragment;
@@ -33,12 +32,14 @@ public class MainScreenActivity extends ActionBarActivity implements SearchView.
         setContentView(R.layout.activity_main_screen);
 
         setTitle("Now playing");
-        //TODO check savedInstance for null
-        this.fragment = MainFragment.newInstance(ApiTMDB.getNowPlayingGet(1) + "?language=" + Locale.getDefault());
 
-        this.fragmentTransaction = getFragmentManager().beginTransaction();
-        this.fragmentTransaction.add(R.id.frame_dinamic, fragment);
-        this.fragmentTransaction.commit();
+        if (savedInstanceState == null) {
+            this.fragment = MainFragment.newInstance(ApiTMDB.getNowPlayingGet(1) + "?language=" + Locale.getDefault());
+
+            this.fragmentTransaction = getFragmentManager().beginTransaction();
+            this.fragmentTransaction.add(R.id.frame_dinamic, fragment);
+            this.fragmentTransaction.commit();
+        }
     }
 
     @Override

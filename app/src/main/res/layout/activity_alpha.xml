@@ -12,13 +12,13 @@
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"/>
         <FrameLayout
-            android:id="@+id/frame_detail"
+            android:id="@+id/frame_alpha"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/icons"
+            android:background="@color/primary_dark"
             android:layout_marginTop="150dp"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginBottom="120dp"/>
-    </RelativeLayout>
+</RelativeLayout>
 </ScrollView>

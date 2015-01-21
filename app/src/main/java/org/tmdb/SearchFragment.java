@@ -36,7 +36,6 @@ import java.util.Locale;
 /**
  * Created by VLIK on 12.01.2015.
  */
-//TODO rename
 public class SearchFragment extends Fragment implements DataManager.Callback<List<Film>>{
 
     public static final String EXTRA_LANG = "extra_lang";

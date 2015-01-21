@@ -36,7 +36,7 @@ import java.util.Locale;
 /**
  * Created by VLIK on 12.01.2015.
  */
-//TODO rename
+
 public class MainFragment extends Fragment implements DataManager.Callback<List<Film>>{
 
     public static final String EXTRA_LANG = "extra_lang";
@@ -52,7 +52,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     private ViewHolder holder = new ViewHolder();
 
     private String mUrl = "";
-
+    private int currentPosition = 0;
     private Long selectItemID;
 
     private ArrayAdapter mAdapter;
@@ -86,12 +86,11 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
         super.onActivityCreated(savedInstanceState);
 
         mImageLoader = ImageLoader.get(getActivity().getApplicationContext());
-
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
         PAGE = 1;
-
         mUrl = getLanguage();
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -172,6 +171,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
 
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
+                    currentPosition = position;
                     if (convertView == null) {
                         convertView = View.inflate(getActivity().getApplicationContext(), R.layout.adapter_item, null);
                     }
@@ -284,6 +284,12 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
             updateAdapter(data);
         }
         refreshFooter();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
     }
 
     private void updateAdapter(List<Film> data) {

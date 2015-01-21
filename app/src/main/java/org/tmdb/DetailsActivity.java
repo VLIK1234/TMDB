@@ -1,28 +1,24 @@
 package org.tmdb;
 
 import android.annotation.TargetApi;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.SearchView;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
-import android.text.style.TypefaceSpan;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
 import org.tmdb.bo.DescriptionOfTheFilm;
 import org.tmdb.bo.Film;
 import org.tmdb.helper.DataManager;
@@ -32,45 +28,46 @@ import org.tmdb.source.HttpDataSource;
 import org.tmdb.source.TMDBDataSource;
 import org.tmdb.vlik1234.R;
 
-import java.util.Locale;
-
 
 public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film>,SearchView.OnQueryTextListener{
 
-    static class ViewHolder {
-        TextView title;
-        TextView date;
-        TextView genres;
-        TextView tagline;
-        TextView overview;
-        ImageView poster;
-    }
-    private ViewHolder holder = new ViewHolder();
+    private FragmentTransaction fragmentTransaction;
+    private Fragment fragment;
+    private ImageView imageView;
 
     private FilmProcessor mFilmProcessor = new FilmProcessor();
     private ImageLoader mImageLoader;
 
-    String detailUrl;
+    private String detailUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-
-        holder.poster = (ImageView) findViewById(R.id.poster);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mImageLoader = ImageLoader.get(DetailsActivity.this);
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
-        mImageLoader = ImageLoader.get(DetailsActivity.this);
 
         DescriptionOfTheFilm description = getIntent().getParcelableExtra(
                 DescriptionOfTheFilm.class.getCanonicalName());
         this.detailUrl = description.getDetailsUrl();
 
         update(dataSource, processor);
+
+        imageView = (ImageView) findViewById(R.id.backdrop);
+
+        scaleContents(findViewById(R.id.frame_detail));
+        if (savedInstanceState == null) {
+            this.fragment = DetailFragment.newInstance(this.detailUrl);
+
+            this.fragmentTransaction = getFragmentManager().beginTransaction();
+            this.fragmentTransaction.add(R.id.frame_detail, fragment);
+            this.fragmentTransaction.commit();
+        }
     }
+
     private FilmProcessor getProcessor() {
         return mFilmProcessor;
     }
@@ -87,7 +84,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     }
 
     private String getUrl() {
-        return detailUrl+"?language="+ Locale.getDefault().getLanguage()+Film.getAppendToResponse(Film.AppendToResponse.releases);
+        return detailUrl;
     }
 
     @Override
@@ -98,39 +95,75 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(Film data){
-        holder.title = (TextView) findViewById(R.id.title);
-        holder.date = (TextView) findViewById(R.id.date);
-        holder.genres = (TextView) findViewById(R.id.genres);
-        holder.tagline = (TextView) findViewById(R.id.tagline);
-        holder.overview = (TextView) findViewById(R.id.overview);
+        final String urlPoster = data.getBackdropPath(ApiTMDB.SizePoster.original);
+        imageView.setImageBitmap(null);
+        imageView.setTag(urlPoster);
 
-        holder.title.setText(data.getTitle());
-        holder.date.setText(data.getReleaseDate());
+        mImageLoader.loadAndDisplay(urlPoster, imageView);
+    }
+    private void scaleContents(View rootView){
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
 
-        setTitle(holder.title.getText());
+        float correlation = width/height;
 
-        final SpannableString text_tag = new SpannableString("Tagline\n" + data.getTagline());
-        text_tag.setSpan(new StyleSpan(Typeface.BOLD | Typeface.ITALIC), 0, text_tag.length() - data.getTagline().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        text_tag.setSpan(new TypefaceSpan("serif"), text_tag.length() - data.getTagline().length(), text_tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        scaleViewAndChildren(rootView, correlation);
+    }
 
-        if (!data.getTagline().equals("")&&!data.getTagline().equals("null")) holder.tagline.setText(text_tag);
+    public static void scaleViewAndChildren(View root, float correlation){
+        ViewGroup.LayoutParams layoutParams;
+        layoutParams = root.getLayoutParams();
 
-        if (!data.getOverview().equals("null")) holder.overview.setText(data.getOverview());
-        try {
-            holder.genres.setText(data.getGenres());
-        } catch (JSONException e) {
-            e.printStackTrace();//TODO do normal exepction post
+        if (layoutParams.width != ViewGroup.LayoutParams.FILL_PARENT &&
+                layoutParams.width != ViewGroup.LayoutParams.WRAP_CONTENT)
+        {
+            layoutParams.width *= correlation;
+        }
+        if (layoutParams.height != ViewGroup.LayoutParams.FILL_PARENT &&
+                layoutParams.height != ViewGroup.LayoutParams.WRAP_CONTENT)
+        {
+            layoutParams.height *= correlation;
         }
 
-        final String urlPoster = data.getPosterPath(ApiTMDB.SizePoster.w342);
-        holder.poster.setImageBitmap(null);
-        holder.poster.setTag(urlPoster);
 
-        mImageLoader.loadAndDisplay(urlPoster, holder.poster);
+        if (layoutParams instanceof ViewGroup.MarginLayoutParams)
+        {
+            ViewGroup.MarginLayoutParams marginParams =
+                    (ViewGroup.MarginLayoutParams)layoutParams;
+            marginParams.leftMargin *= correlation;
+            marginParams.rightMargin *= correlation;
+            if (correlation<1) {
+                marginParams.topMargin *= correlation+1.3;
+                marginParams.bottomMargin *= correlation;
+            }
+        }
 
-        //Bitmap bitmap = ((BitmapDrawable) holder.poster.getDrawable()).getBitmap();
-        //colorize(bitmap);
+        root.setPadding(
+                (int)(root.getPaddingLeft() * correlation),
+                (int)(root.getPaddingTop() * correlation),
+                (int)(root.getPaddingRight() * correlation),
+                (int)(root.getPaddingBottom() * correlation));
+
+        if (root instanceof TextView)
+        {
+            TextView textView = (TextView)root;
+            textView.setTextSize(textView.getTextSize() * correlation);
+        }
+
+        if (root instanceof ViewGroup)
+        {
+            ViewGroup groupView = (ViewGroup)root;
+            for (int cnt = 0; cnt < groupView.getChildCount(); ++cnt)
+                scaleViewAndChildren(groupView.getChildAt(cnt), correlation);
+        }
     }
+
+    public void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,7 +181,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
             case R.id.action_internet:
                 String parameterSearch = " online";
                 Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-                intent.putExtra(SearchManager.QUERY, holder.title.getText()+ parameterSearch);
+                intent.putExtra(SearchManager.QUERY, getSupportActionBar().getTitle()+ parameterSearch);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 } else {
@@ -161,6 +194,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     }
 
     private void onSearch(String search){
+        //Toast.makeText(DetailsActivity.this,ApiTMDB.getSearchMovie(search),Toast.LENGTH_LONG).show();
         DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(search), search);
         Intent intent = new Intent(DetailsActivity.this, SearchActivity.class);
         intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
@@ -182,17 +216,5 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     @Override
     public void onError(Exception e) {
         e.printStackTrace();
-    }
-
-    private void colorize(Bitmap image) {
-        Palette palette = Palette.generate(image);
-        applyPalette(palette);
-    }
-
-    private void applyPalette(Palette palette) {
-        getWindow().setBackgroundDrawable(new ColorDrawable(palette.getDarkMutedColor().getRgb()));
-
-        holder.title.setTextColor(palette.getVibrantColor().getRgb());
-        holder.overview.setTextColor(palette.getLightVibrantColor().getRgb());
     }
 }

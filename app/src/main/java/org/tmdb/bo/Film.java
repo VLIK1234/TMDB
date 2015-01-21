@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tmdb.ApiTMDB;
+import org.tmdb.AppendToResponseForFilm;
 
 import java.util.Calendar;
 import java.util.List;
@@ -24,20 +25,6 @@ public class Film extends JSONObjectWrapper {
     private static final String GENRES = "genres";
     private static final String TAGLINE = "tagline";
     private static final String TOTAL_PAGES = "total_pages";
-
-    //TODO move out from this class
-    public enum AppendToResponse{
-        alternative_titles,
-        credits,
-        images,
-        keywords,
-        releases,
-        videos,
-        translations,
-        similar,
-        reviews,
-        lists
-    }
 
     private static final String KEY = "KEY";
 
@@ -64,7 +51,7 @@ public class Film extends JSONObjectWrapper {
         super(in);
     }
 
-    public static String getAppendToResponse(AppendToResponse... appResp){
+    public static String getAppendToResponse(AppendToResponseForFilm... appResp){
         StringBuilder sb = new StringBuilder();
         sb.append("&append_to_response=");
 

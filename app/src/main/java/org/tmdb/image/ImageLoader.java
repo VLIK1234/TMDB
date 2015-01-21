@@ -100,7 +100,7 @@ public class ImageLoader {
         this.mContext = context;
         this.mDataSource = mDataSource;
         this.mProcessor = mProcessor;
-        //TODO can be customizable
+
         this.mLoader = new DataManager.Loader<Bitmap, InputStream, String>() {
 
             final int COUNT_CORES = Runtime.getRuntime().availableProcessors();

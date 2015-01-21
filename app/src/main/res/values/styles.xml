@@ -7,12 +7,7 @@
         <item name="colorAccent">@color/accent</item>
         <item name="android:textColor">@color/icons</item>
         <item name="android:button">@color/primary</item>
+        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
-    <style name="Theme.D1NoTitleDim" parent="android:style/Theme.Translucent">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:background">@android:color/transparent</item>
-    </style>
 </resources>

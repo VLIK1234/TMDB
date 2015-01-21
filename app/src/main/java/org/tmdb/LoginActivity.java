@@ -29,6 +29,11 @@ public class LoginActivity extends ActionBarActivity {
         startActivityForResult(intent, REQUEST_CODE_VK);
     }
 
+    public void onAlphaClick(View view) {
+        Intent intent = new Intent(this, AlphaActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_VK);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

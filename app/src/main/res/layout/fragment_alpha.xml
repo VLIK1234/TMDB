@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="120dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:text="You can put this code into any class; then, once your view is loaded, call scaleContents and pass your
+content view and your container view. Magically, your content view will then scale properly to every
+display regardless of size, pixel density, or shape.
+Note: if you’re doing this in an Activity, the right way to do it is to override onWindowFocusChanged; if
+you try to do it in onCreate you’ll be in for a nasty surprise, since the views haven’t yet been assigned
+sizes at that point. This results in the scaling factors being computed as NaN, and your UI goes away
+entirely.
+Here is the vastly-simplified layout for the calculator app using this code (again, most properties not
+relevant to the layout have been elided). Note that we’re using a RelativeLayout to handle arranging the
+controls, since we no longer have to use LinearLayouts in order to get the scaling behavior. I’ve elided
+the layout alignment properties for clarity, but you can easily imagine what they ought to be. "/>
+
+</RelativeLayout>
