@@ -31,7 +31,10 @@ import org.tmdb.vlik1234.R;
 
 public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film>,SearchView.OnQueryTextListener{
 
+    //TODO use support.v4
+    //TODO remove
     private FragmentTransaction fragmentTransaction;
+    //TODO remove
     private Fragment fragment;
     private ImageView imageView;
 
@@ -58,6 +61,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
 
         imageView = (ImageView) findViewById(R.id.backdrop);
 
+        //TODO move this magic to the layots, for example
+        //layout-land and layout that will be <include> some common view and add margins
         scaleContents(findViewById(R.id.frame_detail));
         if (savedInstanceState == null) {
             this.fragment = DetailFragment.newInstance(this.detailUrl);
@@ -116,6 +121,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         ViewGroup.LayoutParams layoutParams;
         layoutParams = root.getLayoutParams();
 
+        //TODO format
         if (layoutParams.width != ViewGroup.LayoutParams.FILL_PARENT &&
                 layoutParams.width != ViewGroup.LayoutParams.WRAP_CONTENT)
         {
@@ -170,6 +176,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         getMenuInflater().inflate(R.menu.detail, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        //TODO move to resources
         searchView.setQueryHint("Search");
         searchView.setOnQueryTextListener(this);
         return true;

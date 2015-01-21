@@ -122,10 +122,12 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
         ((DetailsActivity) getActivity()).setActionBarTitle(holder.title.getText().toString());
 
+        //TODO resources
         final SpannableString text_tag = new SpannableString("Tagline\n" + data.getTagline());
         text_tag.setSpan(new StyleSpan(Typeface.BOLD | Typeface.ITALIC), 0, text_tag.length() - data.getTagline().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         text_tag.setSpan(new TypefaceSpan("serif"), text_tag.length() - data.getTagline().length(), text_tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+        //TODO need check "null" add pruff link
         if (!data.getTagline().equals("")&&!data.getTagline().equals("null")) holder.tagline.setText(text_tag);
 
         if (!data.getOverview().equals("null")) holder.overview.setText(data.getOverview());
@@ -145,6 +147,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         //colorize(bitmap);
     }
 
+    //TODO check errors dialog
     @Override
     public void onError(Exception e) {
         e.printStackTrace();

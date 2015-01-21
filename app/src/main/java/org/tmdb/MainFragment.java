@@ -40,6 +40,7 @@ import java.util.Locale;
 public class MainFragment extends Fragment implements DataManager.Callback<List<Film>>{
 
     public static final String EXTRA_LANG = "extra_lang";
+    //TODO static
     public static int PAGE;
 
     static class ViewHolder {
@@ -52,6 +53,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     private ViewHolder holder = new ViewHolder();
 
     private String mUrl = "";
+    //TODO m* or without
     private int currentPosition = 0;
     private Long selectItemID;
 
@@ -74,7 +76,10 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
         err = (TextView)v.findViewById(R.id.errorr);
         empty = (TextView)v.findViewById(R.id.emptyr);
         progressBar = (ProgressBar)v.findViewById(R.id.progressr);
+        //TODO why only 2 rrrrrrr?
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_containerr);
+
+        //TODO what is mean listrrrr? use android.R.id.list
         listView = (ListView)v.findViewById(R.id.listr);
         //listView = (AbsListView)v.findViewById(R.id.listr);
         return v;
@@ -88,6 +93,8 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
         mImageLoader = ImageLoader.get(getActivity().getApplicationContext());
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
+
+        //TODO why static?
         PAGE = 1;
         mUrl = getLanguage();
 
@@ -152,6 +159,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(List<Film> data) {
+        //TODO
         PAGE=1;
         if (mSwipeRefreshLayout.isRefreshing()) {
 
@@ -162,6 +170,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
             empty.setVisibility(View.VISIBLE);
         }
 
+        //TODO {}
         if(footerProgress==null)
             footerProgress = View.inflate(getActivity().getApplicationContext(), R.layout.view_footer_progress, null);
         refreshFooter();

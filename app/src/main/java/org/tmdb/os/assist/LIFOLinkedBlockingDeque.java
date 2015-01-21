@@ -1,5 +1,8 @@
 package org.tmdb.os.assist;
 
+import org.tmdb.MainFragment;
+
+import java.util.Random;
 import java.util.concurrent.LinkedBlockingDeque;
 
 /**
