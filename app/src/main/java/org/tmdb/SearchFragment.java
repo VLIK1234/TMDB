@@ -70,11 +70,11 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
-        err = (TextView)v.findViewById(R.id.errorr);
-        empty = (TextView)v.findViewById(R.id.emptyr);
-        progressBar = (ProgressBar)v.findViewById(R.id.progressr);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_containerr);
-        listView = (ListView)v.findViewById(R.id.listr);
+        err = (TextView)v.findViewById(R.id.error);
+        empty = (TextView)v.findViewById(R.id.empty);
+        progressBar = (ProgressBar)v.findViewById(R.id.progress);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_container);
+        listView = (ListView)v.findViewById(R.id.list);
         //listView = (AbsListView)v.findViewById(R.id.listr);
         return v;
     }

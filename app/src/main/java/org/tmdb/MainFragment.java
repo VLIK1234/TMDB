@@ -40,8 +40,8 @@ import java.util.Locale;
 public class MainFragment extends Fragment implements DataManager.Callback<List<Film>>{
 
     public static final String EXTRA_LANG = "extra_lang";
-    //TODO static
-    public static int PAGE;
+
+    private int PAGE;
 
     static class ViewHolder {
         TextView title;
@@ -52,18 +52,17 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
 
     private ViewHolder holder = new ViewHolder();
 
-    private String mUrl = "";
+    private String url  = "";
     //TODO m* or without
     private int currentPosition = 0;
     private Long selectItemID;
 
-    private ArrayAdapter mAdapter;
-    private FilmArrayProcessor mFilmArrayProcessor = new FilmArrayProcessor();
-    private ImageLoader mImageLoader;
+    private ArrayAdapter adapter;
+    private FilmArrayProcessor filmArrayProcessor = new FilmArrayProcessor();
+    private ImageLoader imageLoader;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    public ListView listView;
-    //public AbsListView listView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ListView listView;
     private TextView err;
     private TextView empty;
     private ProgressBar progressBar;
@@ -72,33 +71,25 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-
-        err = (TextView)v.findViewById(R.id.errorr);
-        empty = (TextView)v.findViewById(R.id.emptyr);
-        progressBar = (ProgressBar)v.findViewById(R.id.progressr);
-        //TODO why only 2 rrrrrrr?
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_containerr);
-
-        //TODO what is mean listrrrr? use android.R.id.list
-        listView = (ListView)v.findViewById(R.id.listr);
-        //listView = (AbsListView)v.findViewById(R.id.listr);
+        err = (TextView)v.findViewById(R.id.error);
+        empty = (TextView)v.findViewById(R.id.empty);
+        progressBar = (ProgressBar)v.findViewById(R.id.progress);
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_container);
+        listView = (ListView)v.findViewById(R.id.list);
         return v;
     }
 
-    //Information about why code are here - http://stackoverflow.com/questions/8041206/android-fragment-oncreateview-vs-onactivitycreated
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        mImageLoader = ImageLoader.get(getActivity().getApplicationContext());
+        imageLoader = ImageLoader.get(getActivity().getApplicationContext());
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
 
-        //TODO why static?
         PAGE = 1;
-        mUrl = getLanguage();
+        url = getLanguage();
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 PAGE = 1;
@@ -122,7 +113,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     }
 
     private FilmArrayProcessor getProcessor() {
-        return mFilmArrayProcessor;
+        return filmArrayProcessor;
     }
 
     private HttpDataSource getHttpDataSource() {
@@ -137,33 +128,27 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     }
 
     private String getUrl(int page) {
-        return mUrl+"&page="+page+"&language="+ Locale.getDefault().getLanguage();
+        return url +"?page="+page+"&language="+ Locale.getDefault().getLanguage();
     }
 
     @Override
     public void onDataLoadStart() {
-        if (!mSwipeRefreshLayout.isRefreshing()) {
+        if (!swipeRefreshLayout.isRefreshing()) {
             progressBar.setVisibility(View.VISIBLE);
         }
         empty.setVisibility(View.GONE);
     }
 
     private List<Film> mData;
-
     private boolean isPagingEnabled = true;
-
     private View footerProgress;
-
     private boolean isImageLoaderControlledByDataManager = false;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(List<Film> data) {
-        //TODO
-        PAGE=1;
-        if (mSwipeRefreshLayout.isRefreshing()) {
-
-            mSwipeRefreshLayout.setRefreshing(false);
+        if (swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
         }
         progressBar.setVisibility(View.GONE);
         if (data == null || data.isEmpty()) {
@@ -171,12 +156,13 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
         }
 
         //TODO {}
-        if(footerProgress==null)
+        if(footerProgress==null) {
             footerProgress = View.inflate(getActivity().getApplicationContext(), R.layout.view_footer_progress, null);
+        }
         refreshFooter();
-        if (mAdapter == null) {
+        if (adapter == null) {
             mData = data;
-            mAdapter = new ArrayAdapter<Film>(getActivity().getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data) {
+            adapter = new ArrayAdapter<Film>(getActivity().getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data) {
 
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
@@ -198,18 +184,17 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                     convertView.setTag(item.getId());
                     final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
                     final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
-                    mImageLoader.loadAndDisplay(url, poster);
+                    imageLoader.loadAndDisplay(url, poster);
                     return convertView;
                 }
 
             };
             listView.setFooterDividersEnabled(true);
             listView.addFooterView(footerProgress, null, false);
-            listView.setAdapter(mAdapter);
+            listView.setAdapter(adapter);
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
                 private int previousTotal = 0;
-
                 private int visibleThreshold = 5;
 
                 @Override
@@ -217,17 +202,17 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                     switch (scrollState) {
                         case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                             if (!isImageLoaderControlledByDataManager) {
-                                mImageLoader.resume();
+                                imageLoader.resume();
                             }
                             break;
                         case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
                             if (!isImageLoaderControlledByDataManager) {
-                                mImageLoader.pause();
+                                imageLoader.pause();
                             }
                             break;
                         case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
                             if (!isImageLoaderControlledByDataManager) {
-                                mImageLoader.pause();
+                                imageLoader.pause();
                             }
                             break;
                     }
@@ -247,21 +232,21 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                         DataManager.loadData(new DataManager.Callback<List<Film>>() {
                                                  @Override
                                                  public void onDataLoadStart() {
-                                                     mImageLoader.pause();
+                                                     imageLoader.pause();
                                                  }
 
                                                  @Override
                                                  public void onDone(List<Film> data) {
                                                      updateAdapter(data);
                                                      refreshFooter();
-                                                     mImageLoader.resume();
+                                                     imageLoader.resume();
                                                      isImageLoaderControlledByDataManager = false;
                                                  }
 
                                                  @Override
                                                  public void onError(Exception e) {
                                                      MainFragment.this.onError(e);
-                                                     mImageLoader.resume();
+                                                     imageLoader.resume();
                                                      isImageLoaderControlledByDataManager = false;
                                                  }
                                              },
@@ -274,7 +259,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Film item = (Film) mAdapter.getItem(position);
+                    Film item = (Film) adapter.getItem(position);
                     selectItemID = item.getId();
 
                     DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(selectItemID));
@@ -298,7 +283,6 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
     }
 
     private void updateAdapter(List<Film> data) {
@@ -312,7 +296,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
         if (data != null) {
             mData.addAll(data);
         }
-        mAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
     public static int getRealAdapterCount(ListAdapter adapter) {

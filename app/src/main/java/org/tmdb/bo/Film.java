@@ -68,9 +68,15 @@ public class Film extends JSONObjectWrapper {
         return getString(TITLE);
     }
     public String getTagline() {
+        if (getString(TAGLINE).equals("null")){
+            return "";
+        }
         return getString(TAGLINE);
     }
     public String getOverview() {
+        if (getString(OVERVIEW).equals("null")){
+            return "";
+        }
         return getString(OVERVIEW);
     }
 

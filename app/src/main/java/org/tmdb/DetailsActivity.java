@@ -10,13 +10,9 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.tmdb.bo.DescriptionOfTheFilm;
@@ -48,6 +44,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         mImageLoader = ImageLoader.get(DetailsActivity.this);
         final HttpDataSource dataSource = getHttpDataSource();
@@ -61,9 +58,6 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
 
         imageView = (ImageView) findViewById(R.id.backdrop);
 
-        //TODO move this magic to the layots, for example
-        //layout-land and layout that will be <include> some common view and add margins
-        scaleContents(findViewById(R.id.frame_detail));
         if (savedInstanceState == null) {
             this.fragment = DetailFragment.newInstance(this.detailUrl);
 
@@ -100,70 +94,11 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(Film data){
-        final String urlPoster = data.getBackdropPath(ApiTMDB.SizePoster.original);
+        final String urlPoster = data.getBackdropPath(ApiTMDB.SizePoster.w1280);
         imageView.setImageBitmap(null);
         imageView.setTag(urlPoster);
 
         mImageLoader.loadAndDisplay(urlPoster, imageView);
-    }
-    private void scaleContents(View rootView){
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int height = displaymetrics.heightPixels;
-        int width = displaymetrics.widthPixels;
-
-        float correlation = width/height;
-
-        scaleViewAndChildren(rootView, correlation);
-    }
-
-    public static void scaleViewAndChildren(View root, float correlation){
-        ViewGroup.LayoutParams layoutParams;
-        layoutParams = root.getLayoutParams();
-
-        //TODO format
-        if (layoutParams.width != ViewGroup.LayoutParams.FILL_PARENT &&
-                layoutParams.width != ViewGroup.LayoutParams.WRAP_CONTENT)
-        {
-            layoutParams.width *= correlation;
-        }
-        if (layoutParams.height != ViewGroup.LayoutParams.FILL_PARENT &&
-                layoutParams.height != ViewGroup.LayoutParams.WRAP_CONTENT)
-        {
-            layoutParams.height *= correlation;
-        }
-
-
-        if (layoutParams instanceof ViewGroup.MarginLayoutParams)
-        {
-            ViewGroup.MarginLayoutParams marginParams =
-                    (ViewGroup.MarginLayoutParams)layoutParams;
-            marginParams.leftMargin *= correlation;
-            marginParams.rightMargin *= correlation;
-            if (correlation<1) {
-                marginParams.topMargin *= correlation+1.3;
-                marginParams.bottomMargin *= correlation;
-            }
-        }
-
-        root.setPadding(
-                (int)(root.getPaddingLeft() * correlation),
-                (int)(root.getPaddingTop() * correlation),
-                (int)(root.getPaddingRight() * correlation),
-                (int)(root.getPaddingBottom() * correlation));
-
-        if (root instanceof TextView)
-        {
-            TextView textView = (TextView)root;
-            textView.setTextSize(textView.getTextSize() * correlation);
-        }
-
-        if (root instanceof ViewGroup)
-        {
-            ViewGroup groupView = (ViewGroup)root;
-            for (int cnt = 0; cnt < groupView.getChildCount(); ++cnt)
-                scaleViewAndChildren(groupView.getChildAt(cnt), correlation);
-        }
     }
 
     public void setActionBarTitle(String title){

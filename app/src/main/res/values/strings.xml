@@ -16,7 +16,7 @@
     <string name="app_not_available">Sorry, there\'s no web browser available.</string>
 
 
-    <string name="poster_content_description">Poster</string>
+    <string name="poster_description">Poster</string>
     <string name="backdrop_content_description">Backdrop</string>
 
     <string name="button_log_noauth">No Auth</string>
@@ -25,6 +25,9 @@
     <string name="search_hint">Search</string>
 
     <string name="edit_txt">Login</string>
+    <string name="tagline">Tagline\n</string>
+    <string name="serif">serif</string>
+    <string name="no_poster">no poster</string>
 
 
 </resources>

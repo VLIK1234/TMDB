@@ -61,7 +61,6 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.genres = (TextView) v.findViewById(R.id.genres);
         holder.tagline = (TextView) v.findViewById(R.id.tagline);
         holder.overview = (TextView) v.findViewById(R.id.overview);
-
         return v;
     }
 
@@ -73,7 +72,6 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         mImageLoader = ImageLoader.get(getActivity().getApplicationContext());
 
         this.detailUrl = getLanguage();
-
         update(dataSource, processor);
     }
 
@@ -121,16 +119,18 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.date.setText(data.getReleaseDate());
 
         ((DetailsActivity) getActivity()).setActionBarTitle(holder.title.getText().toString());
+        final SpannableString text_tag;
+        if (!data.getTagline().equals("")&&data.getTagline()!=null) {
+            text_tag = new SpannableString(getString(R.string.tagline) + data.getTagline());
+            text_tag.setSpan(new StyleSpan(Typeface.BOLD | Typeface.ITALIC), 0, text_tag.length() - data.getTagline().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            text_tag.setSpan(new TypefaceSpan(getString(R.string.serif)), text_tag.length() - data.getTagline().length(), text_tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.tagline.setText(text_tag);
+        }
 
-        //TODO resources
-        final SpannableString text_tag = new SpannableString("Tagline\n" + data.getTagline());
-        text_tag.setSpan(new StyleSpan(Typeface.BOLD | Typeface.ITALIC), 0, text_tag.length() - data.getTagline().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        text_tag.setSpan(new TypefaceSpan("serif"), text_tag.length() - data.getTagline().length(), text_tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (data.getOverview()!=null){
+            holder.overview.setText(data.getOverview());
+        }
 
-        //TODO need check "null" add pruff link
-        if (!data.getTagline().equals("")&&!data.getTagline().equals("null")) holder.tagline.setText(text_tag);
-
-        if (!data.getOverview().equals("null")) holder.overview.setText(data.getOverview());
         try {
             holder.genres.setText(data.getGenres());
         } catch (JSONException e) {
