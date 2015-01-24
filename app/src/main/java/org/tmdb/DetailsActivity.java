@@ -24,6 +24,9 @@ import org.tmdb.source.HttpDataSource;
 import org.tmdb.source.TMDBDataSource;
 import org.tmdb.vlik1234.R;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 
 public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film>,SearchView.OnQueryTextListener{
 
@@ -135,9 +138,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         }
     }
 
-    private void onSearch(String search){
-        //Toast.makeText(DetailsActivity.this,ApiTMDB.getSearchMovie(search),Toast.LENGTH_LONG).show();
-        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(search), search);
+    private void onSearch(String search) throws UnsupportedEncodingException {
+        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(URLEncoder.encode(search,getString(R.string.utf_8))), search);
         Intent intent = new Intent(DetailsActivity.this, SearchActivity.class);
         intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
         startActivity(intent);
@@ -146,7 +148,11 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        onSearch(s);
+        try {
+            onSearch(s);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 

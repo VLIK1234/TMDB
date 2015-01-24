@@ -28,6 +28,7 @@
     <string name="tagline">Tagline\n</string>
     <string name="serif">serif</string>
     <string name="no_poster">no poster</string>
+    <string name="utf_8">UTF-8</string>
 
 
 </resources>

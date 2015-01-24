@@ -152,7 +152,6 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(List<Film> data) {
-        PAGE=1;
         if (mSwipeRefreshLayout.isRefreshing()) {
 
             mSwipeRefreshLayout.setRefreshing(false);

@@ -13,6 +13,9 @@ import android.view.MenuItem;
 import org.tmdb.bo.DescriptionOfTheFilm;
 import org.tmdb.vlik1234.R;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * Created by VLIK on 18.01.2015.
  */
@@ -58,8 +61,8 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
         return true;
     }
 
-    private void onSearch(String search){
-        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(search), search);
+    private void onSearch(String search) throws UnsupportedEncodingException {
+        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(URLEncoder.encode(search, getString(R.string.utf_8))), search);
         Intent intent = getIntent();
         intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
         finish();
@@ -69,7 +72,11 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        onSearch(s);
+        try {
+            onSearch(s);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 

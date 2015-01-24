@@ -34,11 +34,10 @@ public class ApiTMDB {
     public static final String ON_THE_AIR_GET = BASE_PATH + ON_THE_AIR;
     public static final String DISCOVER_MOVIE_GET = BASE_PATH + DISCOVER_MOVIE;
     public static  String getSearchMovie(String query){
-        StringBuilder sb = new StringBuilder(query.replaceAll("[ ]+", "+"));
-        return BASE_PATH + SEARCH_MOVIE + "?query="+sb.toString()+"&search_type=ngram";}
-    public static final String getNowPlayingGet(int pageNumber){return BASE_PATH + NOW_PLAYING;}//+ PAGE + pageNumber;
-    public static  String getMovie(Long id){return BASE_PATH + MOVIE + id;}
-    public static  String getTV(Long id){return BASE_PATH + TV + id;}
+        return BASE_PATH + SEARCH_MOVIE + "?query="+query+"&search_type=phrase";}
+    public static String getNowPlayingGet(int pageNumber){return BASE_PATH + NOW_PLAYING;}//+ PAGE + pageNumber;
+    public static String getMovie(Long id){return BASE_PATH + MOVIE + id;}
+    public static String getTV(Long id){return BASE_PATH + TV + id;}
 
 
 }

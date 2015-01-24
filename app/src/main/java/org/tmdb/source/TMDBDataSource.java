@@ -29,10 +29,7 @@ public class TMDBDataSource extends HttpDataSource {
     @Override
     public InputStream getResult(String baseUrlAndAppResponse) throws Exception {
         StringBuilder sb = new StringBuilder();
-
         sb.append(sign(baseUrlAndAppResponse));
-        //Locale.getDefault().getLanguage()
-        //sb.append("&language=ru");
 
         return super.getResult(sb.toString());
     }
