@@ -7,11 +7,8 @@ import android.os.Parcelable;
  * Created by VLIK on 12.01.2015.
  */
 public class DescriptionOfTheFilm implements Parcelable{
-
-
-
     private String detailsUrl;
-    String queryWord;
+    private String queryWord;
 
     public DescriptionOfTheFilm(String id) {
         this.detailsUrl = id;

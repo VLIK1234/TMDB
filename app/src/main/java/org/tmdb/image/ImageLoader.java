@@ -39,52 +39,48 @@ public class ImageLoader {
 
     private class BitmapLoader implements Runnable {
 
-        private Handler mHandler;
-
-        private DataManager.Callback<Bitmap> mCallback;
-        private String mS;
-        private DataSource<InputStream, String> mDataSource;
-        private Processor<Bitmap, InputStream> mProcessor;
+        private Handler handler;
+        private DataManager.Callback<Bitmap> callback;
+        private String string;
+        private DataSource<InputStream, String> dataSource;
+        private Processor<Bitmap, InputStream> processor;
 
         public BitmapLoader(Handler handler, DataManager.Callback<Bitmap> callback, String s, DataSource<InputStream, String> DataSource, Processor<Bitmap, InputStream> Processor) {
-            this.mHandler = handler;
-            this.mCallback = callback;
-            this.mS = s;
-            this.mDataSource = DataSource;
-            this.mProcessor = Processor;
+            this.handler = handler;
+            this.callback = callback;
+            this.string = s;
+            this.dataSource = DataSource;
+            this.processor = Processor;
         }
 
         @Override
         public void run() {
             try {
-                InputStream result = mDataSource.getResult(mS);
-                final Bitmap bitmap = mProcessor.process(result);
-                mHandler.post(new Runnable() {
+                InputStream result = dataSource.getResult(string);
+                final Bitmap bitmap = processor.process(result);
+                handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mCallback.onDone(bitmap);
+                        callback.onDone(bitmap);
                     }
                 });
             } catch (final Exception e) {
-                mHandler.post(new Runnable() {
+                handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mCallback.onError(e);
+                        callback.onError(e);
                     }
                 });
             }
         }
     }
 
-    private Context mContext;
+    private Context context;
+    private DataSource<InputStream, String> dataSource;
+    private Processor<Bitmap, InputStream> processor;
+    private DataManager.Loader<Bitmap, InputStream, String> loader;
 
-    private DataSource<InputStream, String> mDataSource;
-
-    private Processor<Bitmap, InputStream> mProcessor;
-
-    private DataManager.Loader<Bitmap, InputStream, String> mLoader;
-
-    private LruCache<String, Bitmap> mLruCache = new LruCache<String, Bitmap>(MAX_SIZE) {
+    private LruCache<String, Bitmap> lruCache = new LruCache<String, Bitmap>(MAX_SIZE) {
 
         @Override
         protected int sizeOf(String key, Bitmap value) {
@@ -97,11 +93,11 @@ public class ImageLoader {
     };
 
     public ImageLoader(Context context, DataSource<InputStream, String> mDataSource, Processor<Bitmap, InputStream> mProcessor) {
-        this.mContext = context;
-        this.mDataSource = mDataSource;
-        this.mProcessor = mProcessor;
+        this.context = context;
+        this.dataSource = mDataSource;
+        this.processor = mProcessor;
 
-        this.mLoader = new DataManager.Loader<Bitmap, InputStream, String>() {
+        this.loader = new DataManager.Loader<Bitmap, InputStream, String>() {
 
             final int COUNT_CORES = Runtime.getRuntime().availableProcessors();
             private ExecutorService executorService = new ThreadPoolExecutor(COUNT_CORES, COUNT_CORES, 0, TimeUnit.MILLISECONDS,
@@ -144,7 +140,7 @@ public class ImageLoader {
     private Set<ImageView> delayedImagesViews = new HashSet<ImageView>();
 
     public void loadAndDisplay(final String url, final ImageView imageView) {
-        Bitmap bitmap = mLruCache.get(url);
+        Bitmap bitmap = lruCache.get(url);
         imageView.setImageBitmap(bitmap);
         imageView.setTag(url);
         if (bitmap != null) {
@@ -167,7 +163,7 @@ public class ImageLoader {
                 @Override
                 public void onDone(Bitmap bitmap) {
                     if (bitmap != null) {
-                        mLruCache.put(url, bitmap);
+                        lruCache.put(url, bitmap);
                     }
                     if (url.equals(imageView.getTag())) {
                         imageView.setImageBitmap(bitmap);
@@ -179,7 +175,7 @@ public class ImageLoader {
 
                 }
 
-            }, url, mDataSource, mProcessor, mLoader);
+            }, url, dataSource, processor, loader);
         }
     }
 }

@@ -18,9 +18,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
-/**
- * Created by VLIK on 04.11.2014.
- */
 public class JSONParser {
     static InputStream is = null;
     static JSONObject jObj = null;
@@ -64,7 +61,6 @@ public class JSONParser {
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
-
 
         return jObj;
     }

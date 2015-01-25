@@ -14,7 +14,7 @@ public class FilmProcessor implements Processor<Film,InputStream>{
     @Override
     public Film process(InputStream inputStream) throws Exception {
         String string = new StringProcessor().process(inputStream);
-       JSONObject jsonObject = new JSONObject(string);
+        JSONObject jsonObject = new JSONObject(string);
 
         Film film = new Film(jsonObject);
         film.initTitle();

@@ -39,7 +39,7 @@ import java.util.Locale;
 public class SearchFragment extends Fragment implements DataManager.Callback<List<Film>>{
 
     public static final String EXTRA_LANG = "extra_lang";
-    public static int PAGE;
+    private int PAGE;
 
     static class ViewHolder {
         TextView title;
@@ -50,17 +50,16 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
 
     private ViewHolder holder = new ViewHolder();
 
-    private String mUrl = "";
+    private String url = "";
 
     private Long selectItemID;
 
-    private ArrayAdapter mAdapter;
-    private FilmArrayProcessor mFilmArrayProcessor = new FilmArrayProcessor();
-    private ImageLoader mImageLoader;
+    private ArrayAdapter adapter;
+    private FilmArrayProcessor filmArrayProcessor = new FilmArrayProcessor();
+    private ImageLoader imageLoader;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    public ListView listView;
-    //public AbsListView listView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ListView listView;
     private TextView err;
     private TextView empty;
     private ProgressBar progressBar;
@@ -73,25 +72,21 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
         err = (TextView)v.findViewById(R.id.error);
         empty = (TextView)v.findViewById(R.id.empty);
         progressBar = (ProgressBar)v.findViewById(R.id.progress);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_container);
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_container);
         listView = (ListView)v.findViewById(R.id.list);
-        //listView = (AbsListView)v.findViewById(R.id.listr);
         return v;
     }
 
-    //Information about why code are here - http://stackoverflow.com/questions/8041206/android-fragment-oncreateview-vs-onactivitycreated
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        mImageLoader = ImageLoader.get(getActivity().getApplicationContext());
-
+        imageLoader = ImageLoader.get(getActivity().getApplicationContext());
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
         PAGE = 1;
 
-        mUrl = getLanguage();
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        url = getLanguage();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 PAGE = 1;
@@ -115,7 +110,7 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
     }
 
     private FilmArrayProcessor getProcessor() {
-        return mFilmArrayProcessor;
+        return filmArrayProcessor;
     }
 
     private HttpDataSource getHttpDataSource() {
@@ -130,43 +125,41 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
     }
 
     private String getUrl(int page) {
-        return mUrl+"&page="+page+"&language="+ Locale.getDefault().getLanguage();
+        StringBuilder controlUrl = new StringBuilder(url);
+        controlUrl.append(ApiTMDB.getPage(controlUrl.toString(), page));
+        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Locale.getDefault().getLanguage());
+        return controlUrl.toString();
     }
 
     @Override
     public void onDataLoadStart() {
-        if (!mSwipeRefreshLayout.isRefreshing()) {
+        if (!swipeRefreshLayout.isRefreshing()) {
             progressBar.setVisibility(View.VISIBLE);
         }
         empty.setVisibility(View.GONE);
     }
 
-    private List<Film> mData;
-
+    private List<Film> data;
     private boolean isPagingEnabled = true;
-
     private View footerProgress;
-
     private boolean isImageLoaderControlledByDataManager = false;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(List<Film> data) {
-        if (mSwipeRefreshLayout.isRefreshing()) {
-
-            mSwipeRefreshLayout.setRefreshing(false);
+        if (swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
         }
         progressBar.setVisibility(View.GONE);
         if (data == null || data.isEmpty()) {
             empty.setVisibility(View.VISIBLE);
         }
-
         if(footerProgress==null)
             footerProgress = View.inflate(getActivity().getApplicationContext(), R.layout.view_footer_progress, null);
         refreshFooter();
-        if (mAdapter == null) {
-            mData = data;
-            mAdapter = new ArrayAdapter<Film>(getActivity().getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data) {
+        if (adapter == null) {
+            this.data = data;
+            adapter = new ArrayAdapter<Film>(getActivity().getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data) {
 
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
@@ -187,18 +180,17 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
                     convertView.setTag(item.getId());
                     final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
                     final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
-                    mImageLoader.loadAndDisplay(url, poster);
+                    imageLoader.loadAndDisplay(url, poster);
                     return convertView;
                 }
 
             };
             listView.setFooterDividersEnabled(true);
             listView.addFooterView(footerProgress, null, false);
-            listView.setAdapter(mAdapter);
+            listView.setAdapter(adapter);
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
                 private int previousTotal = 0;
-
                 private int visibleThreshold = 5;
 
                 @Override
@@ -206,17 +198,17 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
                     switch (scrollState) {
                         case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                             if (!isImageLoaderControlledByDataManager) {
-                                mImageLoader.resume();
+                                imageLoader.resume();
                             }
                             break;
                         case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
                             if (!isImageLoaderControlledByDataManager) {
-                                mImageLoader.pause();
+                                imageLoader.pause();
                             }
                             break;
                         case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
                             if (!isImageLoaderControlledByDataManager) {
-                                mImageLoader.pause();
+                                imageLoader.pause();
                             }
                             break;
                     }
@@ -236,21 +228,21 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
                         DataManager.loadData(new DataManager.Callback<List<Film>>() {
                                                  @Override
                                                  public void onDataLoadStart() {
-                                                     mImageLoader.pause();
+                                                     imageLoader.pause();
                                                  }
 
                                                  @Override
                                                  public void onDone(List<Film> data) {
                                                      updateAdapter(data);
                                                      refreshFooter();
-                                                     mImageLoader.resume();
+                                                     imageLoader.resume();
                                                      isImageLoaderControlledByDataManager = false;
                                                  }
 
                                                  @Override
                                                  public void onError(Exception e) {
                                                      SearchFragment.this.onError(e);
-                                                     mImageLoader.resume();
+                                                     imageLoader.resume();
                                                      isImageLoaderControlledByDataManager = false;
                                                  }
                                              },
@@ -263,7 +255,7 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Film item = (Film) mAdapter.getItem(position);
+                    Film item = (Film) adapter.getItem(position);
                     selectItemID = item.getId();
 
                     DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(selectItemID));
@@ -272,13 +264,9 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
                     startActivity(intent);
                 }
             });
-            if (data != null && data.size() == 100) {
-                isPagingEnabled = true;
-            } else {
-                isPagingEnabled = false;
-            }
+            isPagingEnabled = data != null && data.size() == 100;
         } else {
-            mData.clear();
+            this.data.clear();
             updateAdapter(data);
         }
         refreshFooter();
@@ -293,9 +281,9 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
             listView.removeFooterView(footerProgress);
         }
         if (data != null) {
-            mData.addAll(data);
+            this.data.addAll(data);
         }
-        mAdapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
     public static int getRealAdapterCount(ListAdapter adapter) {

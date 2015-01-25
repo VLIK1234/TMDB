@@ -28,10 +28,7 @@ public class TMDBDataSource extends HttpDataSource {
 
     @Override
     public InputStream getResult(String baseUrlAndAppResponse) throws Exception {
-        StringBuilder sb = new StringBuilder();
-        sb.append(sign(baseUrlAndAppResponse));
-
-        return super.getResult(sb.toString());
+        return super.getResult(sign(baseUrlAndAppResponse));
     }
 
 }

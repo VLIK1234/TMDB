@@ -29,6 +29,8 @@
     <string name="serif">serif</string>
     <string name="no_poster">no poster</string>
     <string name="utf_8">UTF-8</string>
-
+    <string name="search_by">"Search by "</string>
+    <string name="now_playing">Now playing</string>
+    <string name="parameter_search">" online"</string>
 
 </resources>

@@ -11,56 +11,56 @@ import org.tmdb.source.VkDataSource;
 
 public class CoreApplication extends Application {
 
-    private HttpDataSource mHttpDataSource;
-    private VkDataSource mVkDataSource;
-    private TMDBDataSource mTMDBDataSource;
-    private ImageLoader mImageLoader;
-    private CachedDataSource mCachedDataSource;
+    private HttpDataSource httpDataSource;
+    private VkDataSource vkDataSource;
+    private TMDBDataSource tmdbDataSource;
+    private ImageLoader imageLoader;
+    private CachedDataSource cachedDataSource;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mHttpDataSource = new HttpDataSource();
-        mVkDataSource = new VkDataSource();
-        mTMDBDataSource = new TMDBDataSource();
+        httpDataSource = new HttpDataSource();
+        vkDataSource = new VkDataSource();
+        tmdbDataSource = new TMDBDataSource();
     }
 
     @Override
     public Object getSystemService(String name) {
         if (ImageLoader.KEY.equals(name)) {
             //for android kitkat +
-            if (mImageLoader == null) {
-                mImageLoader = new ImageLoader(this);
+            if (imageLoader == null) {
+                imageLoader = new ImageLoader(this);
             }
-            return mImageLoader;
+            return imageLoader;
         }
         if (CachedDataSource.KEY.equals(name)) {
             //for android kitkat +
-            if (mCachedDataSource == null) {
-                mCachedDataSource = new CachedDataSource(this);
+            if (cachedDataSource == null) {
+                cachedDataSource = new CachedDataSource(this);
             }
-            return mCachedDataSource;
+            return cachedDataSource;
         }
         if (HttpDataSource.KEY.equals(name)) {
             //for android kitkat +
-            if (mHttpDataSource == null) {
-                mHttpDataSource = new HttpDataSource();
+            if (httpDataSource == null) {
+                httpDataSource = new HttpDataSource();
             }
-            return mHttpDataSource;
+            return httpDataSource;
         }
         if (VkDataSource.KEY.equals(name)) {
             //for android kitkat +
-            if (mVkDataSource == null) {
-                mVkDataSource = new VkDataSource();
+            if (vkDataSource == null) {
+                vkDataSource = new VkDataSource();
             }
-            return mVkDataSource;
+            return vkDataSource;
         }
         if (TMDBDataSource.KEY.equals(name)) {
             //for android kitkat +
-            if (mTMDBDataSource == null) {
-                mTMDBDataSource = new  TMDBDataSource();
+            if (tmdbDataSource == null) {
+                tmdbDataSource = new  TMDBDataSource();
             }
-            return  mTMDBDataSource;
+            return tmdbDataSource;
         }
         return super.getSystemService(name);
     }

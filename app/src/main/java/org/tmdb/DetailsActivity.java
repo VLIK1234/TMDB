@@ -37,8 +37,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     private Fragment fragment;
     private ImageView imageView;
 
-    private FilmProcessor mFilmProcessor = new FilmProcessor();
-    private ImageLoader mImageLoader;
+    private FilmProcessor filmProcessor = new FilmProcessor();
+    private ImageLoader imageLoader;
 
     private String detailUrl;
 
@@ -49,7 +49,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
-        mImageLoader = ImageLoader.get(DetailsActivity.this);
+        imageLoader = ImageLoader.get(DetailsActivity.this);
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
 
@@ -71,7 +71,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     }
 
     private FilmProcessor getProcessor() {
-        return mFilmProcessor;
+        return filmProcessor;
     }
 
     private HttpDataSource getHttpDataSource() {
@@ -101,7 +101,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         imageView.setImageBitmap(null);
         imageView.setTag(urlPoster);
 
-        mImageLoader.loadAndDisplay(urlPoster, imageView);
+        imageLoader.loadAndDisplay(urlPoster, imageView);
     }
 
     public void setActionBarTitle(String title){
@@ -114,8 +114,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         getMenuInflater().inflate(R.menu.detail, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        //TODO move to resources
-        searchView.setQueryHint("Search");
+        searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setOnQueryTextListener(this);
         return true;
     }
@@ -124,9 +123,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_internet:
-                String parameterSearch = " online";
                 Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-                intent.putExtra(SearchManager.QUERY, getSupportActionBar().getTitle()+ parameterSearch);
+                intent.putExtra(SearchManager.QUERY, getSupportActionBar().getTitle()+ getString(R.string.parameter_search));
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 } else {

@@ -43,8 +43,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     }
     private ViewHolder holder = new ViewHolder();
 
-    private FilmProcessor mFilmProcessor = new FilmProcessor();
-    private ImageLoader mImageLoader;
+    private FilmProcessor filmProcessor = new FilmProcessor();
+    private ImageLoader imageLoader;
 
     private String detailUrl;
     public static final String EXTRA_LANG = "extra_lang";
@@ -69,7 +69,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         super.onActivityCreated(savedInstanceState);
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
-        mImageLoader = ImageLoader.get(getActivity().getApplicationContext());
+        imageLoader = ImageLoader.get(getActivity().getApplicationContext());
 
         this.detailUrl = getLanguage();
         update(dataSource, processor);
@@ -88,7 +88,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     }
 
     private FilmProcessor getProcessor() {
-        return mFilmProcessor;
+        return filmProcessor;
     }
 
     private HttpDataSource getHttpDataSource() {
@@ -103,7 +103,10 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     }
 
     private String getUrl() {
-        return detailUrl+"?language="+ Locale.getDefault().getLanguage()+Film.getAppendToResponse(AppendToResponseForFilm.releases);
+        StringBuilder controlUrl = new StringBuilder(detailUrl);
+        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Locale.getDefault().getLanguage());
+        controlUrl.append(Film.getAppendToResponse(AppendToResponseForFilm.releases));
+        return controlUrl.toString();
     }
 
     @Override
@@ -141,7 +144,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.poster.setImageBitmap(null);
         holder.poster.setTag(urlPoster);
 
-        mImageLoader.loadAndDisplay(urlPoster, holder.poster);
+        imageLoader.loadAndDisplay(urlPoster, holder.poster);
 
         //Bitmap bitmap = ((BitmapDrawable) holder.poster.getDrawable()).getBitmap();
         //colorize(bitmap);

@@ -21,24 +21,20 @@ import java.net.URLEncoder;
  */
 public class SearchActivity extends ActionBarActivity implements SearchView.OnQueryTextListener{
 
-
     private FragmentTransaction fragmentTransaction;
-
     private Fragment fragment;
-
-
-    public static final String EXTRA_LANG = "extra_lang";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         DescriptionOfTheFilm description = getIntent().getParcelableExtra(
                 DescriptionOfTheFilm.class.getCanonicalName());
 
-        setTitle("Search by \"" + description.getQueryWord() + "\"");
+        setTitle(getString(R.string.search_by)+"\"" + description.getQueryWord() + "\"");
 
         if (savedInstanceState == null) {
             this.fragment = SearchFragment.newInstance(description.getDetailsUrl());
@@ -56,7 +52,7 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setQueryHint("Search");
+        searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setOnQueryTextListener(this);
         return true;
     }

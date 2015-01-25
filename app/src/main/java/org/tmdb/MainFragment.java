@@ -53,7 +53,6 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     private ViewHolder holder = new ViewHolder();
 
     private String url  = "";
-    //TODO m* or without
     private int currentPosition = 0;
     private Long selectItemID;
 
@@ -128,7 +127,10 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     }
 
     private String getUrl(int page) {
-        return url +"?page="+page+"&language="+ Locale.getDefault().getLanguage();
+        StringBuilder controlUrl = new StringBuilder(url);
+        controlUrl.append(ApiTMDB.getPage(controlUrl.toString(), page));
+        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Locale.getDefault().getLanguage());
+        return controlUrl.toString();
     }
 
     @Override
@@ -139,7 +141,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
         empty.setVisibility(View.GONE);
     }
 
-    private List<Film> mData;
+    private List<Film> data;
     private boolean isPagingEnabled = true;
     private View footerProgress;
     private boolean isImageLoaderControlledByDataManager = false;
@@ -155,13 +157,12 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
             empty.setVisibility(View.VISIBLE);
         }
 
-        //TODO {}
         if(footerProgress==null) {
             footerProgress = View.inflate(getActivity().getApplicationContext(), R.layout.view_footer_progress, null);
         }
         refreshFooter();
         if (adapter == null) {
-            mData = data;
+            this.data = data;
             adapter = new ArrayAdapter<Film>(getActivity().getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data) {
 
                 @Override
@@ -268,13 +269,9 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                     startActivity(intent);
                 }
             });
-            if (data != null && data.size() == 100) {
-                isPagingEnabled = true;
-            } else {
-                isPagingEnabled = false;
-            }
+            isPagingEnabled = data != null && data.size() == 100;
         } else {
-            mData.clear();
+            this.data.clear();
             updateAdapter(data);
         }
         refreshFooter();
@@ -294,7 +291,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
             listView.removeFooterView(footerProgress);
         }
         if (data != null) {
-            mData.addAll(data);
+            this.data.addAll(data);
         }
         adapter.notifyDataSetChanged();
     }

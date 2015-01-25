@@ -21,23 +21,56 @@ public class ApiTMDB {
         original
     }
 
+    public enum SearchType{
+        phrase,//-by contains phrase
+        ngram//-by autocomplete
+    }
+
+    public static String sign(String url, String constant) {
+        if (url.contains("?")) {
+            return "&" + constant;
+        } else {
+            return "?" + constant;
+        }
+    }
+
     private static final String BASE_PATH = "https://api.themoviedb.org/3/";
     private static final String DISCOVER_MOVIE = "discover/movie";
     private static final String NOW_PLAYING = "movie/now_playing";
     private static final String MOVIE = "movie/";
     private static final String TV = "tv/";
-    private static final String ON_THE_AIR ="tv/on_the_air";
-    private static final String SEARCH_MOVIE ="search/movie";
+    private static final String ON_THE_AIR = "tv/on_the_air";
+    private static final String SEARCH_MOVIE = "search/movie";
 
-    private static final String PAGE = "&page=";
+    private static final String PAGE = "page=";
+    private static final String QUERY = "query=";
+    private static final String SEARCH_TYPE = "search_type=";
+    private static final String LANGUAGE = "language=";
 
     public static final String ON_THE_AIR_GET = BASE_PATH + ON_THE_AIR;
     public static final String DISCOVER_MOVIE_GET = BASE_PATH + DISCOVER_MOVIE;
+    public static String getPage(String url, int page){
+        return sign(url, PAGE) + page;
+    }
+    public static String getLanguage(String url){
+        return sign(url, LANGUAGE);
+    }
+
     public static  String getSearchMovie(String query){
-        return BASE_PATH + SEARCH_MOVIE + "?query="+query+"&search_type=phrase";}
-    public static String getNowPlayingGet(int pageNumber){return BASE_PATH + NOW_PLAYING;}//+ PAGE + pageNumber;
-    public static String getMovie(Long id){return BASE_PATH + MOVIE + id;}
-    public static String getTV(Long id){return BASE_PATH + TV + id;}
+        StringBuilder url = new StringBuilder(BASE_PATH + SEARCH_MOVIE);
+        url.append(sign(url.toString(), QUERY)).append(query);
+        url.append(sign(url.toString(), SEARCH_TYPE)).append(SearchType.phrase);
+        return url.toString();
+    }
+    public static String getNowPlayingGet(){
+        return BASE_PATH + NOW_PLAYING;
+    }
+    public static String getMovie(Long id){
+        return BASE_PATH + MOVIE + id;
+    }
+    public static String getTV(Long id){
+        return BASE_PATH + TV + id;
+    }
 
 
 }

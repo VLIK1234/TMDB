@@ -25,17 +25,15 @@ public class MainScreenActivity extends ActionBarActivity implements SearchView.
 
     private Fragment fragment;
 
-    public static final String EXTRA_LANG = "extra_lang";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
-        setTitle("Now playing");
+        setTitle(getString(R.string.now_playing));
 
         if (savedInstanceState == null) {
-            this.fragment = MainFragment.newInstance(ApiTMDB.getNowPlayingGet(1));
+            this.fragment = MainFragment.newInstance(ApiTMDB.getNowPlayingGet());
 
             this.fragmentTransaction = getFragmentManager().beginTransaction();
             this.fragmentTransaction.add(R.id.frame_dinamic, fragment);
@@ -49,7 +47,7 @@ public class MainScreenActivity extends ActionBarActivity implements SearchView.
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setQueryHint("Search");
+        searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setOnQueryTextListener(this);
         searchView.clearFocus();
         return true;

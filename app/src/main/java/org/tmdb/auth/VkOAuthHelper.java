@@ -10,29 +10,26 @@ import org.apache.http.auth.AuthenticationException;
 public class VkOAuthHelper {
 
     public static interface Callbacks {
-
         void onError(Exception e);
-
         void onSuccess();
-
     }
 
-    private static String sToken;
+    private static String token;
     public static final String REDIRECT_URL = "https://oauth.vk.com/blank.html";
     public static final String AUTORIZATION_URL = "https://oauth.vk.com/authorize?client_id=4611084&scope=offline,wall,photos,status&redirect_uri=" + REDIRECT_URL + "&display=touch&response_type=token";
 
-    static SharedPreferences mToken;
+    static SharedPreferences sharedPreferences;
 
     public static String sign(String url) {
         if (url.contains("?")) {
-            return url + "&access_token="+sToken;
+            return url + "&access_token="+ token;
         } else {
-            return url + "?access_token="+sToken;
+            return url + "?access_token="+ token;
         }
     }
 
     public static boolean isLogged() {
-        return !TextUtils.isEmpty(sToken);
+        return !TextUtils.isEmpty(token);
     }
 
     public static boolean proceedRedirectURL(Activity activity, String url, Callbacks callbacks) {

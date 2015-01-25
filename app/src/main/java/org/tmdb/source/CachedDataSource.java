@@ -18,10 +18,10 @@ public class CachedDataSource extends HttpDataSource {
     public static final String KEY = "CachedDataSource";
     public static final String TAG = "cache_data_source";
 
-    private Context mContext;
+    private Context context;
 
     public CachedDataSource(Context context) {
-        mContext = context;
+        this.context = context;
     }
 
     public static CachedDataSource get(Context context) {
@@ -30,25 +30,21 @@ public class CachedDataSource extends HttpDataSource {
 
     @Override
     public InputStream getResult(String p) throws Exception {
-        //Log.d(TAG, "getResult");
-        File cacheDir = mContext.getCacheDir();
+        File cacheDir = context.getCacheDir();
         File file = new File(cacheDir, "__cache");
         file.mkdirs();
         String path = file.getPath() + File.separator + generateFileName(p);
         File cacheFile = new File(path);
         if (cacheFile.exists()) {
-            //Log.d(TAG, "from file");
             return new FileInputStream(cacheFile);
         }
         InputStream inputStream = super.getResult(p);
         try {
-            //Log.d(TAG, "copy stream");
             copy(inputStream, cacheFile);
         } catch (Exception e) {
             cacheFile.delete();
             throw e;
         }
-       // Log.d(TAG, "copy stream success get from file");
         return new FileInputStream(cacheFile);
     }
 
@@ -70,7 +66,7 @@ public class CachedDataSource extends HttpDataSource {
 
     public static long copy(InputStream input, OutputStream output, byte[] buffer) throws IOException {
         long count = 0;
-        int n = 0;
+        int n;
         while (-1 != (n = input.read(buffer))) {
             output.write(buffer, 0, n);
             count += n;
@@ -82,7 +78,7 @@ public class CachedDataSource extends HttpDataSource {
         return md5(p);
     }
 
-    public static final String md5(final String s) {
+    public static String md5(final String s) {
         final String MD5 = "MD5";
         try {
             // Create MD5 Hash

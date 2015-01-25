@@ -12,9 +12,7 @@ public class DataManager {
 
     public static interface Callback<Result> {
         void onDataLoadStart();
-
         void onDone(Result data);
-
         void onError(Exception e);
     }
 
@@ -71,8 +69,9 @@ public class DataManager {
                 callback.onDone(processingResult);
             }
 
+            @SafeVarargs
             @Override
-            protected ProcessingResult doInBackground(Params... params) throws Exception {
+            protected final ProcessingResult doInBackground(Params... params) throws Exception {
                 DataSourceResult dataSourceResult = dataSource.getResult(params[0]);
                 return processor.process(dataSourceResult);
             }

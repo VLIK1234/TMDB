@@ -1,5 +1,6 @@
 package org.tmdb.bo;
 
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,6 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("ParcelCreator")
 public class JSONObjectWrapper implements Parcelable {
 
     private JSONObject mJO;
