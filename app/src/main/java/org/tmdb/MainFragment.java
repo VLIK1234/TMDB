@@ -1,11 +1,12 @@
 package org.tmdb;
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     private TextView err;
     private TextView empty;
     private ProgressBar progressBar;
+    private Activity activity;
 
     @Nullable
     @Override
@@ -81,7 +83,9 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        imageLoader = ImageLoader.get(getActivity().getApplicationContext());
+        if ((activity = getActivity())!=null) {
+            imageLoader = ImageLoader.get(activity.getApplicationContext());
+        }
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
 
@@ -156,20 +160,19 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
         if (data == null || data.isEmpty()) {
             empty.setVisibility(View.VISIBLE);
         }
-
         if(footerProgress==null) {
-            footerProgress = View.inflate(getActivity().getApplicationContext(), R.layout.view_footer_progress, null);
+            footerProgress = View.inflate(activity.getApplicationContext(), R.layout.view_footer_progress, null);
         }
         refreshFooter();
         if (adapter == null) {
             this.data = data;
-            adapter = new ArrayAdapter<Film>(getActivity().getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data) {
+            adapter = new ArrayAdapter<Film>(activity.getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data) {
 
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     currentPosition = position;
                     if (convertView == null) {
-                        convertView = View.inflate(getActivity().getApplicationContext(), R.layout.adapter_item, null);
+                        convertView = View.inflate(activity.getApplicationContext(), R.layout.adapter_item, null);
                     }
                     Film item = getItem(position);
                     holder.title = (TextView) convertView.findViewById(R.id.title);
@@ -264,7 +267,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                     selectItemID = item.getId();
 
                     DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(selectItemID));
-                    Intent intent = new Intent(getActivity().getApplicationContext(), DetailsActivity.class);
+                    Intent intent = new Intent(activity.getApplicationContext(), DetailsActivity.class);
                     intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
                     startActivity(intent);
                 }

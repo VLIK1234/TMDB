@@ -1,9 +1,9 @@
 package org.tmdb;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -21,8 +21,8 @@ import java.net.URLEncoder;
  */
 public class SearchActivity extends ActionBarActivity implements SearchView.OnQueryTextListener{
 
-    private FragmentTransaction fragmentTransaction;
-    private Fragment fragment;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +31,19 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
+        FragmentTransaction fragmentTransaction;
+        Fragment fragment;
+
         DescriptionOfTheFilm description = getIntent().getParcelableExtra(
                 DescriptionOfTheFilm.class.getCanonicalName());
 
         setTitle(getString(R.string.search_by)+"\"" + description.getQueryWord() + "\"");
 
         if (savedInstanceState == null) {
-            this.fragment = SearchFragment.newInstance(description.getDetailsUrl());
-
-            this.fragmentTransaction = getFragmentManager().beginTransaction();
-            this.fragmentTransaction.add(R.id.frame_dinamic, fragment);
-            this.fragmentTransaction.commit();
+            fragment = SearchFragment.newInstance(description.getDetailsUrl());
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.frame_dinamic, fragment);
+            fragmentTransaction.commit();
         }
 
     }

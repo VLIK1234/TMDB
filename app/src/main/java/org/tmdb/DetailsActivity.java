@@ -1,8 +1,8 @@
 package org.tmdb;
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Build;
@@ -30,11 +30,6 @@ import java.net.URLEncoder;
 
 public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film>,SearchView.OnQueryTextListener{
 
-    //TODO use support.v4
-    //TODO remove
-    private FragmentTransaction fragmentTransaction;
-    //TODO remove
-    private Fragment fragment;
     private ImageView imageView;
 
     private FilmProcessor filmProcessor = new FilmProcessor();
@@ -60,13 +55,14 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         update(dataSource, processor);
 
         imageView = (ImageView) findViewById(R.id.backdrop);
+        FragmentTransaction fragmentTransaction;
+        Fragment fragment;
 
         if (savedInstanceState == null) {
-            this.fragment = DetailFragment.newInstance(this.detailUrl);
-
-            this.fragmentTransaction = getFragmentManager().beginTransaction();
-            this.fragmentTransaction.add(R.id.frame_detail, fragment);
-            this.fragmentTransaction.commit();
+            fragment = DetailFragment.newInstance(this.detailUrl);
+            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.frame_detail, fragment);
+            fragmentTransaction.commit();
         }
     }
 

@@ -1,11 +1,12 @@
 package org.tmdb;
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
+import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -41,20 +42,17 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         TextView overview;
         ImageView poster;
     }
+    public static final String EXTRA_LANG = "extra_lang";
     private ViewHolder holder = new ViewHolder();
-
     private FilmProcessor filmProcessor = new FilmProcessor();
     private ImageLoader imageLoader;
-
     private String detailUrl;
-    public static final String EXTRA_LANG = "extra_lang";
-
+    private Activity activity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_detail, container, false);
-
         holder.poster = (ImageView) v.findViewById(R.id.poster);
         holder.title = (TextView) v.findViewById(R.id.title);
         holder.date = (TextView) v.findViewById(R.id.date);
@@ -67,9 +65,11 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if ((activity = getActivity())!=null) {
+            imageLoader = ImageLoader.get(activity.getApplicationContext());
+        }
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
-        imageLoader = ImageLoader.get(getActivity().getApplicationContext());
 
         this.detailUrl = getLanguage();
         update(dataSource, processor);
@@ -121,7 +121,9 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.title.setText(data.getTitle());
         holder.date.setText(data.getReleaseDate());
 
-        ((DetailsActivity) getActivity()).setActionBarTitle(holder.title.getText().toString());
+        if ((activity = getActivity())!=null) {
+            ((DetailsActivity) activity).setActionBarTitle(holder.title.getText().toString());
+        }
         final SpannableString text_tag;
         if (!data.getTagline().equals("")&&data.getTagline()!=null) {
             text_tag = new SpannableString(getString(R.string.tagline) + data.getTagline());
