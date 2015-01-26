@@ -13,8 +13,8 @@ public class DescriptionOfTheFilm implements Parcelable{
     public DescriptionOfTheFilm(String id) {
         this.detailsUrl = id;
     }
-    public DescriptionOfTheFilm(String url, String queryWord) {
-        this.detailsUrl = url;
+    public DescriptionOfTheFilm(String detailsUrl, String queryWord) {
+        this.detailsUrl = detailsUrl;
         this.queryWord = queryWord;
     }
 

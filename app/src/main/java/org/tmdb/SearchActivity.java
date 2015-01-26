@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.tmdb.bo.DescriptionOfTheFilm;
+import org.tmdb.helper.ErrorHelper;
 import org.tmdb.vlik1234.R;
 
 import java.io.UnsupportedEncodingException;
@@ -20,9 +21,6 @@ import java.net.URLEncoder;
  * Created by VLIK on 18.01.2015.
  */
 public class SearchActivity extends ActionBarActivity implements SearchView.OnQueryTextListener{
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +72,8 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
             onSearch(s);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            ErrorHelper.showDialog(getString(R.string.unsup_encod_exept)+e.getMessage(),
+                    getSupportFragmentManager().beginTransaction());
         }
         return true;
     }

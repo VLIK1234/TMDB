@@ -46,7 +46,7 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
         TextView title;
         TextView date;
         RatingBar rating;
-        TextView rating_text;
+        TextView ratingText;
     }
 
     private ViewHolder holder = new ViewHolder();
@@ -174,12 +174,12 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
                     holder.title = (TextView) convertView.findViewById(R.id.title);
                     holder.date = (TextView) convertView.findViewById(R.id.date);
                     holder.rating = (RatingBar) convertView.findViewById(R.id.rating);
-                    holder.rating_text = (TextView) convertView.findViewById(R.id.rating_text);
+                    holder.ratingText = (TextView) convertView.findViewById(R.id.rating_text);
 
                     holder.title.setText(item.getTitle());
                     holder.date.setText(item.getReleaseDate());
                     holder.rating.setRating(Float.valueOf(item.getVoteAverage()));
-                    holder.rating_text.setText(item.getVoteAverage()+"/10"+" ("+item.getVoteCount()+")");
+                    holder.ratingText.setText(item.getVoteAverage() + "/10" + " (" + item.getVoteCount() + ")");
 
                     convertView.setTag(item.getId());
                     final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);

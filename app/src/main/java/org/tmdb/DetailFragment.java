@@ -16,11 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.tmdb.bo.Film;
 import org.tmdb.helper.DataManager;
+import org.tmdb.helper.ErrorHelper;
 import org.tmdb.image.ImageLoader;
 import org.tmdb.processing.FilmProcessor;
 import org.tmdb.source.HttpDataSource;
@@ -139,7 +139,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         try {
             holder.genres.setText(data.getGenres());
         } catch (JSONException e) {
-            Toast.makeText(getActivity().getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            ErrorHelper.showDialog(activity.getString(R.string.json_exept)+e.getMessage(),
+                    getActivity().getSupportFragmentManager().beginTransaction());
         }
 
         final String urlPoster = data.getPosterPath(ApiTMDB.SizePoster.w342);
@@ -152,10 +153,11 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         //colorize(bitmap);
     }
 
-    //TODO check errors dialog
     @Override
     public void onError(Exception e) {
         e.printStackTrace();
+        ErrorHelper.showDialog(activity.getString(R.string.some_exept) + e.getMessage(),
+                getActivity().getSupportFragmentManager().beginTransaction());
     }
 
 }

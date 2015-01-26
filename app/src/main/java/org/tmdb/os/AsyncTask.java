@@ -12,10 +12,10 @@ public abstract class AsyncTask<Params, Progress, Result> {
 
     private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
 
-    private static final ExecutorService sExecutor;
+    private static final ExecutorService EXECUTOR_SERVICE;
 
     static {
-        sExecutor = new ThreadPoolExecutor(CPU_COUNT, CPU_COUNT, 0L, TimeUnit.MILLISECONDS, new LIFOLinkedBlockingDeque<Runnable>());
+        EXECUTOR_SERVICE = new ThreadPoolExecutor(CPU_COUNT, CPU_COUNT, 0L, TimeUnit.MILLISECONDS, new LIFOLinkedBlockingDeque<Runnable>());
     }
 
     public AsyncTask() {
@@ -36,7 +36,7 @@ public abstract class AsyncTask<Params, Progress, Result> {
     public final void execute(final Params... params) {
         final Handler handler = new Handler();
         onPreExecute();
-        sExecutor.execute(new Runnable() {
+        EXECUTOR_SERVICE.execute(new Runnable() {
             @Override
             public void run() {
                 try {

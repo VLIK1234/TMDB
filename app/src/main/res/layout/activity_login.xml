@@ -37,6 +37,6 @@
         android:layout_above="@+id/vk_auth"
         android:onClick="onAlphaClick"
         android:visibility="gone"
-        android:text="Alpha"/>
+        android:text="@string/button_alpha"/>
 
 </RelativeLayout>

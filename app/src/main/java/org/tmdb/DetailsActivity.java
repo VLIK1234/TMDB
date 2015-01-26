@@ -18,6 +18,7 @@ import android.widget.Toast;
 import org.tmdb.bo.DescriptionOfTheFilm;
 import org.tmdb.bo.Film;
 import org.tmdb.helper.DataManager;
+import org.tmdb.helper.ErrorHelper;
 import org.tmdb.image.ImageLoader;
 import org.tmdb.processing.FilmProcessor;
 import org.tmdb.source.HttpDataSource;
@@ -31,7 +32,6 @@ import java.net.URLEncoder;
 public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film>,SearchView.OnQueryTextListener{
 
     private ImageView imageView;
-
     private FilmProcessor filmProcessor = new FilmProcessor();
     private ImageLoader imageLoader;
 
@@ -146,6 +146,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
             onSearch(s);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            ErrorHelper.showDialog(getString(R.string.unsup_encod_exept) + e.getMessage(),
+                    getSupportFragmentManager().beginTransaction());
         }
         return true;
     }

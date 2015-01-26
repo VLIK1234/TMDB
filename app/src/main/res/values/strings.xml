@@ -32,5 +32,12 @@
     <string name="search_by">"Search by "</string>
     <string name="now_playing">Now playing</string>
     <string name="parameter_search">" online"</string>
+    <string name="error_title_dialog">Error</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="unsup_encod_exept">UnsupportedEncodingException\n</string>
+    <string name="some_exept">Some exeption was happening\n</string>
+    <string name="json_exept">JSON exeption</string>
+    <string name="button_alpha">Alpha</string>
 
 </resources>
