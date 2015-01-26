@@ -6,7 +6,7 @@ package org.tmdb;
 public class ApiTMDB {
 
     //Poster size PSIZE_(size in ppi), h-height, w-width; if original
-    public enum SizePoster{
+    public enum SizePoster {
         w45,
         w92,
         w154,
@@ -21,7 +21,7 @@ public class ApiTMDB {
         original
     }
 
-    public enum SearchType{
+    public enum SearchType {
         phrase,//-by contains phrase
         ngram//-by autocomplete
     }
@@ -49,26 +49,31 @@ public class ApiTMDB {
 
     public static final String ON_THE_AIR_GET = BASE_PATH + ON_THE_AIR;
     public static final String DISCOVER_MOVIE_GET = BASE_PATH + DISCOVER_MOVIE;
-    public static String getPage(String url, int page){
+
+    public static String getPage(String url, int page) {
         return sign(url, PAGE) + page;
     }
-    public static String getLanguage(String url){
+
+    public static String getLanguage(String url) {
         return sign(url, LANGUAGE);
     }
 
-    public static  String getSearchMovie(String query){
+    public static String getSearchMovie(String query) {
         StringBuilder url = new StringBuilder(BASE_PATH + SEARCH_MOVIE);
         url.append(sign(url.toString(), QUERY)).append(query);
         url.append(sign(url.toString(), SEARCH_TYPE)).append(SearchType.phrase);
         return url.toString();
     }
-    public static String getNowPlayingGet(){
+
+    public static String getNowPlayingGet() {
         return BASE_PATH + NOW_PLAYING;
     }
-    public static String getMovie(Long id){
+
+    public static String getMovie(Long id) {
         return BASE_PATH + MOVIE + id;
     }
-    public static String getTV(Long id){
+
+    public static String getTV(Long id) {
         return BASE_PATH + TV + id;
     }
 

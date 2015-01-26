@@ -38,7 +38,7 @@ import java.util.Locale;
  * Created by VLIK on 12.01.2015.
  */
 
-public class MainFragment extends Fragment implements DataManager.Callback<List<Film>>{
+public class MainFragment extends Fragment implements DataManager.Callback<List<Film>> {
 
     public static final String EXTRA_LANG = "extra_lang";
 
@@ -53,7 +53,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
 
     private ViewHolder holder = new ViewHolder();
 
-    private String url  = "";
+    private String url = "";
     private int currentPosition = 0;
     private Long selectItemID;
 
@@ -72,18 +72,18 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        err = (TextView)v.findViewById(R.id.error);
-        empty = (TextView)v.findViewById(R.id.empty);
-        progressBar = (ProgressBar)v.findViewById(R.id.progress);
+        err = (TextView) v.findViewById(R.id.error);
+        empty = (TextView) v.findViewById(R.id.empty);
+        progressBar = (ProgressBar) v.findViewById(R.id.progress);
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_container);
-        listView = (ListView)v.findViewById(R.id.list);
+        listView = (ListView) v.findViewById(R.id.list);
         return v;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if ((activity = getActivity())!=null) {
+        if ((activity = getActivity()) != null) {
             imageLoader = ImageLoader.get(activity.getApplicationContext());
         }
         final HttpDataSource dataSource = getHttpDataSource();
@@ -120,7 +120,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     }
 
     private HttpDataSource getHttpDataSource() {
-        return  new TMDBDataSource();
+        return new TMDBDataSource();
     }
 
     private void update(HttpDataSource dataSource, FilmArrayProcessor processor) {
@@ -160,7 +160,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
         if (data == null || data.isEmpty()) {
             empty.setVisibility(View.VISIBLE);
         }
-        if(footerProgress==null) {
+        if (footerProgress == null) {
             footerProgress = View.inflate(activity.getApplicationContext(), R.layout.view_footer_progress, null);
         }
         refreshFooter();

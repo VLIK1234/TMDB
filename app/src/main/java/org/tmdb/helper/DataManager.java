@@ -12,7 +12,9 @@ public class DataManager {
 
     public static interface Callback<Result> {
         void onDataLoadStart();
+
         void onDone(Result data);
+
         void onError(Exception e);
     }
 

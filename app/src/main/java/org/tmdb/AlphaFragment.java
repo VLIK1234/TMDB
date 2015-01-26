@@ -12,12 +12,12 @@ import org.tmdb.vlik1234.R;
 /**
  * Created by ASUS on 21.01.2015.
  */
-public class AlphaFragment extends DialogFragment implements DialogInterface.OnClickListener{
+public class AlphaFragment extends DialogFragment implements DialogInterface.OnClickListener {
 
     private static final String EXTRA_MESSAGE = "extra_message";
 
     //Empty constructor required for DialogFragment - http://android-developers.blogspot.com/2012/05/using-dialogfragments.html
-    public AlphaFragment(){
+    public AlphaFragment() {
 
     }
 

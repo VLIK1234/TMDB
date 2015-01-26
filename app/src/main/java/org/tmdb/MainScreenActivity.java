@@ -20,7 +20,7 @@ import java.net.URLEncoder;
 /**
  * Created by VLIK on 12.01.2015.
  */
-public class MainScreenActivity extends ActionBarActivity implements SearchView.OnQueryTextListener{
+public class MainScreenActivity extends ActionBarActivity implements SearchView.OnQueryTextListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

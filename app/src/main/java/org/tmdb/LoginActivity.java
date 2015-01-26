@@ -19,9 +19,9 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
     }
 
-    public void onNoAuthClick(View view){
+    public void onNoAuthClick(View view) {
         Intent intent = new Intent(this, MainScreenActivity.class);
-        startActivityForResult(intent,REQUEST_CODE_RV);
+        startActivityForResult(intent, REQUEST_CODE_RV);
     }
 
     public void onVkAuthClick(View view) {
@@ -37,7 +37,7 @@ public class LoginActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_VK && resultCode == RESULT_OK)  {
+        if (requestCode == REQUEST_CODE_VK && resultCode == RESULT_OK) {
             setResult(RESULT_OK);
             finish();
         }

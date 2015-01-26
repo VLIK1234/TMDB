@@ -23,9 +23,10 @@ public class JSONParser {
     static JSONObject jObj = null;
     static String json = "";
 
-    public JSONParser(){
+    public JSONParser() {
 
     }
+
     public JSONObject makeHttpRequest(String url, String method, List<NameValuePair> params) {
         try {
             if (method.equals("POST")) {

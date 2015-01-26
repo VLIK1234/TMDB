@@ -32,7 +32,7 @@ import java.util.Locale;
 /**
  * Created by ASUS on 21.01.2015.
  */
-public class DetailFragment extends Fragment implements DataManager.Callback<Film>{
+public class DetailFragment extends Fragment implements DataManager.Callback<Film> {
 
     static class ViewHolder {
         TextView title;
@@ -42,6 +42,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         TextView overview;
         ImageView poster;
     }
+
     public static final String EXTRA_LANG = "extra_lang";
     private ViewHolder holder = new ViewHolder();
     private FilmProcessor filmProcessor = new FilmProcessor();
@@ -65,7 +66,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if ((activity = getActivity())!=null) {
+        if ((activity = getActivity()) != null) {
             imageLoader = ImageLoader.get(activity.getApplicationContext());
         }
         final HttpDataSource dataSource = getHttpDataSource();
@@ -92,7 +93,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     }
 
     private HttpDataSource getHttpDataSource() {
-        return  new TMDBDataSource();
+        return new TMDBDataSource();
     }
 
     private void update(HttpDataSource dataSource, FilmProcessor processor) {
@@ -116,30 +117,30 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
-    public void onDone(Film data){
+    public void onDone(Film data) {
 
         holder.title.setText(data.getTitle());
         holder.date.setText(data.getReleaseDate());
 
-        if ((activity = getActivity())!=null) {
+        if ((activity = getActivity()) != null) {
             ((DetailsActivity) activity).setActionBarTitle(holder.title.getText().toString());
         }
         final SpannableString text_tag;
-        if (!data.getTagline().equals("")&&data.getTagline()!=null) {
+        if (!data.getTagline().equals("") && data.getTagline() != null) {
             text_tag = new SpannableString(getString(R.string.tagline) + data.getTagline());
             text_tag.setSpan(new StyleSpan(Typeface.BOLD | Typeface.ITALIC), 0, text_tag.length() - data.getTagline().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             text_tag.setSpan(new TypefaceSpan(getString(R.string.serif)), text_tag.length() - data.getTagline().length(), text_tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.tagline.setText(text_tag);
         }
 
-        if (data.getOverview()!=null){
+        if (data.getOverview() != null) {
             holder.overview.setText(data.getOverview());
         }
 
         try {
             holder.genres.setText(data.getGenres());
         } catch (JSONException e) {
-            ErrorHelper.showDialog(activity.getString(R.string.json_exept)+e.getMessage(),
+            ErrorHelper.showDialog(activity.getString(R.string.json_exept) + e.getMessage(),
                     getActivity().getSupportFragmentManager().beginTransaction());
         }
 

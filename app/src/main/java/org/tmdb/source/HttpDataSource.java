@@ -1,7 +1,6 @@
 package org.tmdb.source;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import org.tmdb.CoreApplication;
 

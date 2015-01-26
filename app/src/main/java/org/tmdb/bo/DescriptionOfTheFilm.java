@@ -6,13 +6,14 @@ import android.os.Parcelable;
 /**
  * Created by VLIK on 12.01.2015.
  */
-public class DescriptionOfTheFilm implements Parcelable{
+public class DescriptionOfTheFilm implements Parcelable {
     private String detailsUrl;
     private String queryWord;
 
     public DescriptionOfTheFilm(String id) {
         this.detailsUrl = id;
     }
+
     public DescriptionOfTheFilm(String detailsUrl, String queryWord) {
         this.detailsUrl = detailsUrl;
         this.queryWord = queryWord;
@@ -48,6 +49,7 @@ public class DescriptionOfTheFilm implements Parcelable{
     public String getDetailsUrl() {
         return detailsUrl;
     }
+
     public String getQueryWord() {
         return queryWord;
     }

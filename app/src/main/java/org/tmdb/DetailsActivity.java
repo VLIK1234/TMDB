@@ -1,12 +1,12 @@
 package org.tmdb;
 
 import android.annotation.TargetApi;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -29,7 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 
-public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film>,SearchView.OnQueryTextListener{
+public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film>, SearchView.OnQueryTextListener {
 
     private ImageView imageView;
     private FilmProcessor filmProcessor = new FilmProcessor();
@@ -71,7 +71,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     }
 
     private HttpDataSource getHttpDataSource() {
-        return  new TMDBDataSource();
+        return new TMDBDataSource();
     }
 
     private void update(HttpDataSource dataSource, FilmProcessor processor) {
@@ -92,7 +92,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
-    public void onDone(Film data){
+    public void onDone(Film data) {
         final String urlPoster = data.getBackdropPath(ApiTMDB.SizePoster.w1280);
         imageView.setImageBitmap(null);
         imageView.setTag(urlPoster);
@@ -100,7 +100,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         imageLoader.loadAndDisplay(urlPoster, imageView);
     }
 
-    public void setActionBarTitle(String title){
+    public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
 
@@ -120,7 +120,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         switch (item.getItemId()) {
             case R.id.action_internet:
                 Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-                intent.putExtra(SearchManager.QUERY, getSupportActionBar().getTitle()+ getString(R.string.parameter_search));
+                intent.putExtra(SearchManager.QUERY, getSupportActionBar().getTitle() + getString(R.string.parameter_search));
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 } else {
@@ -133,7 +133,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     }
 
     private void onSearch(String search) throws UnsupportedEncodingException {
-        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(URLEncoder.encode(search,getString(R.string.utf_8))), search);
+        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(URLEncoder.encode(search, getString(R.string.utf_8))), search);
         Intent intent = new Intent(DetailsActivity.this, SearchActivity.class);
         intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
         startActivity(intent);

@@ -11,6 +11,7 @@ public class VkOAuthHelper {
 
     public static interface Callbacks {
         void onError(Exception e);
+
         void onSuccess();
     }
 
@@ -22,9 +23,9 @@ public class VkOAuthHelper {
 
     public static String sign(String url) {
         if (url.contains("?")) {
-            return url + "&access_token="+ token;
+            return url + "&access_token=" + token;
         } else {
-            return url + "?access_token="+ token;
+            return url + "?access_token=" + token;
         }
     }
 
@@ -46,7 +47,7 @@ public class VkOAuthHelper {
                 String errorDescription = parsedFragment.getQueryParameter("error_description");
                 String errorReason = parsedFragment.getQueryParameter("error_reason");
                 if (!TextUtils.isEmpty(error)) {
-                    callbacks.onError(new AuthenticationException(error+", reason : " + errorReason +"("+errorDescription+")"));
+                    callbacks.onError(new AuthenticationException(error + ", reason : " + errorReason + "(" + errorDescription + ")"));
                     return false;
                 }
             }

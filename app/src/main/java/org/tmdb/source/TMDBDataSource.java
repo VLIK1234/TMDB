@@ -20,9 +20,9 @@ public class TMDBDataSource extends HttpDataSource {
 
     public static String sign(String url) {
         if (url.contains("?")) {
-            return url + "&api_key="+API_KEY;
+            return url + "&api_key=" + API_KEY;
         } else {
-            return url + "?api_key="+API_KEY;
+            return url + "?api_key=" + API_KEY;
         }
     }
 

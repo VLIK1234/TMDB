@@ -20,7 +20,7 @@ import java.net.URLEncoder;
 /**
  * Created by VLIK on 18.01.2015.
  */
-public class SearchActivity extends ActionBarActivity implements SearchView.OnQueryTextListener{
+public class SearchActivity extends ActionBarActivity implements SearchView.OnQueryTextListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
         DescriptionOfTheFilm description = getIntent().getParcelableExtra(
                 DescriptionOfTheFilm.class.getCanonicalName());
 
-        setTitle(getString(R.string.search_by)+"\"" + description.getQueryWord() + "\"");
+        setTitle(getString(R.string.search_by) + "\"" + description.getQueryWord() + "\"");
 
         if (savedInstanceState == null) {
             fragment = SearchFragment.newInstance(description.getDetailsUrl());
@@ -72,7 +72,7 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
             onSearch(s);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            ErrorHelper.showDialog(getString(R.string.unsup_encod_exept)+e.getMessage(),
+            ErrorHelper.showDialog(getString(R.string.unsup_encod_exept) + e.getMessage(),
                     getSupportFragmentManager().beginTransaction());
         }
         return true;

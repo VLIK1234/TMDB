@@ -12,11 +12,11 @@ import org.tmdb.vlik1234.R;
 /**
  * Created by ASUS on 21.01.2015.
  */
-public class ErrorDialog extends DialogFragment implements DialogInterface.OnClickListener,DialogInterface.OnCancelListener{
+public class ErrorDialog extends DialogFragment implements DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
 
     private static final String EXTRA_MESSAGE = "extra_message";
 
-    public ErrorDialog(){
+    public ErrorDialog() {
 
     }
 
@@ -48,6 +48,7 @@ public class ErrorDialog extends DialogFragment implements DialogInterface.OnCli
     public void onClick(DialogInterface dialog, int which) {
         super.onCancel(dialog);
     }
+
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
     }

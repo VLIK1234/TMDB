@@ -10,7 +10,6 @@
     tools:context=".LoginActivity">
         <Button
             android:id="@+id/vk_auth"
-            style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
             android:layout_width="300dp"
             android:layout_height="100dp"
             android:layout_centerInParent="true"
@@ -19,7 +18,6 @@
             android:text="@string/button_log_vkauth"/>
         <Button
             android:id="@+id/no_auth"
-            style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
             android:layout_width="300dp"
             android:layout_height="100dp"
             android:layout_centerInParent="true"
@@ -29,14 +27,13 @@
             android:text="@string/button_log_noauth"/>
     <Button
         android:id="@+id/alpha"
-        style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"
         android:padding="8dp"
         android:layout_above="@+id/vk_auth"
         android:onClick="onAlphaClick"
-        android:visibility="gone"
+        android:visibility="visible"
         android:text="@string/button_alpha"/>
 
 </RelativeLayout>

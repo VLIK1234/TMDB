@@ -5,7 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 
 import org.tmdb.vlik1234.R;
 
-public class ReturnActivity extends ActionBarActivity{
+public class ReturnActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

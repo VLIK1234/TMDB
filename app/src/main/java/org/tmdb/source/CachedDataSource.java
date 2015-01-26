@@ -25,7 +25,7 @@ public class CachedDataSource extends HttpDataSource {
     }
 
     public static CachedDataSource get(Context context) {
-       return CoreApplication.get(context, KEY);
+        return CoreApplication.get(context, KEY);
     }
 
     @Override

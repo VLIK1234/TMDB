@@ -36,16 +36,16 @@ public class JSONObjectWrapper implements Parcelable {
         return mJO.optString(key);
     }
 
-    protected List<String> getArray(String key, String... keyArray)throws JSONException{
+    protected List<String> getArray(String key, String... keyArray) throws JSONException {
         JSONArray array = mJO.getJSONArray(key);
         List<String> arrayReturn = new ArrayList<String>();
-        for (int i =0;i<array.length();i++){
+        for (int i = 0; i < array.length(); i++) {
             JSONObject jsonObject = array.getJSONObject(i);
-            for (int j =0;j<keyArray.length;j++) {
+            for (int j = 0; j < keyArray.length; j++) {
                 arrayReturn.add(jsonObject.getString(keyArray[j]));
             }
         }
-        return  arrayReturn;
+        return arrayReturn;
     }
 
     protected Boolean getBoolean(String key) {
@@ -86,8 +86,7 @@ public class JSONObjectWrapper implements Parcelable {
     /**
      * Read from parcel.
      *
-     * @param in
-     *            the in
+     * @param in the in
      */
     protected void readFromParcel(final Parcel in) {
         String string = in.readString();

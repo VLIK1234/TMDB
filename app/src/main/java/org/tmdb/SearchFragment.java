@@ -2,11 +2,11 @@ package org.tmdb;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +37,7 @@ import java.util.Locale;
 /**
  * Created by VLIK on 12.01.2015.
  */
-public class SearchFragment extends Fragment implements DataManager.Callback<List<Film>>{
+public class SearchFragment extends Fragment implements DataManager.Callback<List<Film>> {
 
     public static final String EXTRA_LANG = "extra_lang";
     private int PAGE;
@@ -71,18 +71,18 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search, container, false);
 
-        err = (TextView)v.findViewById(R.id.error);
-        empty = (TextView)v.findViewById(R.id.empty);
-        progressBar = (ProgressBar)v.findViewById(R.id.progress);
+        err = (TextView) v.findViewById(R.id.error);
+        empty = (TextView) v.findViewById(R.id.empty);
+        progressBar = (ProgressBar) v.findViewById(R.id.progress);
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_container);
-        listView = (ListView)v.findViewById(R.id.list);
+        listView = (ListView) v.findViewById(R.id.list);
         return v;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if ((activity = getActivity())!=null) {
+        if ((activity = getActivity()) != null) {
             imageLoader = ImageLoader.get(activity.getApplicationContext());
         }
         final HttpDataSource dataSource = getHttpDataSource();
@@ -118,7 +118,7 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
     }
 
     private HttpDataSource getHttpDataSource() {
-        return  new TMDBDataSource();
+        return new TMDBDataSource();
     }
 
     private void update(HttpDataSource dataSource, FilmArrayProcessor processor) {
@@ -158,7 +158,7 @@ public class SearchFragment extends Fragment implements DataManager.Callback<Lis
         if (data == null || data.isEmpty()) {
             empty.setVisibility(View.VISIBLE);
         }
-        if(footerProgress==null)
+        if (footerProgress == null)
             footerProgress = View.inflate(activity.getApplicationContext(), R.layout.view_footer_progress, null);
         refreshFooter();
         if (adapter == null) {

@@ -58,7 +58,7 @@ public class CoreApplication extends Application {
         if (TMDBDataSource.KEY.equals(name)) {
             //for android kitkat +
             if (tmdbDataSource == null) {
-                tmdbDataSource = new  TMDBDataSource();
+                tmdbDataSource = new TMDBDataSource();
             }
             return tmdbDataSource;
         }
@@ -66,7 +66,7 @@ public class CoreApplication extends Application {
     }
 
     public static <T> T get(Context context, String key) {
-        if (context == null || key == null){
+        if (context == null || key == null) {
             throw new IllegalArgumentException("Context and key must not be null");
         }
         T systemService = (T) context.getSystemService(key);

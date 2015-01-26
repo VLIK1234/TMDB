@@ -51,15 +51,15 @@ public class Film extends JSONObjectWrapper {
         super(in);
     }
 
-    public static String getAppendToResponse(AppendToResponseForFilm... appResp){
+    public static String getAppendToResponse(AppendToResponseForFilm... appResp) {
         StringBuilder sb = new StringBuilder();
         sb.append("&append_to_response=");
 
-        if (appResp.length>1) {
+        if (appResp.length > 1) {
             for (int i = 0; i < appResp.length; i++) {
-                sb.append((i <= appResp.length - 1)? sb.append(appResp[i]) : sb.append(String.format(appResp[i] + ",")));
+                sb.append((i <= appResp.length - 1) ? sb.append(appResp[i]) : sb.append(String.format(appResp[i] + ",")));
             }
-        }else sb.append(appResp[0]);
+        } else sb.append(appResp[0]);
 
         return sb.toString();
     }
@@ -67,14 +67,16 @@ public class Film extends JSONObjectWrapper {
     public String getTitle() {
         return getString(TITLE);
     }
+
     public String getTagline() {
-        if (getString(TAGLINE).equals("null")){
+        if (getString(TAGLINE).equals("null")) {
             return "";
         }
         return getString(TAGLINE);
     }
+
     public String getOverview() {
-        if (getString(OVERVIEW).equals("null")){
+        if (getString(OVERVIEW).equals("null")) {
             return "";
         }
         return getString(OVERVIEW);
@@ -82,11 +84,11 @@ public class Film extends JSONObjectWrapper {
 
     public String getReleaseDate() {
         String date = getString(RELEASE_DATE);
-        if (!date.equals("")){
+        if (!date.equals("")) {
             Calendar calendar = Calendar.getInstance();
             java.sql.Date javaSqlDate = java.sql.Date.valueOf(date);
             calendar.setTime(javaSqlDate);
-            date = String.valueOf(calendar.getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault())+" "+calendar.get(Calendar.YEAR));
+            date = String.valueOf(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " " + calendar.get(Calendar.YEAR));
         }
         return date;
     }
@@ -94,8 +96,8 @@ public class Film extends JSONObjectWrapper {
     public String getGenres() throws JSONException {
         List<String> array = getArray(GENRES, "name");
         StringBuilder genres = new StringBuilder();
-        for (int i = 0; i <array.size(); i++) {
-            genres.append(i!=array.size()-1?array.get(i)+" | ":array.get(i));
+        for (int i = 0; i < array.size(); i++) {
+            genres.append(i != array.size() - 1 ? array.get(i) + " | " : array.get(i));
         }
         return genres.toString();
     }
@@ -108,15 +110,16 @@ public class Film extends JSONObjectWrapper {
         return getString(VOTE_COUNT);
     }
 
-    public  String getTotalPages(){
+    public String getTotalPages() {
         return getString(TOTAL_PAGES);
     }
 
     public String getPosterPath(ApiTMDB.SizePoster size) {
-        return "https://image.tmdb.org/t/p/"+ size + getString(POSTER_PATH);
+        return "https://image.tmdb.org/t/p/" + size + getString(POSTER_PATH);
     }
+
     public String getBackdropPath(ApiTMDB.SizePoster size) {
-        return "https://image.tmdb.org/t/p/"+ size + getString(BACKDROP_PATH);
+        return "https://image.tmdb.org/t/p/" + size + getString(BACKDROP_PATH);
     }
 
     public void initTitle() {
