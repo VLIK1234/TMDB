@@ -48,7 +48,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     private ImageLoader imageLoader;
 
     private String detailUrl;
-    private String urlVideoPlayer;
+    private String videoKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +79,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         update(dataSource, processor);
     }
 
-    public void getVideosKey(String urlVideoPlayer) {
-        this.urlVideoPlayer = urlVideoPlayer;
+    public void getVideosKey(String videoKey) {
+        this.videoKey = videoKey;
     }
 
     private FilmProcessor getProcessor() {
@@ -121,10 +121,10 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     }
 
     public void onClick(View view) {
-        if (urlVideoPlayer != null) {
+        if (videoKey != null) {
 
             Intent intent = YouTubeStandalonePlayer.createVideoIntent(
-                    this, DeveloperKey.DEVELOPER_KEY, urlVideoPlayer);
+                    this, DeveloperKey.DEVELOPER_KEY, videoKey);
 
             if (intent != null) {
                 if (canResolveIntent(intent)) {
@@ -135,6 +135,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
                             .getErrorDialog(this, REQ_RESOLVE_SERVICE_MISSING).show();
                 }
             }
+        } else{
+
         }
     }
 
