@@ -38,7 +38,7 @@ import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
 
 
-public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film>, SearchView.OnQueryTextListener{
+public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film>, SearchView.OnQueryTextListener {
 
     private static final int REQ_START_STANDALONE_PLAYER = 1;
     private static final int REQ_RESOLVE_SERVICE_MISSING = 2;
@@ -79,8 +79,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         update(dataSource, processor);
     }
 
-    public void getVideosKey(String urlVideoPlayer){
-        this.urlVideoPlayer =  urlVideoPlayer;
+    public void getVideosKey(String urlVideoPlayer) {
+        this.urlVideoPlayer = urlVideoPlayer;
     }
 
     private FilmProcessor getProcessor() {
@@ -110,7 +110,6 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(Film data) {
-
         final String urlPoster = data.getBackdropPath(ApiTMDB.SizePoster.w1280);
         imageView.setImageBitmap(null);
         imageView.setTag(urlPoster);
@@ -121,17 +120,20 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         getSupportActionBar().setTitle(title);
     }
 
-    public void onClick(View view){
-        Intent intent = YouTubeStandalonePlayer.createVideoIntent(
-                this, DeveloperKey.DEVELOPER_KEY, urlVideoPlayer);
+    public void onClick(View view) {
+        if (urlVideoPlayer != null) {
 
-        if (intent != null) {
-            if (canResolveIntent(intent)) {
-                startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
-            } else {
-                // Could not resolve the intent - must need to install or update the YouTube API service.
-                YouTubeInitializationResult.SERVICE_MISSING
-                        .getErrorDialog(this, REQ_RESOLVE_SERVICE_MISSING).show();
+            Intent intent = YouTubeStandalonePlayer.createVideoIntent(
+                    this, DeveloperKey.DEVELOPER_KEY, urlVideoPlayer);
+
+            if (intent != null) {
+                if (canResolveIntent(intent)) {
+                    startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
+                } else {
+                    // Could not resolve the intent - must need to install or update the YouTube API service.
+                    YouTubeInitializationResult.SERVICE_MISSING
+                            .getErrorDialog(this, REQ_RESOLVE_SERVICE_MISSING).show();
+                }
             }
         }
     }
@@ -176,9 +178,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     }
 
 
-
     @Override
-    public boolean onQueryTextSubmit(String s){
+    public boolean onQueryTextSubmit(String s) {
         try {
             onSearch(s);
         } catch (UnsupportedEncodingException e) {
