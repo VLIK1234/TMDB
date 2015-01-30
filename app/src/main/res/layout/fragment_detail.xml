@@ -14,16 +14,16 @@
             <ImageView
                 android:id="@+id/no_poster"
                 android:contentDescription="@string/no_poster"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="162dip"
+                android:layout_height="256dip"
                 android:src="@drawable/w342"
                 android:layout_margin="6dp"
                 android:scaleType="centerCrop"/>
             <ImageView
                 android:id="@+id/poster"
                 android:contentDescription="@string/poster_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="162dip"
+                android:layout_height="256dip"
                 android:layout_margin="6dp"
                 android:scaleType="centerCrop"/>
             <TextView
@@ -33,8 +33,8 @@
                 android:layout_margin="8dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_toRightOf="@id/no_poster"
-                android:layout_toEndOf="@id/no_poster"/>
+                android:layout_toRightOf="@id/poster"
+                android:layout_toEndOf="@id/poster"/>
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
@@ -43,8 +43,8 @@
                 android:textSize="15sp"
                 android:textStyle="normal"
                 android:layout_margin="8dp"
-                android:layout_toRightOf="@id/no_poster"
-                android:layout_toEndOf="@id/no_poster"
+                android:layout_toRightOf="@id/poster"
+                android:layout_toEndOf="@id/poster"
                 android:layout_below="@id/title"/>
 
             <TextView
@@ -54,8 +54,8 @@
                 android:textColor="@color/secondary_text"
                 android:layout_margin="8dp"
                 android:textSize="15sp"
-                android:layout_toRightOf="@id/no_poster"
-                android:layout_toEndOf="@id/no_poster"
+                android:layout_toRightOf="@id/poster"
+                android:layout_toEndOf="@id/poster"
                 android:layout_below="@+id/date"/>
 
             <TextView
@@ -64,8 +64,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:textSize="15sp"
-                android:layout_toRightOf="@id/no_poster"
-                android:layout_toEndOf="@id/no_poster"
+                android:layout_toRightOf="@id/poster"
+                android:layout_toEndOf="@id/poster"
                 android:layout_below="@+id/genres"/>
         </RelativeLayout>
     </FrameLayout>
@@ -80,8 +80,17 @@
         android:lineSpacingMultiplier="1.2"
         android:layout_below="@id/head"/>
     <View
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_below="@id/overview"
         android:layout_height="1dp"
         android:background="@color/divider" />
+
+   <Button
+       android:id="@+id/trailer_button"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/divider"
+       android:text="@string/trailer_button"
+       android:onClick="onClick"/>
 </RelativeLayout>

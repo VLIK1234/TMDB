@@ -2,21 +2,17 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="There are a few things to notice here. First, because we’re using the support library for backward compatibility with the Fragment API, our Activity extends FragmentActivity from the support library. Because we’re using the support library, we call getSupportFragmentManager() instead of getFragmentManager().
-After loading the initial view, the activity immediately shows the EditNameDialog by calling its show() method. This allows the DialogFragment to ensure that what is happening with the Dialog and Fragment states remains consistent. By default, the back button will dismiss the dialog without any additional code."/>
-    <Button
-        android:id="@+id/action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text"
-        android:text="Show"
-        android:onClick="onActionClick"/>
+        android:layout_margin="64dp">
+
+        <FrameLayout
+            android:id="@+id/frame_alpha"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="120dp"
+            android:paddingTop="150dip" />
     </RelativeLayout>
 </ScrollView>

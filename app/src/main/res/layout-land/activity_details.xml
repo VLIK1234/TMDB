@@ -6,20 +6,20 @@
 
     <ImageView
         android:id="@+id/backdrop"
+        android:contentDescription="@string/backdrop_description"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scaleType="centerCrop" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:id="@+id/frame_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="150dp"
+            android:paddingBottom="120dp"
             android:paddingTop="150dip"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"

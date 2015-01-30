@@ -1,10 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/icons">
+    <FrameLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/no_poster"
+                android:contentDescription="@string/no_poster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/w342"
+                android:layout_margin="6dp"
+                android:scaleType="centerCrop"/>
+            <ImageView
+                android:id="@+id/poster"
+                android:contentDescription="@string/poster_description"
+                android:layout_width="170dip"
+                android:layout_height="256dip"
+                android:layout_margin="6dp"
+                android:scaleType="centerCrop"/>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_toRightOf="@id/no_poster"
+                android:layout_toEndOf="@id/no_poster"/>
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondary_text"
+                android:textSize="15sp"
+                android:textStyle="normal"
+                android:layout_margin="8dp"
+                android:layout_toRightOf="@id/no_poster"
+                android:layout_toEndOf="@id/no_poster"
+                android:layout_below="@id/title"/>
+
+            <TextView
+                android:id="@+id/genres"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondary_text"
+                android:layout_margin="8dp"
+                android:textSize="15sp"
+                android:layout_toRightOf="@id/no_poster"
+                android:layout_toEndOf="@id/no_poster"
+                android:layout_below="@+id/date"/>
+
+            <TextView
+                android:id="@+id/tagline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textSize="15sp"
+                android:layout_toRightOf="@id/no_poster"
+                android:layout_toEndOf="@id/no_poster"
+                android:layout_below="@+id/genres"/>
+        </RelativeLayout>
+    </FrameLayout>
+
+    <TextView
+        style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
+        android:id="@+id/overview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:textSize="15sp"
+        android:lineSpacingMultiplier="1.2"
+        android:layout_below="@id/head"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@id/overview"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+</RelativeLayout>
+
+<!--<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -27,5 +109,4 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Cancel"/>
-</LinearLayout>
+        android:text="Cancel"/> -->
