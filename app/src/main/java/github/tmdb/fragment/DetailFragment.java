@@ -63,7 +63,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_detail, container, false);
-        holder.poster = (ImageView) v.findViewById(R.id.poster);
+        holder.poster = (ImageView) v.findViewById(R.id.poster_external);
         holder.title = (TextView) v.findViewById(R.id.title);
         holder.date = (TextView) v.findViewById(R.id.date);
         holder.genres = (TextView) v.findViewById(R.id.genres);
@@ -168,7 +168,6 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.poster.setTag(urlPoster);
 
         imageLoader.loadAndDisplay(urlPoster, holder.poster);
-        //colorize(bitmap);
     }
 
     @Override

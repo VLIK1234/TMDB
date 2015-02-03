@@ -16,7 +16,6 @@ import github.tmdb.CoreApplication;
 public class CachedDataSource extends HttpDataSource {
 
     public static final String KEY = "CachedDataSource";
-    public static final String TAG = "cache_data_source";
 
     private Context context;
 
@@ -48,7 +47,7 @@ public class CachedDataSource extends HttpDataSource {
         return new FileInputStream(cacheFile);
     }
 
-    private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
+    private static final int DEFAULT_BUFFER_SIZE = 1024 * 8;
 
     public static long copy(InputStream input, File file) throws IOException {
         FileOutputStream fileOutputStream = null;

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -17,26 +16,24 @@ import java.net.URLEncoder;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.bo.DescriptionOfTheFilm;
-import github.tmdb.fragment.MainFragment;
+import github.tmdb.fragment.ListFilmFragment;
 import github.tmdb.helper.ErrorHelper;
 /**
  * Created by VLIK on 12.01.2015.
  */
 public class MainScreenActivity extends ActionBarActivity implements SearchView.OnQueryTextListener {
 
-    ActionBar actionBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         setTitle(getString(R.string.now_playing));
-        actionBar = getSupportActionBar();
         FragmentTransaction fragmentTransaction;
         Fragment fragment;
 
         if (savedInstanceState == null) {
-            fragment = MainFragment.newInstance(ApiTMDB.getNowPlayingGet());
+            fragment = ListFilmFragment.newInstance(ApiTMDB.getNowPlayingGet());
+//            fragment = MainFragment.newInstance(ApiTMDB.getNowPlayingGet());
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.frame_dinamic, fragment);
             fragmentTransaction.commit();

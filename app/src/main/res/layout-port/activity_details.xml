@@ -20,8 +20,7 @@
             android:id="@+id/frame_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="120dp"
-            android:paddingTop="150dip"
+            android:paddingTop="200dip"
             />
     </ScrollView>
 </RelativeLayout>

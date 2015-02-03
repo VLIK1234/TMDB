@@ -43,7 +43,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     private static final int REQ_START_STANDALONE_PLAYER = 1;
     private static final int REQ_RESOLVE_SERVICE_MISSING = 2;
 
-    private ImageView imageView;
+    private ImageView backdrop;
+    private ImageView posterExternal;
     private FilmProcessor filmProcessor = new FilmProcessor();
     private ImageLoader imageLoader;
 
@@ -66,7 +67,8 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
         detailUrl = description.getDetailsUrl();
 
 
-        imageView = (ImageView) findViewById(R.id.backdrop);
+        backdrop = (ImageView) findViewById(R.id.backdrop);
+        posterExternal = (ImageView) findViewById(R.id.poster_external);
         FragmentTransaction fragmentTransaction;
         Fragment fragment;
 
@@ -110,10 +112,10 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(Film data) {
-        final String urlPoster = data.getBackdropPath(ApiTMDB.SizePoster.w1280);
-        imageView.setImageBitmap(null);
-        imageView.setTag(urlPoster);
-        imageLoader.loadAndDisplay(urlPoster, imageView);
+        final String urlBackdrop = data.getBackdropPath(ApiTMDB.SizePoster.w1280);
+        backdrop.setImageBitmap(null);
+        backdrop.setTag(urlBackdrop);
+        imageLoader.loadAndDisplay(urlBackdrop, backdrop);
     }
 
     public void setActionBarTitle(String title) {

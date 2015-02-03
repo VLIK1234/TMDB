@@ -3,6 +3,9 @@ package github.tmdb;
 import android.app.Application;
 import android.content.Context;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import github.tmdb.image.ImageLoader;
 import github.tmdb.source.CachedDataSource;
 import github.tmdb.source.HttpDataSource;
@@ -11,56 +14,22 @@ import github.tmdb.source.VkDataSource;
 
 public class CoreApplication extends Application {
 
-    private HttpDataSource httpDataSource;
-    private VkDataSource vkDataSource;
-    private TMDBDataSource tmdbDataSource;
-    private ImageLoader imageLoader;
-    private CachedDataSource cachedDataSource;
+    Map<String,Object> serviceMap = new HashMap<>();
 
     @Override
     public void onCreate() {
         super.onCreate();
-        httpDataSource = new HttpDataSource();
-        vkDataSource = new VkDataSource();
-        tmdbDataSource = new TMDBDataSource();
+        serviceMap.put(HttpDataSource.KEY, new HttpDataSource());
+        serviceMap.put(VkDataSource.KEY, new VkDataSource(this));
+        serviceMap.put(CachedDataSource.KEY, new CachedDataSource(this));
+        serviceMap.put(TMDBDataSource.KEY, new TMDBDataSource());
+        serviceMap.put(ImageLoader.KEY, new ImageLoader(this));
     }
 
     @Override
     public Object getSystemService(String name) {
-        if (ImageLoader.KEY.equals(name)) {
-            //for android kitkat +
-            if (imageLoader == null) {
-                imageLoader = new ImageLoader(this);
-            }
-            return imageLoader;
-        }
-        if (CachedDataSource.KEY.equals(name)) {
-            //for android kitkat +
-            if (cachedDataSource == null) {
-                cachedDataSource = new CachedDataSource(this);
-            }
-            return cachedDataSource;
-        }
-        if (HttpDataSource.KEY.equals(name)) {
-            //for android kitkat +
-            if (httpDataSource == null) {
-                httpDataSource = new HttpDataSource();
-            }
-            return httpDataSource;
-        }
-        if (VkDataSource.KEY.equals(name)) {
-            //for android kitkat +
-            if (vkDataSource == null) {
-                vkDataSource = new VkDataSource();
-            }
-            return vkDataSource;
-        }
-        if (TMDBDataSource.KEY.equals(name)) {
-            //for android kitkat +
-            if (tmdbDataSource == null) {
-                tmdbDataSource = new TMDBDataSource();
-            }
-            return tmdbDataSource;
+        if (serviceMap.containsKey(name)) {
+            return serviceMap.get(name);
         }
         return super.getSystemService(name);
     }

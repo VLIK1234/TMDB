@@ -16,7 +16,7 @@ import java.net.URLEncoder;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.bo.DescriptionOfTheFilm;
-import github.tmdb.fragment.SearchFragment;
+import github.tmdb.fragment.ListFilmFragment;
 import github.tmdb.helper.ErrorHelper;
 
 /**
@@ -40,7 +40,8 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
         setTitle(getString(R.string.search_by) + "\"" + description.getQueryWord() + "\"");
 
         if (savedInstanceState == null) {
-            fragment = SearchFragment.newInstance(description.getDetailsUrl());
+            fragment = ListFilmFragment.newInstance(description.getDetailsUrl());
+//            fragment = MainFragment.newInstance(description.getDetailsUrl());
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.frame_dinamic, fragment);
             fragmentTransaction.commit();

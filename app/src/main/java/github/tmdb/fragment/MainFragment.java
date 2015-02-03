@@ -42,9 +42,9 @@ import github.tmdb.source.TMDBDataSource;
 
 public class MainFragment extends Fragment implements DataManager.Callback<List<Film>> {
 
-    public static final String EXTRA_LANG = "extra_lang";
+    public static final String EXTRA_KEY = "extra_lang";
 
-    private int PAGE;
+    private int page;
 
     static class ViewHolder {
         TextView title;
@@ -56,7 +56,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     private ViewHolder holder = new ViewHolder();
 
     private String url = "";
-    private int currentPosition = 0;
+
     private Long selectItemID;
 
     private ArrayAdapter adapter;
@@ -92,30 +92,29 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
 
-        PAGE = 1;
-        url = getLanguage();
+        page = 1;
+        url = getExtraData();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                PAGE = 1;
+                page = 1;
                 update(dataSource, processor);
             }
         });
-
         update(dataSource, processor);
     }
 
     public static Fragment newInstance(String language) {
         MainFragment fragmentPart = new MainFragment();
         Bundle args = new Bundle();
-        args.putString(EXTRA_LANG, language);
+        args.putString(EXTRA_KEY, language);
         fragmentPart.setArguments(args);
         return fragmentPart;
     }
 
-    private String getLanguage() {
-        return getArguments().getString(EXTRA_LANG);
+    private String getExtraData() {
+        return getArguments().getString(EXTRA_KEY);
     }
 
     private FilmArrayProcessor getProcessor() {
@@ -128,7 +127,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
 
     private void update(HttpDataSource dataSource, FilmArrayProcessor processor) {
         DataManager.loadData(this,
-                getUrl(PAGE),
+                getUrl(page),
                 dataSource,
                 processor);
     }
@@ -173,7 +172,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
 
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
-                    currentPosition = position;
+
                     if (convertView == null) {
                         convertView = View.inflate(activity.getApplicationContext(), R.layout.adapter_item, null);
                     }
@@ -189,7 +188,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                     holder.ratingText.setText(item.getVoteAverage() + "/10" + " (" + item.getVoteCount() + ")");
 
                     convertView.setTag(item.getId());
-                    final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
+                    final ImageView poster = (ImageView) convertView.findViewById(R.id.poster_external);
                     final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
                     imageLoader.loadAndDisplay(url, poster);
                     return convertView;
@@ -202,7 +201,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
             listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
                 private int previousTotal = 0;
-                private int visibleThreshold = 5;
+                private int visibleThreshold = 10;
 
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -235,17 +234,18 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                     if (previousTotal != totalItemCount && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
                         previousTotal = totalItemCount;
                         isImageLoaderControlledByDataManager = true;
-                        PAGE++;
+                        page++;
                         DataManager.loadData(new DataManager.Callback<List<Film>>() {
                                                  @Override
                                                  public void onDataLoadStart() {
                                                      imageLoader.pause();
+                                                     refreshFooter();
                                                  }
 
                                                  @Override
                                                  public void onDone(List<Film> data) {
                                                      updateAdapter(data);
-                                                     refreshFooter();
+//                                                     refreshFooter();
                                                      imageLoader.resume();
                                                      isImageLoaderControlledByDataManager = false;
                                                  }
@@ -257,7 +257,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                                                      isImageLoaderControlledByDataManager = false;
                                                  }
                                              },
-                                getUrl(PAGE),
+                                getUrl(page),
                                 getHttpDataSource(),
                                 getProcessor());
                     }
@@ -281,11 +281,6 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
             updateAdapter(data);
         }
         refreshFooter();
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 
     private void updateAdapter(List<Film> data) {

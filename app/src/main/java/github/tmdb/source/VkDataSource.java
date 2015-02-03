@@ -10,9 +10,16 @@ import github.tmdb.CoreApplication;
 import github.tmdb.api.Api;
 import github.tmdb.auth.VkOAuthHelper;
 
-public class VkDataSource extends HttpDataSource {
+public class VkDataSource extends CachedDataSource {
 
     public static final String KEY = "VkDataSource";
+
+    private Context context;
+
+    public VkDataSource(Context context) {
+        super(context);
+        this.context = context;
+    }
 
     public static VkDataSource get(Context context) {
         return CoreApplication.get(context, KEY);
