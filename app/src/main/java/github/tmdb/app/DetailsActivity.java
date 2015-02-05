@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +26,7 @@ import java.util.List;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.DeveloperKey;
+import github.tmdb.api.Language;
 import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
 import github.tmdb.fragment.DetailFragment;
@@ -38,7 +38,7 @@ import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
 
 
-public class DetailsActivity extends ActionBarActivity implements DataManager.Callback<Film>, SearchView.OnQueryTextListener {
+public class DetailsActivity extends AbstractActivity implements DataManager.Callback<Film>, SearchView.OnQueryTextListener {
 
     private static final int REQ_START_STANDALONE_PLAYER = 1;
     private static final int REQ_RESOLVE_SERVICE_MISSING = 2;
@@ -68,7 +68,7 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
 
 
         backdrop = (ImageView) findViewById(R.id.backdrop);
-        posterExternal = (ImageView) findViewById(R.id.poster_external);
+        posterExternal = (ImageView) findViewById(R.id.poster);
         FragmentTransaction fragmentTransaction;
         Fragment fragment;
 
@@ -168,6 +168,9 @@ public class DetailsActivity extends ActionBarActivity implements DataManager.Ca
                 } else {
                     Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
                 }
+                return true;
+            case R.id.language_setting:
+                Language.getLanguageDialog(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

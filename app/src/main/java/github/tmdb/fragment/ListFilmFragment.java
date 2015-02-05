@@ -18,11 +18,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Locale;
 
 import github.tmdb.R;
 import github.tmdb.adapter.CustomAdapter;
 import github.tmdb.api.ApiTMDB;
+import github.tmdb.api.Language;
 import github.tmdb.app.DetailsActivity;
 import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
@@ -118,7 +118,7 @@ public class ListFilmFragment extends BaseFragment implements DataManager.Callba
     private String getUrl(int page) {
         StringBuilder controlUrl = new StringBuilder(url);
         controlUrl.append(ApiTMDB.getPage(controlUrl.toString(), page));
-        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Locale.getDefault().getLanguage());
+        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Language.getLanguage());
         return controlUrl.toString();
     }
 

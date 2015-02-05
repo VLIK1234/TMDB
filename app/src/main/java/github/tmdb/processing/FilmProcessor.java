@@ -17,7 +17,7 @@ public class FilmProcessor implements Processor<Film, InputStream> {
         JSONObject jsonObject = new JSONObject(string);
 
         Film film = new Film(jsonObject);
-        film.initTitle();
+//        film.initTitle();
 
         return film;
     }

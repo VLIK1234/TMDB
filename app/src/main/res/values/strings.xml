@@ -42,4 +42,9 @@
     <string name="backdrop_description">Backdrop</string>
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
     <string name="trailer_button">Trailer</string>
+    <string name="language_setting">Language</string>
+    <string name="cancel">Cancel</string>
+    <string name="english">En</string>
+    <string name="russian">Ru</string>
+    <string name="alpha">Alpha</string>
 </resources>

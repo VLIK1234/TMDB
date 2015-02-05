@@ -20,11 +20,11 @@ import android.widget.TextView;
 import org.json.JSONException;
 
 import java.util.List;
-import java.util.Locale;
 
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.AppendToResponseForFilm;
+import github.tmdb.api.Language;
 import github.tmdb.app.DetailsActivity;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
@@ -43,6 +43,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         TextView title;
         TextView date;
         TextView genres;
+        TextView runtime;
         TextView tagline;
         TextView overview;
         ImageView poster;
@@ -63,10 +64,11 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_detail, container, false);
-        holder.poster = (ImageView) v.findViewById(R.id.poster_external);
+        holder.poster = (ImageView) v.findViewById(R.id.poster);
         holder.title = (TextView) v.findViewById(R.id.title);
         holder.date = (TextView) v.findViewById(R.id.date);
         holder.genres = (TextView) v.findViewById(R.id.genres);
+        holder.runtime = (TextView) v.findViewById(R.id.runtime);
         holder.tagline = (TextView) v.findViewById(R.id.tagline);
         holder.overview = (TextView) v.findViewById(R.id.overview);
         return v;
@@ -114,7 +116,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
     private String getUrl() {
         StringBuilder controlUrl = new StringBuilder(detailUrl);
-        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Locale.getDefault().getLanguage());
+        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Language.getLanguage());
         controlUrl.append(Film.getAppendToResponse(AppendToResponseForFilm.releases,AppendToResponseForFilm.videos));
         return controlUrl.toString();
     }
@@ -162,6 +164,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
             ErrorHelper.showDialog(activity.getString(R.string.json_exept) + e.getMessage(),
                     getActivity().getSupportFragmentManager().beginTransaction());
         }
+
+        holder.runtime.setText(data.getRuntime());
 
         final String urlPoster = data.getPosterPath(ApiTMDB.SizePoster.w342);
         holder.poster.setImageBitmap(null);

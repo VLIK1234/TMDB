@@ -6,6 +6,7 @@ import android.content.Context;
 import java.util.HashMap;
 import java.util.Map;
 
+import github.tmdb.api.Language;
 import github.tmdb.image.ImageLoader;
 import github.tmdb.source.CachedDataSource;
 import github.tmdb.source.HttpDataSource;
@@ -14,11 +15,12 @@ import github.tmdb.source.VkDataSource;
 
 public class CoreApplication extends Application {
 
-    Map<String,Object> serviceMap = new HashMap<>();
+    private Map<String,Object> serviceMap = new HashMap<>();
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Language.initialize(this);
         serviceMap.put(HttpDataSource.KEY, new HttpDataSource());
         serviceMap.put(VkDataSource.KEY, new VkDataSource(this));
         serviceMap.put(CachedDataSource.KEY, new CachedDataSource(this));

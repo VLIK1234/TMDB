@@ -23,10 +23,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Locale;
 
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
+import github.tmdb.api.Language;
 import github.tmdb.app.DetailsActivity;
 import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
@@ -135,7 +135,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     private String getUrl(int page) {
         StringBuilder controlUrl = new StringBuilder(url);
         controlUrl.append(ApiTMDB.getPage(controlUrl.toString(), page));
-        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Locale.getDefault().getLanguage());
+        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Language.getLanguage());
         return controlUrl.toString();
     }
 
@@ -188,7 +188,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                     holder.ratingText.setText(item.getVoteAverage() + "/10" + " (" + item.getVoteCount() + ")");
 
                     convertView.setTag(item.getId());
-                    final ImageView poster = (ImageView) convertView.findViewById(R.id.poster_external);
+                    final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
                     final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
                     imageLoader.loadAndDisplay(url, poster);
                     return convertView;

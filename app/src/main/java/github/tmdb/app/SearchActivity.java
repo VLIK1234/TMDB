@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +14,7 @@ import java.net.URLEncoder;
 
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
+import github.tmdb.api.Language;
 import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.fragment.ListFilmFragment;
 import github.tmdb.helper.ErrorHelper;
@@ -22,7 +22,7 @@ import github.tmdb.helper.ErrorHelper;
 /**
  * Created by VLIK on 18.01.2015.
  */
-public class SearchActivity extends ActionBarActivity implements SearchView.OnQueryTextListener {
+public class SearchActivity extends AbstractActivity implements SearchView.OnQueryTextListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +60,22 @@ public class SearchActivity extends ActionBarActivity implements SearchView.OnQu
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.language_setting:
+                Language.getLanguageDialog(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void onSearch(String search) throws UnsupportedEncodingException {
         DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(URLEncoder.encode(search, getString(R.string.utf_8))), search);
         Intent intent = getIntent();
         intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
-        finish();
-        startActivity(intent);
+        restartActivity();
     }
 
 

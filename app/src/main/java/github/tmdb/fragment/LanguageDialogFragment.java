@@ -17,9 +17,9 @@ import github.tmdb.api.Language;
 import github.tmdb.app.AbstractActivity;
 
 /**
- * Created by ASUS on 21.01.2015.
+ * Created by ASUS on 05.02.2015.
  */
-public class AlphaFragment extends DialogFragment implements RadioGroup.OnCheckedChangeListener{
+public class LanguageDialogFragment extends DialogFragment implements RadioGroup.OnCheckedChangeListener{
 
     private RadioGroup radioGroup;
     private Activity activity;

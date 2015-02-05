@@ -16,4 +16,8 @@
         android:orderInCategory="1"
         app:showAsAction="ifRoom|withText"
         app:actionViewClass="android.support.v7.widget.SearchView"/>
+    <item android:id="@+id/language_setting"
+        android:title="@string/language_setting"
+        android:orderInCategory="3"
+        app:showAsAction="never"/>
 </menu>

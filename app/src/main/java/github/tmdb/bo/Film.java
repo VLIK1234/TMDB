@@ -12,6 +12,7 @@ import java.util.Locale;
 
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.AppendToResponseForFilm;
+import github.tmdb.api.Language;
 
 public class Film extends JSONObjectWrapper {
 
@@ -27,11 +28,9 @@ public class Film extends JSONObjectWrapper {
     private static final String TAGLINE = "tagline";
     private static final String TOTAL_PAGES = "total_pages";
     private static final String VIDEOS = "videos";
-
-
+    private static final String RUNTIME = "runtime";
     private static final String RESULTS = "results";
     private static final String HTTPS_IMAGE_TMDB_ORG_T_P = "https://image.tmdb.org/t/p/";
-
     private static final String KEY = "KEY";
 
     public static final Parcelable.Creator<Film> CREATOR
@@ -71,6 +70,13 @@ public class Film extends JSONObjectWrapper {
         return getString(TITLE);
     }
 
+    public String getRuntime() {
+        if (getString(RUNTIME).equals("null")||getString(RUNTIME).equals("0")) {
+            return "";
+        }
+        return getString(RUNTIME) + " min";
+    }
+
     public String getTagline() {
         if (getString(TAGLINE).equals("null")) {
             return "";
@@ -91,7 +97,7 @@ public class Film extends JSONObjectWrapper {
             Calendar calendar = Calendar.getInstance();
             java.sql.Date javaSqlDate = java.sql.Date.valueOf(date);
             calendar.setTime(javaSqlDate);
-            date = String.valueOf(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) + " " + calendar.get(Calendar.YEAR));
+            date = String.valueOf(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, new Locale(Language.getLanguage())) + " " + calendar.get(Calendar.YEAR));
         }
         return date;
     }
