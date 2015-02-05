@@ -24,6 +24,7 @@ public class LanguageDialogFragment extends DialogFragment implements RadioGroup
     private RadioGroup radioGroup;
     private Activity activity;
     private final String KEY_SAVED_RADIO_BUTTON_INDEX = "SAVED_RADIO_BUTTON_INDEX";
+    private static final String LAST_INDEX_CHECK = "LAST_INDEX_CHECK";
 
     @NonNull
     @Override
@@ -49,14 +50,14 @@ public class LanguageDialogFragment extends DialogFragment implements RadioGroup
 
 
     private void SavePreferences(String key, int value) {
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("MY_SHARED_PREF", activity.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(LAST_INDEX_CHECK, activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(key, value);
         editor.commit();
     }
 
     private void LoadPreferences() {
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("MY_SHARED_PREF", activity.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = activity.getSharedPreferences(LAST_INDEX_CHECK, activity.MODE_PRIVATE);
         int savedRadioIndex = sharedPreferences.getInt(KEY_SAVED_RADIO_BUTTON_INDEX, 0);
         RadioButton savedCheckedRadioButton = (RadioButton) radioGroup.getChildAt(savedRadioIndex);
         savedCheckedRadioButton.setChecked(true);
