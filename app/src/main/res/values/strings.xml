@@ -35,9 +35,9 @@
     <string name="error_title_dialog">Error</string>
     <string name="ok_button">OK</string>
     <string name="cancel_button">Cancel</string>
-    <string name="unsup_encod_exept">UnsupportedEncodingException\n</string>
-    <string name="some_exeption">Some exeption was happening\n</string>
-    <string name="json_exept">JSON exeption</string>
+    <string name="unsup_encod_exсept">UnsupportedEncodingException\n</string>
+    <string name="some_exception">Some exception was happening\n</string>
+    <string name="json_exсept">JSON exception</string>
     <string name="button_alpha">Alpha</string>
     <string name="backdrop_description">Backdrop</string>
     <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>

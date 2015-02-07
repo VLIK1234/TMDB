@@ -66,7 +66,6 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
                 DescriptionOfTheFilm.class.getCanonicalName());
         detailUrl = description.getDetailsUrl();
 
-
         backdrop = (ImageView) findViewById(R.id.backdrop);
         posterExternal = (ImageView) findViewById(R.id.poster);
         FragmentTransaction fragmentTransaction;
@@ -191,7 +190,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
             onSearch(s);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            ErrorHelper.showDialog(getString(R.string.unsup_encod_exept) + e.getMessage(),
+            ErrorHelper.showDialog(getString(R.string.unsup_encod_exсept) + e.getMessage(),
                     getSupportFragmentManager().beginTransaction());
         }
         return true;
@@ -205,7 +204,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     @Override
     public void onError(Exception e) {
         e.printStackTrace();
-        ErrorHelper.showDialog(getString(R.string.some_exeption) + e.getMessage(),
+        ErrorHelper.showDialog(getString(R.string.some_exception) + e.getMessage(),
                 getSupportFragmentManager().beginTransaction());
     }
 }

@@ -14,6 +14,7 @@ import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         TextView tagline;
         TextView overview;
         ImageView poster;
+        Button trailerButton;
     }
 
     public static final String EXTRA_LANG = "extra_lang";
@@ -54,11 +56,11 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     private FilmProcessor filmProcessor = new FilmProcessor();
     private ImageLoader imageLoader;
     private String detailUrl;
+    private String language;
 
     private Activity activity;
 
     private List<String> videosKey;
-    private String urlVideoPlayer;
 
     @Nullable
     @Override
@@ -71,6 +73,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.runtime = (TextView) v.findViewById(R.id.runtime);
         holder.tagline = (TextView) v.findViewById(R.id.tagline);
         holder.overview = (TextView) v.findViewById(R.id.overview);
+        holder.trailerButton = (Button) v.findViewById(R.id.trailer_button);
         return v;
     }
 
@@ -84,6 +87,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         final FilmProcessor processor = getProcessor();
 
         this.detailUrl = getLanguage();
+        language = Language.getLanguage();
         update(dataSource, processor);
     }
 
@@ -116,7 +120,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
     private String getUrl() {
         StringBuilder controlUrl = new StringBuilder(detailUrl);
-        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Language.getLanguage());
+        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(language);
         controlUrl.append(Film.getAppendToResponse(AppendToResponseForFilm.releases,AppendToResponseForFilm.videos));
         return controlUrl.toString();
     }
@@ -133,10 +137,14 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
             videosKey = data.getVideos();
             if (videosKey.size()>=1) {
                 ((DetailsActivity)getActivity()).getVideosKey(videosKey.get(0));
+                holder.trailerButton.setVisibility(View.VISIBLE);
+            }
+            else{
+                ((DetailsActivity)getActivity()).getVideosKey("");
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            ErrorHelper.showDialog(getString(R.string.json_exept) + e.getMessage(),
+            ErrorHelper.showDialog(getString(R.string.json_exсept) + e.getMessage(),
                     getActivity().getSupportFragmentManager().beginTransaction());
         }
 
@@ -161,7 +169,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         try {
             holder.genres.setText(data.getGenres());
         } catch (JSONException e) {
-            ErrorHelper.showDialog(activity.getString(R.string.json_exept) + e.getMessage(),
+            ErrorHelper.showDialog(activity.getString(R.string.json_exсept) + e.getMessage(),
                     getActivity().getSupportFragmentManager().beginTransaction());
         }
 
@@ -177,7 +185,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     @Override
     public void onError(Exception e) {
         e.printStackTrace();
-        ErrorHelper.showDialog(activity.getString(R.string.some_exeption) + e.getMessage(),
+        ErrorHelper.showDialog(activity.getString(R.string.some_exception) + e.getMessage(),
                 getActivity().getSupportFragmentManager().beginTransaction());
     }
 

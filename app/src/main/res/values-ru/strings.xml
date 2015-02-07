@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TMDB</string>
+
+    <string name="title_login_activity">Авторизация</string>
+    <string name="title_vk_login_activity">Vk экран авторизации</string>
+
+    <string name="action_internet">Internet</string>
+
+    <string name="empty_message">Ничего не найдено.</string>
+    <string name="error_message">Ошибка с данными.</string>
+    <string name="app_not_available">Извините, веб браузер недоступен.</string>
+
+    <string name="button_log_noauth">Без авторизации</string>
+    <string name="button_log_vkauth">Vk авторизация</string>
+
+    <string name="search_hint">Поиск</string>
+
+    <string name="tagline">Слоган\n</string>
+    <string name="search_by">"Поиск по "</string>
+    <string name="now_playing">Новинки кино</string>
+    <string name="error_title_dialog">Ошибка</string>
+    <string name="some_exception">Произошла непредвиденная ошибка\n</string>
+    <string name="button_alpha">Alpha</string>
+    <string name="backdrop_description">Backdrop</string>
+    <string name="error_player">Произошла ошибка с вызовом YouTubePlayer (%1$s)</string>
+    <string name="language_setting">Язык</string>
+</resources>

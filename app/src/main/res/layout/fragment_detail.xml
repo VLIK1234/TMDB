@@ -2,130 +2,124 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/icons">
+    android:background="@color/icons"
+    android:orientation="vertical">
+
     <FrameLayout
         android:id="@+id/head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <RelativeLayout
                 android:id="@+id/poster_container"
-                android:layout_width="170dp"
-                android:layout_height="256dp">
+                android:layout_width="@dimen/w342_width"
+                android:layout_height="@dimen/w342_height"
+                android:layout_margin="@dimen/border_margin">
+
                 <ImageView
                     android:id="@+id/no_poster"
-                    android:contentDescription="@string/no_poster"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/w342"
-                    android:layout_margin="6dp"
-                    android:scaleType="centerCrop"/>
+                    android:contentDescription="@string/no_poster"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/w342" />
+
                 <ImageView
                     android:id="@+id/poster"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:contentDescription="@string/poster_description"
-                    android:layout_width="170dip"
-                    android:layout_height="256dip"
-                    android:layout_margin="6dp"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop" />
 
                 <Button
                     android:id="@+id/trailer_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
+                    android:layout_width="@dimen/trailer_button_width"
+                    android:layout_height="@dimen/trailer_button_height"
                     android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
                     android:background="@drawable/ic_play_arrow"
-                    android:onClick="onClick"/>
+                    android:onClick="onClick"
+                    android:visibility="gone" />
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/title"
+            <LinearLayout
+                android:id="@+id/info_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_toRightOf="@id/poster_container"
-                android:layout_toEndOf="@id/poster_container"/>
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
-                android:textSize="15sp"
-                android:textStyle="normal"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_toRightOf="@id/poster_container"
+                android:layout_marginEnd="@dimen/right_margin"
+                android:layout_marginLeft="@dimen/left_margin"
+                android:layout_marginRight="@dimen/right_margin"
+                android:layout_marginStart="@dimen/left_margin"
+                android:layout_marginTop="@dimen/top_margin"
                 android:layout_toEndOf="@id/poster_container"
-                android:layout_below="@id/title"/>
+                android:layout_toRightOf="@id/poster_container"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/genres"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="6dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:textSize="15sp"
-                android:layout_toRightOf="@id/poster_container"
-                android:layout_toEndOf="@id/poster_container"
-                android:layout_below="@+id/date"/>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/title_size"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/runtime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:textSize="15sp"
-                android:layout_toRightOf="@id/poster_container"
-                android:layout_toEndOf="@id/poster_container"
-                android:layout_below="@+id/genres"/>
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/space_text_margin"
+                    android:layout_marginTop="@dimen/space_text_margin"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/second_text_size"
+                    android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/tagline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="6dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:textSize="15sp"
-                android:lineSpacingMultiplier="0.85"
-                android:layout_toRightOf="@id/poster_container"
-                android:layout_toEndOf="@id/poster_container"
-                android:layout_below="@+id/runtime"/>
+                <TextView
+                    android:id="@+id/genres"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/space_text_margin"
+                    android:layout_marginTop="@dimen/space_text_margin"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/second_text_size" />
+
+                <TextView
+                    android:id="@+id/runtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/space_text_margin"
+                    android:layout_marginTop="@dimen/space_text_margin"
+                    android:textSize="@dimen/second_text_size" />
+
+                <TextView
+                    android:id="@+id/tagline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/space_text_margin"
+                    android:layout_marginTop="@dimen/space_text_margin"
+                    android:lineSpacingMultiplier="1.0"
+                    android:textSize="@dimen/second_text_size" />
+            </LinearLayout>
+
         </RelativeLayout>
     </FrameLayout>
 
     <TextView
-        style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
         android:id="@+id/overview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
-        android:textSize="15sp"
+        android:layout_below="@id/head"
+        android:layout_margin="@dimen/border_margin"
         android:lineSpacingMultiplier="1.2"
-        android:layout_below="@id/head"/>
+        android:textSize="@dimen/second_text_size" />
+
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_below="@id/overview"
         android:layout_height="1dp"
+        android:layout_below="@id/overview"
         android:background="@color/divider" />
 </RelativeLayout>

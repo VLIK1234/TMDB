@@ -76,7 +76,7 @@ public class MainScreenActivity extends AbstractActivity implements SearchView.O
             onSearch(s);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            ErrorHelper.showDialog(getString(R.string.unsup_encod_exept) + e.getMessage(),
+            ErrorHelper.showDialog(getString(R.string.unsup_encod_exсept) + e.getMessage(),
                     getSupportFragmentManager().beginTransaction());
         }
         return true;

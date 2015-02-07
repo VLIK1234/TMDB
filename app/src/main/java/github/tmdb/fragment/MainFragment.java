@@ -70,6 +70,8 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     private ProgressBar progressBar;
     private Activity activity;
 
+    private String language;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,6 +93,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
         }
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
+        language = Language.getLanguage();
 
         page = 1;
         url = getExtraData();
@@ -135,7 +138,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
     private String getUrl(int page) {
         StringBuilder controlUrl = new StringBuilder(url);
         controlUrl.append(ApiTMDB.getPage(controlUrl.toString(), page));
-        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Language.getLanguage());
+        controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(language);
         return controlUrl.toString();
     }
 

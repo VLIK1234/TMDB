@@ -85,7 +85,7 @@ public class SearchActivity extends AbstractActivity implements SearchView.OnQue
             onSearch(s);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            ErrorHelper.showDialog(getString(R.string.unsup_encod_exept) + e.getMessage(),
+            ErrorHelper.showDialog(getString(R.string.unsup_encod_exсept) + e.getMessage(),
                     getSupportFragmentManager().beginTransaction());
         }
         return true;
