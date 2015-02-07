@@ -173,7 +173,12 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
                     getActivity().getSupportFragmentManager().beginTransaction());
         }
 
-        holder.runtime.setText(data.getRuntime());
+        if (!data.getRuntime().equals("")) {
+            holder.runtime.setText(data.getRuntime() + activity.getString(R.string.min));
+        }
+        else{
+            holder.runtime.setText(data.getRuntime());
+        }
 
         final String urlPoster = data.getPosterPath(ApiTMDB.SizePoster.w342);
         holder.poster.setImageBitmap(null);

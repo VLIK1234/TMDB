@@ -74,7 +74,7 @@ public class Film extends JSONObjectWrapper {
         if (getString(RUNTIME).equals("null")||getString(RUNTIME).equals("0")) {
             return "";
         }
-        return getString(RUNTIME) + " min";
+        return getString(RUNTIME);
     }
 
     public String getTagline() {
