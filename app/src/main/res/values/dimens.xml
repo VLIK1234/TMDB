@@ -23,4 +23,9 @@
     <dimen name="date_size">14sp</dimen>
     <dimen name="rating_margin">8dp</dimen>
     <dimen name="rating_text_size">12sp</dimen>
+    <dimen name="land_detail_top_margin">160dip</dimen>
+    <dimen name="land_detail_side_margin">32dp</dimen>
+    <dimen name="port_detail_top_margin">240dip</dimen>
+    <dimen name="left_star_margin">4dp</dimen>
+    <dimen name="size_big_star">60dp</dimen>
 </resources>

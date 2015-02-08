@@ -14,23 +14,30 @@
         android:text="Click" />
 
     <RelativeLayout
-        android:layout_width="170dp"
-        android:layout_height="256dp">
+        android:layout_width="80dp"
+        android:layout_height="80dp">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/no_poster"
             android:scaleType="centerCrop"
-            android:src="@drawable/w342" />
+            android:src="@drawable/star_big" />
 
-        <Button
+        <TextView
+            android:id="@+id/rating_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+        <TextView
+            android:id="@+id/rating_pic_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/ic_play_arrow" />
+            android:layout_alignParentEnd="true"/>
 
-        </RelativeLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

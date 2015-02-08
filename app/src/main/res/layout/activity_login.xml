@@ -37,6 +37,6 @@
         android:onClick="onAlphaClick"
         android:padding="8dp"
         android:text="@string/button_alpha"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </RelativeLayout>

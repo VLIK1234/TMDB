@@ -6,9 +6,9 @@
 
     <ImageView
         android:id="@+id/backdrop"
-        android:contentDescription="@string/backdrop_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/backdrop_description"
         android:scaleType="centerCrop" />
 
     <ScrollView
@@ -19,8 +19,7 @@
         <FrameLayout
             android:id="@+id/frame_detail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="230dip"
-            />
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/port_detail_top_margin" />
     </ScrollView>
 </RelativeLayout>

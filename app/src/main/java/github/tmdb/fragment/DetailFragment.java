@@ -45,6 +45,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         TextView date;
         TextView genres;
         TextView runtime;
+        TextView rating;
+        TextView ratingText;
         TextView tagline;
         TextView overview;
         ImageView poster;
@@ -71,6 +73,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.date = (TextView) v.findViewById(R.id.date);
         holder.genres = (TextView) v.findViewById(R.id.genres);
         holder.runtime = (TextView) v.findViewById(R.id.runtime);
+        holder.rating = (TextView) v.findViewById(R.id.rating_pic);
+        holder.ratingText = (TextView) v.findViewById(R.id.rating_pic_text);
         holder.tagline = (TextView) v.findViewById(R.id.tagline);
         holder.overview = (TextView) v.findViewById(R.id.overview);
         holder.trailerButton = (Button) v.findViewById(R.id.trailer_button);
@@ -150,6 +154,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
         holder.title.setText(data.getTitle());
         holder.date.setText(data.getReleaseDate());
+        holder.rating.setText(data.getVoteAverage());
+        holder.ratingText.setText(activity.getString(R.string.rating) + data.getVoteAverage()+ activity.getString(R.string.from) + data.getVoteCount());
 
         if ((activity = getActivity()) != null) {
             ((DetailsActivity) activity).setActionBarTitle(holder.title.getText().toString());

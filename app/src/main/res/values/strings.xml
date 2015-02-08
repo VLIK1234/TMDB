@@ -48,4 +48,6 @@
     <string name="russian">Ru</string>
     <string name="alpha">Alpha</string>
     <string name="min">" min"</string>
+    <string name="rating">"Ratings: "</string>
+    <string name="from">"/10 from "</string>
 </resources>
