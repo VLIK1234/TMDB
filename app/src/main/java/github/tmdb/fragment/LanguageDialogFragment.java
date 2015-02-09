@@ -39,6 +39,13 @@ public class LanguageDialogFragment extends DialogFragment implements RadioGroup
                 .setTitle(getString(R.string.language_setting))
                 .setCancelable(true)
                 .setView(v)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Language.setLanguage(Language.getLanguage());
+                        dialog.cancel();
+                    }
+                })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
