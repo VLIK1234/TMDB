@@ -15,9 +15,9 @@ public class VkOAuthHelper {
         void onSuccess();
     }
 
-    private static String token;
+    public static String token;
     public static final String REDIRECT_URL = "https://oauth.vk.com/blank.html";
-    public static final String AUTORIZATION_URL = "https://oauth.vk.com/authorize?client_id=4611084&scope=offline,wall,photos,status&redirect_uri=" + REDIRECT_URL + "&display=touch&response_type=token";
+    public static final String AUTORIZATION_URL = "https://oauth.vk.com/authorize?client_id=4616332&scope=offline,wall,photos,status&redirect_uri=" + REDIRECT_URL + "&display=touch&response_type=token";
 
     static SharedPreferences sharedPreferences;
 
@@ -41,6 +41,7 @@ public class VkOAuthHelper {
             String accessToken = parsedFragment.getQueryParameter("access_token");
             if (!TextUtils.isEmpty(accessToken)) {
                 callbacks.onSuccess();
+                token = accessToken;
                 return true;
             } else {
                 String error = parsedFragment.getQueryParameter("error");

@@ -30,6 +30,7 @@ import github.tmdb.app.DetailsActivity;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
 import github.tmdb.helper.ErrorHelper;
+import github.tmdb.helper.WallPostSendHelper;
 import github.tmdb.image.ImageLoader;
 import github.tmdb.processing.FilmProcessor;
 import github.tmdb.source.HttpDataSource;
@@ -38,7 +39,7 @@ import github.tmdb.source.TMDBDataSource;
 /**
  * Created by ASUS on 21.01.2015.
  */
-public class DetailFragment extends Fragment implements DataManager.Callback<Film> {
+public class DetailFragment extends Fragment implements DataManager.Callback<Film>, View.OnClickListener {
 
     static class ViewHolder {
         TextView title;
@@ -51,6 +52,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         TextView overview;
         ImageView poster;
         Button trailerButton;
+        Button postButton;
     }
 
     public static final String EXTRA_LANG = "extra_lang";
@@ -63,6 +65,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     private Activity activity;
 
     private List<String> videosKey;
+    private String postMessage;
 
     @Nullable
     @Override
@@ -78,6 +81,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.tagline = (TextView) v.findViewById(R.id.tagline);
         holder.overview = (TextView) v.findViewById(R.id.overview);
         holder.trailerButton = (Button) v.findViewById(R.id.trailer_button);
+        holder.postButton = (Button) v.findViewById(R.id.post_button);
         return v;
     }
 
@@ -191,6 +195,13 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.poster.setTag(urlPoster);
 
         imageLoader.loadAndDisplay(urlPoster, holder.poster);
+        holder.postButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        WallPostSendHelper wallPostSend = new WallPostSendHelper(activity.getApplicationContext());
+        wallPostSend.send(postMessage);
     }
 
     @Override

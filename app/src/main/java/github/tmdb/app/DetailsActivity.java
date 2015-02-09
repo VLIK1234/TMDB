@@ -131,7 +131,6 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
                 if (canResolveIntent(intent)) {
                     startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
                 } else {
-                    // Could not resolve the intent - must need to install or update the YouTube API service.
                     YouTubeInitializationResult.SERVICE_MISSING
                             .getErrorDialog(this, REQ_RESOLVE_SERVICE_MISSING).show();
                 }
