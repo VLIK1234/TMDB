@@ -10,7 +10,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import github.tmdb.R;
-
 import github.tmdb.auth.VkOAuthHelper;
 
 /**

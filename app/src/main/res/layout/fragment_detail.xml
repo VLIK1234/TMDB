@@ -120,7 +120,7 @@
                             android:src="@drawable/star_big" />
 
                         <TextView
-                            android:id="@id/rating_pic"
+                            android:id="@+id/rating_pic"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true" />

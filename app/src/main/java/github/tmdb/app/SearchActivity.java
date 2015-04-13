@@ -75,7 +75,8 @@ public class SearchActivity extends AbstractActivity implements SearchView.OnQue
         DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(URLEncoder.encode(search, getString(R.string.utf_8))), search);
         Intent intent = getIntent();
         intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
-        restartActivity();
+        startActivity(intent);
+//        restartActivity();
     }
 
 
