@@ -2,12 +2,14 @@ package github.tmdb.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 /**
- * Created by ASUS on 31.01.2015.
+ @author IvanBakach
+ @version on 31.01.2015
  */
-public  abstract class AbstractActivity extends ActionBarActivity {
+
+public  abstract class AbstractActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

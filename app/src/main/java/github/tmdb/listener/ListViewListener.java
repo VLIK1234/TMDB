@@ -8,21 +8,21 @@ import java.util.List;
 import java.util.Locale;
 
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.image.ImageLoaderIstin;
 import github.tmdb.processing.FilmArrayProcessor;
 import github.tmdb.processing.Processor;
 import github.tmdb.source.DataSource;
 import github.tmdb.source.TMDBDataSource;
 
 /**
- * Created by ASUS on 02.02.2015.
+ @author IvanBakach
+ @version on 02.02.2015
  */
+
 public class ListViewListener extends AbstractScrollListener {
 
-    public ListViewListener(Context context, ListView listView, ImageLoaderIstin imageLoaderIstin, List data, ArrayAdapter adapter, String url) {
+    public ListViewListener(Context context, ListView listView, List data, ArrayAdapter adapter, String url) {
         super.context = context;
         super.listView = listView;
-        super.mImageLoaderIstin = imageLoaderIstin;
         super.data = data;
         super.adapter = adapter;
         super.url = url;

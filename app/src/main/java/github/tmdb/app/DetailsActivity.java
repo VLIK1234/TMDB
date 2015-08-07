@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -46,7 +47,6 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     private ImageView backdrop;
     private ImageView posterExternal;
     private FilmProcessor filmProcessor = new FilmProcessor();
-    private ImageLoaderIstin mImageLoaderIstin;
 
     private String detailUrl;
     private String videoKey;
@@ -57,8 +57,6 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
         setContentView(R.layout.activity_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
-
-        mImageLoaderIstin = ImageLoaderIstin.get(DetailsActivity.this);
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
 
@@ -114,7 +112,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
         final String urlBackdrop = data.getBackdropPath(ApiTMDB.SizePoster.w1280);
         backdrop.setImageBitmap(null);
         backdrop.setTag(urlBackdrop);
-        mImageLoaderIstin.loadAndDisplay(urlBackdrop, backdrop);
+        ImageLoader.getInstance().displayImage(urlBackdrop, backdrop);
     }
 
     public void setActionBarTitle(String title) {

@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.List;
 
 import github.tmdb.R;
@@ -21,7 +23,6 @@ import github.tmdb.image.ImageLoaderIstin;
 public class CustomAdapter extends ArrayAdapter<Film> {
 
     private Context context;
-    private ImageLoaderIstin mImageLoaderIstin;
 
     static class ViewHolder {
         TextView title;
@@ -32,10 +33,9 @@ public class CustomAdapter extends ArrayAdapter<Film> {
     }
     private ViewHolder holder = new ViewHolder();
 
-    public CustomAdapter(Context context, int resource, int textViewResourceId, List<Film> objects, ImageLoaderIstin imageLoaderIstin) {
+    public CustomAdapter(Context context, int resource, int textViewResourceId, List<Film> objects) {
         super(context, resource, textViewResourceId, objects);
         this.context = context;
-        this.mImageLoaderIstin = imageLoaderIstin;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CustomAdapter extends ArrayAdapter<Film> {
         convertView.setTag(item.getId());
         final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
         final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
-        mImageLoaderIstin.loadAndDisplay(url, poster);
+        ImageLoader.getInstance().displayImage(url, poster);
         return convertView;
     }
 }

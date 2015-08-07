@@ -29,7 +29,6 @@ public abstract class AbstractScrollListener implements AbsListView.OnScrollList
     private boolean isPagingEnabled = true;
     private boolean isImageLoaderControlledByDataManager = false;
     private View footerProgress;
-    public ImageLoaderIstin mImageLoaderIstin;
     public Context context;
     public String url;
     private int page = 1;
@@ -47,17 +46,14 @@ public abstract class AbstractScrollListener implements AbsListView.OnScrollList
         switch (scrollState) {
             case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                 if (!isImageLoaderControlledByDataManager) {
-                    mImageLoaderIstin.resume();
                 }
                 break;
             case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
                 if (!isImageLoaderControlledByDataManager) {
-                    mImageLoaderIstin.pause();
                 }
                 break;
             case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
                 if (!isImageLoaderControlledByDataManager) {
-                    mImageLoaderIstin.pause();
                 }
                 break;
         }
@@ -81,20 +77,17 @@ public abstract class AbstractScrollListener implements AbsListView.OnScrollList
             DataManager.loadData(new DataManager.Callback<List<Film>>() {
                                      @Override
                                      public void onDataLoadStart() {
-                                         mImageLoaderIstin.pause();
                                          refreshFooter();
                                      }
 
                                      @Override
                                      public void onDone(List<Film> data) {
                                          updateAdapter(data);
-                                         mImageLoaderIstin.resume();
                                          isImageLoaderControlledByDataManager = false;
                                      }
 
                                      @Override
                                      public void onError(Exception e) {
-                                         mImageLoaderIstin.resume();
                                          isImageLoaderControlledByDataManager = false;
                                      }
                                  },

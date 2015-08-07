@@ -43,12 +43,10 @@ public class ListFilmFragment extends BaseFragment implements DataManager.Callba
     private String url = "";
     private Long selectItemID;
     private ArrayAdapter adapter;
-    private ImageLoaderIstin mImageLoaderIstin;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
     private TextView err;
     private TextView empty;
-    private Activity activity;
     private ProgressBar progressBar;
     private List<Film> data;
 
@@ -67,10 +65,6 @@ public class ListFilmFragment extends BaseFragment implements DataManager.Callba
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        if ((activity = getActivity()) != null) {
-            mImageLoaderIstin = ImageLoaderIstin.get(activity.getApplicationContext());
-        }
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
 
@@ -142,9 +136,9 @@ public class ListFilmFragment extends BaseFragment implements DataManager.Callba
         }
         if (adapter == null) {
             this.data = data;
-            adapter = new CustomAdapter(activity.getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data, mImageLoaderIstin);
+            adapter = new CustomAdapter(getActivity(), R.layout.adapter_item, android.R.id.text1, data);
             listView.setAdapter(adapter);
-            listView.setOnScrollListener(new ListViewListener(activity.getApplicationContext(), listView, mImageLoaderIstin, data, adapter, url));
+            listView.setOnScrollListener(new ListViewListener(getActivity(), listView, data, adapter, url));
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -152,7 +146,7 @@ public class ListFilmFragment extends BaseFragment implements DataManager.Callba
                     selectItemID = item.getId();
 
                     DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(selectItemID));
-                    Intent intent = new Intent(activity.getApplicationContext(), DetailsActivity.class);
+                    Intent intent = new Intent(getActivity(), DetailsActivity.class);
                     intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
                     startActivity(intent);
                 }

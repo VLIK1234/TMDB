@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONException;
 
 import java.util.List;
@@ -58,7 +60,6 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     public static final String EXTRA_LANG = "extra_lang";
     private ViewHolder holder = new ViewHolder();
     private FilmProcessor filmProcessor = new FilmProcessor();
-    private ImageLoaderIstin mImageLoaderIstin;
     private String detailUrl;
     private String language;
 
@@ -88,9 +89,6 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if ((activity = getActivity()) != null) {
-            mImageLoaderIstin = ImageLoaderIstin.get(activity.getApplicationContext());
-        }
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
 
@@ -165,7 +163,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
             ((DetailsActivity) activity).setActionBarTitle(holder.title.getText().toString());
         }
         final SpannableString text_tag;
-        if (!data.getTagline().equals("") && data.getTagline() != null) {
+        if (data.getTagline() != null&&!data.getTagline().equals("")) {
             text_tag = new SpannableString(getString(R.string.tagline) + data.getTagline());
             text_tag.setSpan(new StyleSpan(Typeface.BOLD | Typeface.ITALIC), 0, text_tag.length() - data.getTagline().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             text_tag.setSpan(new TypefaceSpan(getString(R.string.serif)), text_tag.length() - data.getTagline().length(), text_tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -194,7 +192,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.poster.setImageBitmap(null);
         holder.poster.setTag(urlPoster);
 
-        mImageLoaderIstin.loadAndDisplay(urlPoster, holder.poster);
+        ImageLoader.getInstance().displayImage(urlPoster, holder.poster);
         holder.postButton.setOnClickListener(this);
     }
 
