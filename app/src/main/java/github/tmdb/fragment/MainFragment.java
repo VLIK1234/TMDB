@@ -31,7 +31,7 @@ import github.tmdb.app.DetailsActivity;
 import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
-import github.tmdb.image.ImageLoader;
+import github.tmdb.image.ImageLoaderIstin;
 import github.tmdb.processing.FilmArrayProcessor;
 import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
@@ -61,7 +61,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
 
     private ArrayAdapter adapter;
     private FilmArrayProcessor filmArrayProcessor = new FilmArrayProcessor();
-    private ImageLoader imageLoader;
+    private ImageLoaderIstin mImageLoaderIstin;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
@@ -89,7 +89,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
         super.onActivityCreated(savedInstanceState);
 
         if ((activity = getActivity()) != null) {
-            imageLoader = ImageLoader.get(activity.getApplicationContext());
+            mImageLoaderIstin = ImageLoaderIstin.get(activity.getApplicationContext());
         }
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
@@ -193,7 +193,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                     convertView.setTag(item.getId());
                     final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
                     final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
-                    imageLoader.loadAndDisplay(url, poster);
+                    mImageLoaderIstin.loadAndDisplay(url, poster);
                     return convertView;
                 }
 
@@ -211,17 +211,17 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                     switch (scrollState) {
                         case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                             if (!isImageLoaderControlledByDataManager) {
-                                imageLoader.resume();
+                                mImageLoaderIstin.resume();
                             }
                             break;
                         case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
                             if (!isImageLoaderControlledByDataManager) {
-                                imageLoader.pause();
+                                mImageLoaderIstin.pause();
                             }
                             break;
                         case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
                             if (!isImageLoaderControlledByDataManager) {
-                                imageLoader.pause();
+                                mImageLoaderIstin.pause();
                             }
                             break;
                     }
@@ -241,7 +241,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                         DataManager.loadData(new DataManager.Callback<List<Film>>() {
                                                  @Override
                                                  public void onDataLoadStart() {
-                                                     imageLoader.pause();
+                                                     mImageLoaderIstin.pause();
                                                      refreshFooter();
                                                  }
 
@@ -249,14 +249,14 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                                                  public void onDone(List<Film> data) {
                                                      updateAdapter(data);
 //                                                     refreshFooter();
-                                                     imageLoader.resume();
+                                                     mImageLoaderIstin.resume();
                                                      isImageLoaderControlledByDataManager = false;
                                                  }
 
                                                  @Override
                                                  public void onError(Exception e) {
                                                      MainFragment.this.onError(e);
-                                                     imageLoader.resume();
+                                                     mImageLoaderIstin.resume();
                                                      isImageLoaderControlledByDataManager = false;
                                                  }
                                              },

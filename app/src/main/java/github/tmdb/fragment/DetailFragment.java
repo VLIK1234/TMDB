@@ -31,7 +31,7 @@ import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
 import github.tmdb.helper.ErrorHelper;
 import github.tmdb.helper.WallPostSendHelper;
-import github.tmdb.image.ImageLoader;
+import github.tmdb.image.ImageLoaderIstin;
 import github.tmdb.processing.FilmProcessor;
 import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
@@ -58,7 +58,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     public static final String EXTRA_LANG = "extra_lang";
     private ViewHolder holder = new ViewHolder();
     private FilmProcessor filmProcessor = new FilmProcessor();
-    private ImageLoader imageLoader;
+    private ImageLoaderIstin mImageLoaderIstin;
     private String detailUrl;
     private String language;
 
@@ -89,7 +89,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if ((activity = getActivity()) != null) {
-            imageLoader = ImageLoader.get(activity.getApplicationContext());
+            mImageLoaderIstin = ImageLoaderIstin.get(activity.getApplicationContext());
         }
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
@@ -194,7 +194,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.poster.setImageBitmap(null);
         holder.poster.setTag(urlPoster);
 
-        imageLoader.loadAndDisplay(urlPoster, holder.poster);
+        mImageLoaderIstin.loadAndDisplay(urlPoster, holder.poster);
         holder.postButton.setOnClickListener(this);
     }
 

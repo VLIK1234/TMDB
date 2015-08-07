@@ -13,7 +13,7 @@ import java.util.List;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.bo.Film;
-import github.tmdb.image.ImageLoader;
+import github.tmdb.image.ImageLoaderIstin;
 
 /**
  * Created by ASUS on 01.02.2015.
@@ -21,7 +21,7 @@ import github.tmdb.image.ImageLoader;
 public class CustomAdapter extends ArrayAdapter<Film> {
 
     private Context context;
-    private ImageLoader imageLoader;
+    private ImageLoaderIstin mImageLoaderIstin;
 
     static class ViewHolder {
         TextView title;
@@ -32,10 +32,10 @@ public class CustomAdapter extends ArrayAdapter<Film> {
     }
     private ViewHolder holder = new ViewHolder();
 
-    public CustomAdapter(Context context, int resource, int textViewResourceId, List<Film> objects, ImageLoader imageLoader) {
+    public CustomAdapter(Context context, int resource, int textViewResourceId, List<Film> objects, ImageLoaderIstin imageLoaderIstin) {
         super(context, resource, textViewResourceId, objects);
         this.context = context;
-        this.imageLoader = imageLoader;
+        this.mImageLoaderIstin = imageLoaderIstin;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CustomAdapter extends ArrayAdapter<Film> {
         convertView.setTag(item.getId());
         final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
         final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
-        imageLoader.loadAndDisplay(url, poster);
+        mImageLoaderIstin.loadAndDisplay(url, poster);
         return convertView;
     }
 }

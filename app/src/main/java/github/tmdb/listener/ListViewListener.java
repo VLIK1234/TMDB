@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Locale;
 
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.image.ImageLoader;
+import github.tmdb.image.ImageLoaderIstin;
 import github.tmdb.processing.FilmArrayProcessor;
 import github.tmdb.processing.Processor;
 import github.tmdb.source.DataSource;
@@ -19,10 +19,10 @@ import github.tmdb.source.TMDBDataSource;
  */
 public class ListViewListener extends AbstractScrollListener {
 
-    public ListViewListener(Context context, ListView listView, ImageLoader imageLoader, List data, ArrayAdapter adapter, String url) {
+    public ListViewListener(Context context, ListView listView, ImageLoaderIstin imageLoaderIstin, List data, ArrayAdapter adapter, String url) {
         super.context = context;
         super.listView = listView;
-        super.imageLoader = imageLoader;
+        super.mImageLoaderIstin = imageLoaderIstin;
         super.data = data;
         super.adapter = adapter;
         super.url = url;

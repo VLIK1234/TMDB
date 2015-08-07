@@ -27,7 +27,7 @@ import github.tmdb.app.DetailsActivity;
 import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
-import github.tmdb.image.ImageLoader;
+import github.tmdb.image.ImageLoaderIstin;
 import github.tmdb.listener.ListViewListener;
 import github.tmdb.processing.FilmArrayProcessor;
 import github.tmdb.source.HttpDataSource;
@@ -43,7 +43,7 @@ public class ListFilmFragment extends BaseFragment implements DataManager.Callba
     private String url = "";
     private Long selectItemID;
     private ArrayAdapter adapter;
-    private ImageLoader imageLoader;
+    private ImageLoaderIstin mImageLoaderIstin;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
     private TextView err;
@@ -69,7 +69,7 @@ public class ListFilmFragment extends BaseFragment implements DataManager.Callba
         super.onActivityCreated(savedInstanceState);
 
         if ((activity = getActivity()) != null) {
-            imageLoader = ImageLoader.get(activity.getApplicationContext());
+            mImageLoaderIstin = ImageLoaderIstin.get(activity.getApplicationContext());
         }
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmArrayProcessor processor = getProcessor();
@@ -142,9 +142,9 @@ public class ListFilmFragment extends BaseFragment implements DataManager.Callba
         }
         if (adapter == null) {
             this.data = data;
-            adapter = new CustomAdapter(activity.getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data, imageLoader);
+            adapter = new CustomAdapter(activity.getApplicationContext(), R.layout.adapter_item, android.R.id.text1, data, mImageLoaderIstin);
             listView.setAdapter(adapter);
-            listView.setOnScrollListener(new ListViewListener(activity.getApplicationContext(), listView, imageLoader, data, adapter, url));
+            listView.setOnScrollListener(new ListViewListener(activity.getApplicationContext(), listView, mImageLoaderIstin, data, adapter, url));
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

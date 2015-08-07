@@ -13,7 +13,7 @@ import java.util.List;
 import github.tmdb.R;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
-import github.tmdb.image.ImageLoader;
+import github.tmdb.image.ImageLoaderIstin;
 import github.tmdb.processing.Processor;
 import github.tmdb.source.DataSource;
 
@@ -29,7 +29,7 @@ public abstract class AbstractScrollListener implements AbsListView.OnScrollList
     private boolean isPagingEnabled = true;
     private boolean isImageLoaderControlledByDataManager = false;
     private View footerProgress;
-    public ImageLoader imageLoader;
+    public ImageLoaderIstin mImageLoaderIstin;
     public Context context;
     public String url;
     private int page = 1;
@@ -47,17 +47,17 @@ public abstract class AbstractScrollListener implements AbsListView.OnScrollList
         switch (scrollState) {
             case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                 if (!isImageLoaderControlledByDataManager) {
-                    imageLoader.resume();
+                    mImageLoaderIstin.resume();
                 }
                 break;
             case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
                 if (!isImageLoaderControlledByDataManager) {
-                    imageLoader.pause();
+                    mImageLoaderIstin.pause();
                 }
                 break;
             case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
                 if (!isImageLoaderControlledByDataManager) {
-                    imageLoader.pause();
+                    mImageLoaderIstin.pause();
                 }
                 break;
         }
@@ -81,20 +81,20 @@ public abstract class AbstractScrollListener implements AbsListView.OnScrollList
             DataManager.loadData(new DataManager.Callback<List<Film>>() {
                                      @Override
                                      public void onDataLoadStart() {
-                                         imageLoader.pause();
+                                         mImageLoaderIstin.pause();
                                          refreshFooter();
                                      }
 
                                      @Override
                                      public void onDone(List<Film> data) {
                                          updateAdapter(data);
-                                         imageLoader.resume();
+                                         mImageLoaderIstin.resume();
                                          isImageLoaderControlledByDataManager = false;
                                      }
 
                                      @Override
                                      public void onError(Exception e) {
-                                         imageLoader.resume();
+                                         mImageLoaderIstin.resume();
                                          isImageLoaderControlledByDataManager = false;
                                      }
                                  },

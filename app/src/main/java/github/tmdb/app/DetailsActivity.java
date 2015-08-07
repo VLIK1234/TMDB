@@ -32,7 +32,7 @@ import github.tmdb.bo.Film;
 import github.tmdb.fragment.DetailFragment;
 import github.tmdb.helper.DataManager;
 import github.tmdb.helper.ErrorHelper;
-import github.tmdb.image.ImageLoader;
+import github.tmdb.image.ImageLoaderIstin;
 import github.tmdb.processing.FilmProcessor;
 import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
@@ -46,7 +46,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     private ImageView backdrop;
     private ImageView posterExternal;
     private FilmProcessor filmProcessor = new FilmProcessor();
-    private ImageLoader imageLoader;
+    private ImageLoaderIstin mImageLoaderIstin;
 
     private String detailUrl;
     private String videoKey;
@@ -58,7 +58,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
-        imageLoader = ImageLoader.get(DetailsActivity.this);
+        mImageLoaderIstin = ImageLoaderIstin.get(DetailsActivity.this);
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
 
@@ -114,7 +114,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
         final String urlBackdrop = data.getBackdropPath(ApiTMDB.SizePoster.w1280);
         backdrop.setImageBitmap(null);
         backdrop.setTag(urlBackdrop);
-        imageLoader.loadAndDisplay(urlBackdrop, backdrop);
+        mImageLoaderIstin.loadAndDisplay(urlBackdrop, backdrop);
     }
 
     public void setActionBarTitle(String title) {

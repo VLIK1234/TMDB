@@ -25,15 +25,15 @@ import github.tmdb.processing.Processor;
 import github.tmdb.source.CachedDataSource;
 import github.tmdb.source.DataSource;
 
-public class ImageLoader {
+public class ImageLoaderIstin {
 
-    public static final String KEY = "ImageLoader";
+    public static final String KEY = "ImageLoaderIstin";
     int MAX_MEMORY = (int) (Runtime.getRuntime().maxMemory() / 1024);
     final int MAX_SIZE = MAX_MEMORY / 8;
 
     private AtomicBoolean isPause = new AtomicBoolean(false);
 
-    public static ImageLoader get(Context context) {
+    public static ImageLoaderIstin get(Context context) {
         return CoreApplication.get(context, KEY);
     }
 
@@ -92,7 +92,7 @@ public class ImageLoader {
         }
     };
 
-    public ImageLoader(Context context, DataSource<InputStream, String> mDataSource, Processor<Bitmap, InputStream> mProcessor) {
+    public ImageLoaderIstin(Context context, DataSource<InputStream, String> mDataSource, Processor<Bitmap, InputStream> mProcessor) {
         this.context = context;
         this.dataSource = mDataSource;
         this.processor = mProcessor;
@@ -114,7 +114,7 @@ public class ImageLoader {
         };
     }
 
-    public ImageLoader(Context context) {
+    public ImageLoaderIstin(Context context) {
         this(context, CachedDataSource.get(context), new BitmapProcessor());
     }
 
