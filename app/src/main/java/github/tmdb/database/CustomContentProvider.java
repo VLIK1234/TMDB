@@ -6,7 +6,8 @@ import android.database.Cursor;
 import android.net.Uri;
 
 /**
- * Created by ASUS on 12.04.2015.
+ @author IvanBakach
+ @version on 12.04.2015
  */
 public class CustomContentProvider extends ContentProvider{
 

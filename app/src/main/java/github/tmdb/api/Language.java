@@ -9,7 +9,8 @@ import github.tmdb.app.AbstractActivity;
 import github.tmdb.fragment.LanguageDialogFragment;
 
 /**
- * Created by ASUS on 05.02.2015.
+ @author IvanBakach
+ @version on 05.02.2015
  */
 public class Language {
     public static final String LANGUAGE_SETTING = "Language setting";

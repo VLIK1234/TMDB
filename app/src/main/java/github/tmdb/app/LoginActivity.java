@@ -4,12 +4,13 @@ package github.tmdb.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import github.tmdb.R;
 
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_VK = 0;
     public static final int REQUEST_CODE_RV = 1;
 

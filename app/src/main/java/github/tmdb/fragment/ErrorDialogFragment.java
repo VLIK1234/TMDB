@@ -10,7 +10,8 @@ import android.support.v4.app.DialogFragment;
 import github.tmdb.R;
 
 /**
- * Created by ASUS on 21.01.2015.
+ @author IvanBakach
+ @version on 21.01.2015
  */
 public class ErrorDialogFragment extends DialogFragment implements DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
 

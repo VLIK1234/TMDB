@@ -20,7 +20,8 @@ import github.tmdb.fragment.ListFilmFragment;
 import github.tmdb.helper.ErrorHelper;
 
 /**
- * Created by VLIK on 18.01.2015.
+ @author IvanBakach
+ @version on 18.01.2015
  */
 public class SearchActivity extends AbstractActivity implements SearchView.OnQueryTextListener {
 

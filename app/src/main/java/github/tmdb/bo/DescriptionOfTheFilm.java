@@ -4,7 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by VLIK on 12.01.2015.
+ @author IvanBakach
+ @version on 12.01.2015
  */
 public class DescriptionOfTheFilm implements Parcelable {
     private String detailsUrl;

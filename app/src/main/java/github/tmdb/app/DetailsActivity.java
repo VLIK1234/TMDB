@@ -55,8 +55,10 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(false);
+        }
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
 
@@ -116,7 +118,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     }
 
     public void setActionBarTitle(String title) {
-        getSupportActionBar().setTitle(title);
+        setTitle(title);
     }
 
     public void onClick(View view) {
@@ -133,8 +135,6 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
                             .getErrorDialog(this, REQ_RESOLVE_SERVICE_MISSING).show();
                 }
             }
-        } else{
-
         }
     }
 

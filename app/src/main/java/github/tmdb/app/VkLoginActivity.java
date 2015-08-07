@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -13,16 +14,19 @@ import github.tmdb.R;
 import github.tmdb.auth.VkOAuthHelper;
 
 /**
- * Created by VLIK on 02.11.2014.
+ @author IvanBakach
+ @version on 02.11.2014
  */
 
-public class VkLoginActivity extends ActionBarActivity implements VkOAuthHelper.Callbacks {
+public class VkLoginActivity extends AppCompatActivity implements VkOAuthHelper.Callbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vk_login);
-        getSupportActionBar().hide();
+        if (getSupportActionBar()!=null) {
+            getSupportActionBar().hide();
+        }
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);

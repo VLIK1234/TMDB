@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by ASUS on 31.01.2015.
+ @author IvanBakach
+ @version on 31.01.2015
  */
 public abstract class AbstractFragment extends Fragment {
 

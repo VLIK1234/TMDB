@@ -18,7 +18,8 @@ import github.tmdb.processing.Processor;
 import github.tmdb.source.DataSource;
 
 /**
- * Created by ASUS on 02.02.2015.
+ @author IvanBakach
+ @version on 02.02.2015
  */
 public abstract class AbstractScrollListener implements AbsListView.OnScrollListener {
 

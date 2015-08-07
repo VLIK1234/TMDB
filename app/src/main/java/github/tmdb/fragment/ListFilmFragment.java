@@ -34,7 +34,8 @@ import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
 
 /**
- * Created by ASUS on 31.01.2015.
+ @author IvanBakach
+ @version on 31.01.2015
  */
 public class ListFilmFragment extends BaseFragment implements DataManager.Callback<List<Film>> {
     public static final String EXTRA_KEY = "extra_lang";

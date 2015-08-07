@@ -7,7 +7,8 @@ import github.tmdb.processing.WallPostProcessor;
 import github.tmdb.source.VkDataSource;
 
 /**
- * Created by ASUS on 09.02.2015.
+ @author IvanBakach
+ @version on 09.02.2015
  */
 public class WallPostSendHelper implements DataManager.Callback<Long> {
 

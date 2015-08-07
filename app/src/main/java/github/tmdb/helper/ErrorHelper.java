@@ -6,7 +6,8 @@ import android.support.v4.app.FragmentTransaction;
 import github.tmdb.fragment.ErrorDialogFragment;
 
 /**
- * Created by ASUS on 26.01.2015.
+ @author IvanBakach
+ @version on 26.01.2015
  */
 public class ErrorHelper {
 

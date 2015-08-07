@@ -7,8 +7,10 @@ import java.io.InputStream;
 import github.tmdb.bo.Film;
 
 /**
- * Created by ASUS on 24.11.2014.
+ @author IvanBakach
+ @version on 24.11.2014
  */
+
 public class FilmProcessor implements Processor<Film, InputStream> {
 
     @Override

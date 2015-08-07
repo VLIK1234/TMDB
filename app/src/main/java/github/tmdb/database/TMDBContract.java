@@ -3,7 +3,8 @@ package github.tmdb.database;
 import android.provider.BaseColumns;
 
 /**
- * Created by ASUS on 12.04.2015.
+ @author IvanBakach
+ @version on 12.04.2015
  */
 public class TMDBContract {
     private TMDBContract(){

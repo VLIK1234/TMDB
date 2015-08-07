@@ -1,11 +1,11 @@
 package github.tmdb.app;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import github.tmdb.R;
 
-public class ReturnActivity extends ActionBarActivity {
+public class ReturnActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

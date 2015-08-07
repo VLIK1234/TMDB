@@ -14,13 +14,13 @@ import github.tmdb.database.SQLLiteHelper;
 import github.tmdb.database.TMDBContract;
 
 /**
- * Created by ASUS on 21.01.2015.
+ @author IvanBakach
+ @version on 21.01.2015
  */
 public class AlphaActivity extends Activity {
 
     final String LOG_TAG = "myLogs";
 
-    private Button btnAdd, btnRead, btnClear;
     private EditText etTitle, etOverview;
     private SQLLiteHelper helper;
     private SQLiteDatabase db;
@@ -43,7 +43,7 @@ public class AlphaActivity extends Activity {
         db = helper.getWritableDatabase();
 //        db.execSQL("ALTER TABLE "+ TMDBContract.FilmTable.TABLE_NAME+ " ADD "+"runtime "+"INT");
 
-        btnAdd = (Button) findViewById(R.id.btnAdd);
+        Button btnAdd = (Button) findViewById(R.id.btnAdd);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,20 +55,20 @@ public class AlphaActivity extends Activity {
                         TMDBContract.FilmTable.TABLE_NAME,
                         null,
                         values);
-                Toast.makeText(getBaseContext(),String.valueOf(newRowId), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), String.valueOf(newRowId), Toast.LENGTH_LONG).show();
 
             }
         });
 
-        btnRead = (Button) findViewById(R.id.btnRead);
+        Button btnRead = (Button) findViewById(R.id.btnRead);
         btnRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
 
-        btnClear = (Button) findViewById(R.id.btnClear);
+        Button btnClear = (Button) findViewById(R.id.btnClear);
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

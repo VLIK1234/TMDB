@@ -18,7 +18,8 @@ import github.tmdb.bo.Film;
 import github.tmdb.image.ImageLoaderIstin;
 
 /**
- * Created by ASUS on 01.02.2015.
+ @author IvanBakach
+ @version on 01.02.2015
  */
 public class CustomAdapter extends ArrayAdapter<Film> {
 

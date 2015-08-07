@@ -5,7 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by ASUS on 12.04.2015.
+ @author IvanBakach
+ @version on 12.04.2015
  */
 public class SQLLiteHelper extends SQLiteOpenHelper {
 

@@ -1,7 +1,8 @@
 package github.tmdb.api;
 
 /**
- * Created by VLIK on 22.11.2014.
+ @author IvanBakach
+ @version on 22.11.2014
  */
 public class ApiTMDB {
 

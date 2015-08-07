@@ -5,7 +5,8 @@ import org.json.JSONObject;
 import java.io.InputStream;
 
 /**
- * Created by ASUS on 09.02.2015.
+ @author IvanBakach
+ @version on 09.02.2015
  */
 public class WallPostProcessor implements Processor<Long, InputStream> {
 
