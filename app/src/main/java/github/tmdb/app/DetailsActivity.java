@@ -112,8 +112,6 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     @Override
     public void onDone(Film data) {
         final String urlBackdrop = data.getBackdropPath(ApiTMDB.SizePoster.w1280);
-        backdrop.setImageBitmap(null);
-        backdrop.setTag(urlBackdrop);
         ImageLoader.getInstance().displayImage(urlBackdrop, backdrop);
     }
 

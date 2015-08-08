@@ -63,8 +63,6 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     private String detailUrl;
     private String language;
 
-    private Activity activity;
-
     private List<String> videosKey;
     private String postMessage;
 
@@ -157,11 +155,9 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.title.setText(data.getTitle());
         holder.date.setText(data.getReleaseDate());
         holder.rating.setText(data.getVoteAverage());
-        holder.ratingText.setText(activity.getString(R.string.rating) + data.getVoteAverage()+ activity.getString(R.string.from) + data.getVoteCount());
+        holder.ratingText.setText(getActivity().getString(R.string.rating) + data.getVoteAverage()+ getActivity().getString(R.string.from) + data.getVoteCount());
 
-        if ((activity = getActivity()) != null) {
-            ((DetailsActivity) activity).setActionBarTitle(holder.title.getText().toString());
-        }
+        ((DetailsActivity) getActivity()).setActionBarTitle(holder.title.getText().toString());
         final SpannableString text_tag;
         if (data.getTagline() != null&&!data.getTagline().equals("")) {
             text_tag = new SpannableString(getString(R.string.tagline) + data.getTagline());
@@ -177,35 +173,32 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         try {
             holder.genres.setText(data.getGenres());
         } catch (JSONException e) {
-            ErrorHelper.showDialog(activity.getString(R.string.json_exсept) + e.getMessage(),
+            ErrorHelper.showDialog(getActivity().getString(R.string.json_exсept) + e.getMessage(),
                     getActivity().getSupportFragmentManager().beginTransaction());
         }
 
         if (!data.getRuntime().equals("")) {
-            holder.runtime.setText(data.getRuntime() + activity.getString(R.string.min));
+            holder.runtime.setText(data.getRuntime() + getActivity().getString(R.string.min));
         }
         else{
             holder.runtime.setText(data.getRuntime());
         }
 
         final String urlPoster = data.getPosterPath(ApiTMDB.SizePoster.w342);
-        holder.poster.setImageBitmap(null);
-        holder.poster.setTag(urlPoster);
-
         ImageLoader.getInstance().displayImage(urlPoster, holder.poster);
         holder.postButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        WallPostSendHelper wallPostSend = new WallPostSendHelper(activity.getApplicationContext());
+        WallPostSendHelper wallPostSend = new WallPostSendHelper(getActivity().getApplicationContext());
         wallPostSend.send(postMessage);
     }
 
     @Override
     public void onError(Exception e) {
         e.printStackTrace();
-        ErrorHelper.showDialog(activity.getString(R.string.some_exception) + e.getMessage(),
+        ErrorHelper.showDialog(getActivity().getString(R.string.some_exception) + e.getMessage(),
                 getActivity().getSupportFragmentManager().beginTransaction());
     }
 
