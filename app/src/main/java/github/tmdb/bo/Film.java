@@ -95,9 +95,13 @@ public class Film extends JSONObjectWrapper {
         String date = getString(RELEASE_DATE);
         if (!date.equals("")) {
             Calendar calendar = Calendar.getInstance();
-            java.sql.Date javaSqlDate = java.sql.Date.valueOf(date);
-            calendar.setTime(javaSqlDate);
-            date = String.valueOf(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, new Locale(Language.getLanguage())) + " " + calendar.get(Calendar.YEAR));
+            try {
+                java.sql.Date javaSqlDate = java.sql.Date.valueOf(date);
+                calendar.setTime(javaSqlDate);
+                date = String.valueOf(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, new Locale(Language.getLanguage())) + " " + calendar.get(Calendar.YEAR));
+            } catch (IllegalArgumentException e){
+                e.printStackTrace();
+            }
         }
         return date;
     }
