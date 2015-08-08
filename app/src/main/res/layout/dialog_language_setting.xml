@@ -3,17 +3,23 @@
     android:id="@+id/rg_language"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/padding_language_radio_group"
+    android:paddingLeft="@dimen/padding_language_radio_group"
+    android:paddingRight="@dimen/padding_language_radio_group"
+    android:paddingStart="@dimen/padding_language_radio_group">
+
     <RadioButton
-        android:id="@+id/english"
-        android:layout_width="fill_parent"
+        android:id="@+id/rb_english"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:padding="8dp"
-        android:text="@string/english"/>
+        android:text="@string/english" />
+
     <RadioButton
-        android:id="@+id/russian"
-        android:layout_width="fill_parent"
+        android:id="@+id/rb_russian"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:padding="8dp"
-        android:text="@string/russian"/>
+        android:text="@string/russian" />
 </RadioGroup>

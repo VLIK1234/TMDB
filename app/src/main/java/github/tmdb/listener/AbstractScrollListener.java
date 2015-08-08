@@ -13,7 +13,6 @@ import java.util.List;
 import github.tmdb.R;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
-import github.tmdb.image.ImageLoaderIstin;
 import github.tmdb.processing.Processor;
 import github.tmdb.source.DataSource;
 
@@ -24,17 +23,16 @@ import github.tmdb.source.DataSource;
 public abstract class AbstractScrollListener implements AbsListView.OnScrollListener {
 
     public static final int COUNT = 100;
-    public List data;
-    public ListView listView;
-    public ArrayAdapter adapter;
-    private boolean isPagingEnabled = true;
-    private boolean isImageLoaderControlledByDataManager = false;
-    private View footerProgress;
-    public Context context;
-    public String url;
-    private int page = 1;
+    public List mData;
+    public ListView mListView;
+    public ArrayAdapter mAdapter;
+    private boolean mIsPagingEnabled = true;
+    private View mFooterProgress;
+    public Context mContext;
+    public String mUrl;
+    private int mPage = 1;
 
-    private int previousTotal = 0;
+    private int mPreviousTotal = 0;
 
     public abstract String getUrl(int page);
 
@@ -43,38 +41,19 @@ public abstract class AbstractScrollListener implements AbsListView.OnScrollList
     public abstract Processor getProcessor();
 
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        switch (scrollState) {
-            case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                if (!isImageLoaderControlledByDataManager) {
-                }
-                break;
-            case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                if (!isImageLoaderControlledByDataManager) {
-                }
-                break;
-            case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                if (!isImageLoaderControlledByDataManager) {
-                }
-                break;
-        }
-    }
-
-    @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         ListAdapter adapter = view.getAdapter();
         int count = getRealAdapterCount(adapter);
         if (count == 0) {
             return;
         }
-        if (footerProgress == null) {
-            footerProgress = View.inflate(context, R.layout.view_footer_progress, null);
+        if (mFooterProgress == null) {
+            mFooterProgress = View.inflate(mContext, R.layout.view_footer_progress, null);
         }
         int visibleThreshold = 10;
-        if (previousTotal != totalItemCount && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-            previousTotal = totalItemCount;
-            isImageLoaderControlledByDataManager = true;
-            page++;
+        if (mPreviousTotal != totalItemCount && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+            mPreviousTotal = totalItemCount;
+            mPage++;
             DataManager.loadData(new DataManager.Callback<List<Film>>() {
                                      @Override
                                      public void onDataLoadStart() {
@@ -84,15 +63,13 @@ public abstract class AbstractScrollListener implements AbsListView.OnScrollList
                                      @Override
                                      public void onDone(List<Film> data) {
                                          updateAdapter(data);
-                                         isImageLoaderControlledByDataManager = false;
                                      }
 
                                      @Override
                                      public void onError(Exception e) {
-                                         isImageLoaderControlledByDataManager = false;
                                      }
                                  },
-                    getUrl(page),
+                    getUrl(mPage),
                     getDataSource(),
                     getProcessor());
         }
@@ -100,16 +77,16 @@ public abstract class AbstractScrollListener implements AbsListView.OnScrollList
 
     private void updateAdapter(List<Film> data) {
         if (data != null && data.size() == COUNT) {
-            isPagingEnabled = true;
-            listView.addFooterView(footerProgress, null, false);
+            mIsPagingEnabled = true;
+            mListView.addFooterView(mFooterProgress, null, false);
         } else {
-            isPagingEnabled = false;
-            listView.removeFooterView(footerProgress);
+            mIsPagingEnabled = false;
+            mListView.removeFooterView(mFooterProgress);
         }
         if (data != null) {
-            this.data.addAll(data);
+            mData.addAll(data);
         }
-        adapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
     }
 
     public static int getRealAdapterCount(ListAdapter adapter) {
@@ -126,11 +103,11 @@ public abstract class AbstractScrollListener implements AbsListView.OnScrollList
     }
 
     private void refreshFooter() {
-        if (footerProgress != null) {
-            if (isPagingEnabled) {
-                footerProgress.setVisibility(View.VISIBLE);
+        if (mFooterProgress != null) {
+            if (mIsPagingEnabled) {
+                mFooterProgress.setVisibility(View.VISIBLE);
             } else {
-                footerProgress.setVisibility(View.GONE);
+                mFooterProgress.setVisibility(View.GONE);
             }
         }
     }

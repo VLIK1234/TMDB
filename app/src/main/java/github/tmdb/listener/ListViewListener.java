@@ -1,6 +1,7 @@
 package github.tmdb.listener;
 
 import android.content.Context;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -21,16 +22,16 @@ import github.tmdb.source.TMDBDataSource;
 public class ListViewListener extends AbstractScrollListener {
 
     public ListViewListener(Context context, ListView listView, List data, ArrayAdapter adapter, String url) {
-        super.context = context;
-        super.listView = listView;
-        super.data = data;
-        super.adapter = adapter;
-        super.url = url;
+        super.mContext = context;
+        super.mListView = listView;
+        super.mData = data;
+        super.mAdapter = adapter;
+        super.mUrl = url;
     }
 
     @Override
     public String getUrl(int page) {
-        StringBuilder controlUrl = new StringBuilder(url);
+        StringBuilder controlUrl = new StringBuilder(mUrl);
         controlUrl.append(ApiTMDB.getPage(controlUrl.toString(), page));
         controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Locale.getDefault().getLanguage());
         return controlUrl.toString();
@@ -44,5 +45,10 @@ public class ListViewListener extends AbstractScrollListener {
     @Override
     public Processor getProcessor() {
         return new FilmArrayProcessor();
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
     }
 }

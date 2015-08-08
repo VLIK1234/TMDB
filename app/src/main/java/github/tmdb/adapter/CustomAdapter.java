@@ -15,7 +15,6 @@ import java.util.List;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.bo.Film;
-import github.tmdb.image.ImageLoaderIstin;
 
 /**
  @author IvanBakach
