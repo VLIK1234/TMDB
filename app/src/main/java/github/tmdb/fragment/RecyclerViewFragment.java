@@ -1,6 +1,7 @@
 package github.tmdb.fragment;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,10 +20,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import github.tmdb.CoreApplication;
 import github.tmdb.R;
 import github.tmdb.adapter.FilmAdapter;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.Language;
+import github.tmdb.app.DetailsActivity;
+import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
 import github.tmdb.listener.RecyclerViewScrollListner;
@@ -35,13 +39,12 @@ import github.tmdb.utils.UIUtil;
  * @author Ivan Bakach
  * @version on 09.08.2015
  */
-public class RecyclerViewFragment extends BaseFragment implements DataManager.Callback<ArrayList<Film>> {
+public class RecyclerViewFragment extends BaseFragment implements DataManager.Callback<ArrayList<Film>>, FilmAdapter.ITouch {
     public static final String EXTRA_KEY = "extra_lang";
-    private static final int SPAN_COUNT = 3;
+    private static final int SPAN_COUNT = 4;
 
     private int page = 1;
     private String url = "";
-    private Long selectItemID;
     private FilmAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView mRecyclerView;
@@ -138,7 +141,7 @@ public class RecyclerViewFragment extends BaseFragment implements DataManager.Ca
         }
         if (adapter == null) {
             this.data = data;
-            adapter = new FilmAdapter(data);
+            adapter = new FilmAdapter(data, this);
             mRecyclerView.setAdapter(adapter);
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.addOnScrollListener(new RecyclerViewScrollListner(mLayoutManager, url, adapter));
@@ -170,5 +173,13 @@ public class RecyclerViewFragment extends BaseFragment implements DataManager.Ca
         empty.setVisibility(View.GONE);
         err.setVisibility(View.VISIBLE);
         err.setText(err.getText() + "\n" + e.getMessage());
+    }
+
+    @Override
+    public void touchAction(long idItem) {
+        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(idItem));
+        Intent intent = new Intent(CoreApplication.getAppContext(), DetailsActivity.class);
+        intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
+        getActivity().startActivity(intent);
     }
 }

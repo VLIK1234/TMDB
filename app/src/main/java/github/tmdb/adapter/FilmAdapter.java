@@ -1,6 +1,5 @@
 package github.tmdb.adapter;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +13,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
-import github.tmdb.CoreApplication;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.app.DetailsActivity;
-import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
 
 /**
@@ -27,16 +23,22 @@ import github.tmdb.bo.Film;
  */
 public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
 
-    private ArrayList<Film> mFilmList = new ArrayList<>();
+    public interface ITouch {
+        void touchAction(long idItem);
+    }
 
-    public FilmAdapter(ArrayList<Film> filmList){
+    private ArrayList<Film> mFilmList = new ArrayList<>();
+    private ITouch mITouch;
+
+    public FilmAdapter(ArrayList<Film> filmList, ITouch iTouch){
         mFilmList = filmList;
+        mITouch = iTouch;
     }
 
     @Override
     public FilmAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_item, parent, false);
-        return new ViewHolder(v, mFilmList);
+        return new ViewHolder(v, mFilmList, mITouch);
     }
 
     @Override
@@ -68,15 +70,18 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
         private final TextView ratingText;
         private final ImageView poster;
         private final ArrayList<Film> mListFilm;
+        private final ITouch mITouch;
 
-        public ViewHolder(View convertView, ArrayList<Film> listFilm) {
+        public ViewHolder(View convertView, ArrayList<Film> listFilm, ITouch iTouch) {
             super(convertView);
+            convertView.setOnClickListener(this);
             title = (TextView) convertView.findViewById(R.id.title);
             date = (TextView) convertView.findViewById(R.id.date);
             rating = (RatingBar) convertView.findViewById(R.id.rating);
             ratingText = (TextView) convertView.findViewById(R.id.rating_text);
             poster = (ImageView) convertView.findViewById(R.id.poster);
             mListFilm = listFilm;
+            mITouch = iTouch;
         }
 
         @Override
@@ -84,11 +89,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
             Log.d("TAG", "Click");
             Film item = (Film) mListFilm.get(getAdapterPosition());
             long selectItemID = item.getId();
-
-            DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(selectItemID));
-            Intent intent = new Intent(CoreApplication.getAppContext(), DetailsActivity.class);
-            intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
-            CoreApplication.getAppContext().startActivity(intent);
+            mITouch.touchAction(selectItemID);
         }
     }
 }
