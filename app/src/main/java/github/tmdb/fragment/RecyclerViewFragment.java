@@ -29,7 +29,7 @@ import github.tmdb.app.DetailsActivity;
 import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
-import github.tmdb.listener.RecyclerViewScrollListner;
+import github.tmdb.listener.RecyclerViewScrollListener;
 import github.tmdb.processing.FilmArrayProcessor;
 import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
@@ -144,7 +144,7 @@ public class RecyclerViewFragment extends BaseFragment implements DataManager.Ca
             adapter = new FilmAdapter(data, this);
             mRecyclerView.setAdapter(adapter);
             mRecyclerView.setLayoutManager(mLayoutManager);
-            mRecyclerView.addOnScrollListener(new RecyclerViewScrollListner(mLayoutManager, url, adapter));
+            mRecyclerView.addOnScrollListener(new RecyclerViewScrollListener(mLayoutManager, url, adapter));
         } else {
             this.data.clear();
             updateAdapter(data);
