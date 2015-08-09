@@ -17,6 +17,7 @@ import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.Language;
 import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.fragment.ListFilmFragment;
+import github.tmdb.fragment.RecyclerViewFragment;
 import github.tmdb.helper.ErrorHelper;
 /**
  @author IvanBakach
@@ -33,7 +34,7 @@ public class MainScreenActivity extends AbstractActivity implements SearchView.O
         Fragment fragment;
 
         if (savedInstanceState == null) {
-            fragment = ListFilmFragment.newInstance(ApiTMDB.getNowPlayingGet());
+            fragment = RecyclerViewFragment.newInstance(ApiTMDB.getNowPlayingGet());
 //            fragment = MainFragment.newInstance(ApiTMDB.getNowPlayingGet());
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.frame_dinamic, fragment);

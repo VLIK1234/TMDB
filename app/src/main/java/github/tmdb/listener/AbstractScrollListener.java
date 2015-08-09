@@ -23,7 +23,7 @@ import github.tmdb.source.DataSource;
 public abstract class AbstractScrollListener implements AbsListView.OnScrollListener {
 
     public static final int COUNT = 100;
-    public List mData;
+    public List<Film> mData;
     public ListView mListView;
     public ArrayAdapter mAdapter;
     private boolean mIsPagingEnabled = true;

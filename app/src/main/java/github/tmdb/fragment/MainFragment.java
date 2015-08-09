@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import github.tmdb.R;
@@ -41,7 +42,7 @@ import github.tmdb.source.TMDBDataSource;
  @version on 12.01.2015
  */
 
-public class MainFragment extends Fragment implements DataManager.Callback<List<Film>> {
+public class MainFragment extends Fragment implements DataManager.Callback<ArrayList<Film>> {
 
     public static final String EXTRA_KEY = "extra_lang";
 
@@ -158,7 +159,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
-    public void onDone(List<Film> data) {
+    public void onDone(ArrayList<Film> data) {
         if (swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
@@ -239,7 +240,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                         previousTotal = totalItemCount;
                         isImageLoaderControlledByDataManager = true;
                         page++;
-                        DataManager.loadData(new DataManager.Callback<List<Film>>() {
+                        DataManager.loadData(new DataManager.Callback<ArrayList<Film>>() {
                                                  @Override
                                                  public void onDataLoadStart() {
                                                      mImageLoaderIstin.pause();
@@ -247,7 +248,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<List<
                                                  }
 
                                                  @Override
-                                                 public void onDone(List<Film> data) {
+                                                 public void onDone(ArrayList<Film> data) {
                                                      updateAdapter(data);
 //                                                     refreshFooter();
                                                      mImageLoaderIstin.resume();

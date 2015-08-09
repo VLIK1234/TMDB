@@ -9,14 +9,14 @@ import java.util.List;
 
 import github.tmdb.bo.Film;
 
-public class FilmArrayProcessor extends WrapperArrayProcessor<Film> implements Processor<List<Film>, InputStream> {
+public class FilmArrayProcessor extends WrapperArrayProcessor<Film> implements Processor<ArrayList<Film>, InputStream> {
 
     @Override
-    public List<Film> process(InputStream inputStream) throws Exception {
+    public ArrayList<Film> process(InputStream inputStream) throws Exception {
         String string = new StringProcessor().process(inputStream);
         JSONArray array = new JSONObject(string).getJSONArray("results");
 
-        List<Film> noteArray = new ArrayList<>(array.length());
+        ArrayList<Film> noteArray = new ArrayList<>(array.length());
         for (int i = 0; i < array.length(); i++) {
             JSONObject jsonObject = array.getJSONObject(i);
             Film film = new Film(jsonObject);

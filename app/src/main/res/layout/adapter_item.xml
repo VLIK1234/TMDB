@@ -4,7 +4,7 @@
     style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/cardview_margin"
+    card_view:cardUseCompatPadding="true"
     card_view:cardCornerRadius="@dimen/card_corner">
 
     <RelativeLayout

@@ -18,10 +18,12 @@ import github.tmdb.source.VkDataSource;
 public class CoreApplication extends Application {
 
     private Map<String,Object> serviceMap = new HashMap<>();
+    private static Context sContext;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        sContext = getBaseContext();
         Language.initialize(this);
         serviceMap.put(HttpDataSource.KEY, new HttpDataSource());
         serviceMap.put(VkDataSource.KEY, new VkDataSource(this));
@@ -38,6 +40,10 @@ public class CoreApplication extends Application {
             return serviceMap.get(name);
         }
         return super.getSystemService(name);
+    }
+
+    public static Context getAppContext(){
+        return sContext;
     }
 
     public static <T> T get(Context context, String key) {

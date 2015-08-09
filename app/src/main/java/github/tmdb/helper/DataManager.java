@@ -2,6 +2,8 @@ package github.tmdb.helper;
 
 import android.os.Handler;
 
+import java.io.InputStream;
+
 import github.tmdb.os.AsyncTask;
 import github.tmdb.processing.Processor;
 import github.tmdb.source.DataSource;
@@ -20,20 +22,20 @@ public class DataManager {
 
     public static interface Loader<ProcessingResult, DataSourceResult, Params> {
 
-        void load(final Callback<ProcessingResult> callback, Params params, final DataSource<DataSourceResult, Params> dataSource, final Processor<ProcessingResult, DataSourceResult> processor);
+        void load(final Callback<ProcessingResult> callback, String params, final DataSource<InputStream, String> dataSource, final Processor<ProcessingResult, InputStream> processor);
 
     }
 
     public static <ProcessingResult, DataSourceResult, Params> void
     loadData(
-            final Callback<ProcessingResult> callback,
-            final Params params,
-            final DataSource<DataSourceResult, Params> dataSource,
-            final Processor<ProcessingResult, DataSourceResult> processor
+            final Callback callback,
+            final String params,
+            final DataSource<InputStream, String> dataSource,
+            final Processor processor
     ) {
         loadData(callback, params, dataSource, processor, new Loader<ProcessingResult, DataSourceResult, Params>() {
             @Override
-            public void load(Callback<ProcessingResult> callback, Params params, DataSource<DataSourceResult, Params> dataSource, Processor<ProcessingResult, DataSourceResult> processor) {
+            public void load(Callback<ProcessingResult> callback, String params, DataSource<InputStream, String> dataSource, Processor<ProcessingResult, InputStream> processor) {
                 if (IS_ASYNC_TASK) {
                     executeInAsyncTask(callback, params, dataSource, processor);
                 } else {
@@ -46,9 +48,9 @@ public class DataManager {
     public static <ProcessingResult, DataSourceResult, Params> void
     loadData(
             final Callback<ProcessingResult> callback,
-            final Params params,
-            final DataSource<DataSourceResult, Params> dataSource,
-            final Processor<ProcessingResult, DataSourceResult> processor,
+            final String params,
+            final DataSource<InputStream, String> dataSource,
+            final Processor<ProcessingResult, InputStream> processor,
             final Loader<ProcessingResult, DataSourceResult, Params> mySuperLoader) {
         if (callback == null) {
             throw new IllegalArgumentException("callback can't be null");
