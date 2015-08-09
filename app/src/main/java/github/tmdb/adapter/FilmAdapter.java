@@ -9,10 +9,14 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
 
+import github.tmdb.CoreApplication;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.bo.Film;
@@ -22,6 +26,8 @@ import github.tmdb.bo.Film;
  * @version on 09.08.2015
  */
 public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
+
+    private DisplayImageOptions mOptions;
 
     public interface ITouch {
         void touchAction(long idItem);
@@ -38,11 +44,19 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
     @Override
     public FilmAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_item, parent, false);
+        ImageLoaderConfiguration config = ImageLoaderConfiguration.createDefault(CoreApplication.getAppContext());
+        ImageLoader.getInstance().init(config);
+        mOptions = new DisplayImageOptions.Builder()
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .resetViewBeforeLoading(true)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
         return new ViewHolder(v, mFilmList, mITouch);
     }
 
     @Override
-    public void onBindViewHolder(FilmAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final FilmAdapter.ViewHolder holder, int position) {
         Film film = mFilmList.get(position);
         holder.title.setText(film.getTitle());
         holder.date.setText(film.getReleaseDate());
@@ -50,7 +64,12 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
         holder.ratingText.setText(film.getVoteAverage() + "/10" + " (" + film.getVoteCount() + ")");
 
         final String url = film.getPosterPath(ApiTMDB.SizePoster.w185);
-        ImageLoader.getInstance().displayImage(url, holder.poster);
+        holder.poster.post(new Runnable() {
+            @Override
+            public void run() {
+                ImageLoader.getInstance().displayImage(url, holder.poster, mOptions);
+            }
+        });
     }
 
     @Override
@@ -87,7 +106,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
         @Override
         public void onClick(View v) {
             Log.d("TAG", "Click");
-            Film item = (Film) mListFilm.get(getAdapterPosition());
+            Film item = mListFilm.get(getAdapterPosition());
             long selectItemID = item.getId();
             mITouch.touchAction(selectItemID);
         }
