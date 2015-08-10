@@ -2,6 +2,7 @@ package github.tmdb.bo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,6 +97,7 @@ public class Film extends JSONObjectWrapper {
         if (!date.equals("")) {
             Calendar calendar = Calendar.getInstance();
             try {
+                Log.d(this.getClass().getSimpleName(), date + " date");
                 java.sql.Date javaSqlDate = java.sql.Date.valueOf(date);
                 calendar.setTime(javaSqlDate);
                 date = String.valueOf(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, new Locale(Language.getLanguage())) + " " + calendar.get(Calendar.YEAR));

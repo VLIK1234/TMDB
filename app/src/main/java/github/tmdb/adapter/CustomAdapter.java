@@ -56,7 +56,12 @@ public class CustomAdapter extends ArrayAdapter<Film> {
 
         final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
         final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
-        ImageLoader.getInstance().displayImage(url, poster);
+        poster.post(new Runnable() {
+            @Override
+            public void run() {
+                ImageLoader.getInstance().displayImage(url, poster);
+            }
+        });
         return convertView;
     }
 }

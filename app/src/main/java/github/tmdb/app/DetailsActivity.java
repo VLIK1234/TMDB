@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -112,7 +113,14 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     @Override
     public void onDone(Film data) {
         final String urlBackdrop = data.getBackdropPath(ApiTMDB.SizePoster.w1280);
-        ImageLoader.getInstance().displayImage(urlBackdrop, backdrop);
+        backdrop.post(new Runnable() {
+            @Override
+            public void run() {
+                if (!TextUtils.isEmpty(urlBackdrop)) {
+                    ImageLoader.getInstance().displayImage(urlBackdrop, backdrop);
+                }
+            }
+        });
     }
 
     public void setActionBarTitle(String title) {

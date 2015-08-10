@@ -1,6 +1,7 @@
 package github.tmdb.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +68,9 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
         holder.poster.post(new Runnable() {
             @Override
             public void run() {
-                ImageLoader.getInstance().displayImage(url, holder.poster, mOptions);
+                if (!TextUtils.isEmpty(url)) {
+                    ImageLoader.getInstance().displayImage(url, holder.poster, mOptions);
+                }
             }
         });
     }

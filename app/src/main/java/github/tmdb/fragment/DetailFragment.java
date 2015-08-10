@@ -185,7 +185,12 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         }
 
         final String urlPoster = data.getPosterPath(ApiTMDB.SizePoster.w342);
-        ImageLoader.getInstance().displayImage(urlPoster, holder.poster);
+        holder.poster.post(new Runnable() {
+            @Override
+            public void run() {
+                ImageLoader.getInstance().displayImage(urlPoster, holder.poster);
+            }
+        });
         holder.postButton.setOnClickListener(this);
     }
 
