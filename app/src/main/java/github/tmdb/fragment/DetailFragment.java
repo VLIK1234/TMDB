@@ -7,6 +7,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -22,13 +25,16 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import github.tmdb.R;
+import github.tmdb.adapter.CrewsAdapter;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.AppendToResponseForFilm;
 import github.tmdb.api.Language;
 import github.tmdb.app.DetailsActivity;
+import github.tmdb.bo.Crew;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
 import github.tmdb.helper.ErrorHelper;
@@ -81,6 +87,19 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.overview = (TextView) v.findViewById(R.id.overview);
         holder.trailerButton = (Button) v.findViewById(R.id.trailer_button);
         holder.postButton = (Button) v.findViewById(R.id.post_button);
+        RecyclerView rvCrewsList = (RecyclerView) v.findViewById(R.id.rv_crew_list);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(OrientationHelper.HORIZONTAL);
+        rvCrewsList.setLayoutManager(linearLayoutManager);
+        ArrayList<Crew> crewArrayList = new ArrayList<>();
+        ApiTMDB.SizePoster sizePoster = ApiTMDB.SizePoster.w154;
+        crewArrayList.add(new Crew("https://image.tmdb.org/t/p/"+ sizePoster +"/5tVf0ow8MX4OwjmVoSa5v7qUDka.jpg", "Jim Carrey", "Lloyd Christmas"));
+        crewArrayList.add(new Crew("https://image.tmdb.org/t/p/"+ sizePoster +"/gai03gCu3DxMYxFympt7hUObpI5.jpg", "Jeff Daniels", "Harry Dunne"));
+        crewArrayList.add(new Crew("https://image.tmdb.org/t/p/"+ sizePoster +"/hnJuutQi3EMewOP7Vxr1ajzqEn3.jpg", "Rachel Melvin", "Penny"));
+        crewArrayList.add(new Crew("https://image.tmdb.org/t/p/"+ sizePoster +"/v29u1cYB9YWkYnliVTm9MGlVBrS.jpg", "Kathleen Turner", "Fraida"));
+        crewArrayList.add(new Crew("https://image.tmdb.org/t/p/"+ sizePoster +"/qDTZ1v9SeFWRKqlPBW7loKyPO1K.jpg", "Brady Bluhm", "Billy"));
+        CrewsAdapter crewsAdapter = new CrewsAdapter(crewArrayList);
+        rvCrewsList.setAdapter(crewsAdapter);
         return v;
     }
 
