@@ -52,4 +52,5 @@
     <string name="from">"/10 from "</string>
     <string name="post">Post</string>
     <string name="content_description_profile">content_description_profile</string>
+    <string name="label_detail_cast">Cast</string>
 </resources>
