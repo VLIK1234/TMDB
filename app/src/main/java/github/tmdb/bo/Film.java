@@ -134,7 +134,13 @@ public class Film extends JSONObjectWrapper {
     }
 
     public String getPosterPath(ApiTMDB.SizePoster size) {
-        return HTTPS_IMAGE_TMDB_ORG_T_P + size + getString(POSTER_PATH);
+        String resultPosterPath = HTTPS_IMAGE_TMDB_ORG_T_P + size;
+        Log.d("Poster", getString(POSTER_PATH));
+        if (getString(POSTER_PATH) != null) {
+            return resultPosterPath + getString(POSTER_PATH);
+        } else {
+            return null;
+        }
     }
 
     public String getBackdropPath(ApiTMDB.SizePoster size) {

@@ -28,5 +28,5 @@
     <dimen name="port_detail_top_margin">240dip</dimen>
     <dimen name="left_star_margin">4dp</dimen>
     <dimen name="size_big_star">60dp</dimen>
-    <dimen name="padding_language_radio_group">8dp</dimen>
+    <dimen name="padding_language_radio_group">16dp</dimen>
 </resources>
