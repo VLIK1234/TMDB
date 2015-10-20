@@ -49,6 +49,9 @@ import github.tmdb.source.TMDBDataSource;
  */
 public class DetailFragment extends Fragment implements DataManager.Callback<Film>, View.OnClickListener {
 
+    private RecyclerView mRvCrewsList;
+    private CrewsAdapter mCrewsAdapter;
+
     static class ViewHolder {
         TextView title;
         TextView date;
@@ -87,19 +90,13 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.overview = (TextView) v.findViewById(R.id.overview);
         holder.trailerButton = (Button) v.findViewById(R.id.trailer_button);
         holder.postButton = (Button) v.findViewById(R.id.post_button);
-        RecyclerView rvCrewsList = (RecyclerView) v.findViewById(R.id.rv_crew_list);
+        mRvCrewsList = (RecyclerView) v.findViewById(R.id.rv_crew_list);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(OrientationHelper.HORIZONTAL);
-        rvCrewsList.setLayoutManager(linearLayoutManager);
-        ArrayList<Crew> crewArrayList = new ArrayList<>();
-        ApiTMDB.SizePoster sizePoster = ApiTMDB.SizePoster.w154;
-        crewArrayList.add(new Crew("https://image.tmdb.org/t/p/"+ sizePoster +"/5tVf0ow8MX4OwjmVoSa5v7qUDka.jpg", "Jim Carrey", "Lloyd Christmas"));
-        crewArrayList.add(new Crew("https://image.tmdb.org/t/p/"+ sizePoster +"/gai03gCu3DxMYxFympt7hUObpI5.jpg", "Jeff Daniels", "Harry Dunne"));
-        crewArrayList.add(new Crew("https://image.tmdb.org/t/p/"+ sizePoster +"/hnJuutQi3EMewOP7Vxr1ajzqEn3.jpg", "Rachel Melvin", "Penny"));
-        crewArrayList.add(new Crew("https://image.tmdb.org/t/p/"+ sizePoster +"/v29u1cYB9YWkYnliVTm9MGlVBrS.jpg", "Kathleen Turner", "Fraida"));
-        crewArrayList.add(new Crew("https://image.tmdb.org/t/p/"+ sizePoster +"/qDTZ1v9SeFWRKqlPBW7loKyPO1K.jpg", "Brady Bluhm", "Billy"));
-        CrewsAdapter crewsAdapter = new CrewsAdapter(crewArrayList);
-        rvCrewsList.setAdapter(crewsAdapter);
+        mRvCrewsList.setLayoutManager(linearLayoutManager);
+        ArrayList<Crew> crews = new ArrayList<>();
+        mCrewsAdapter = new CrewsAdapter(crews);
+        mRvCrewsList.setAdapter(mCrewsAdapter);
         return v;
     }
 
@@ -144,7 +141,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     private String getUrl() {
         StringBuilder controlUrl = new StringBuilder(detailUrl);
         controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(language);
-        controlUrl.append(Film.getAppendToResponse(AppendToResponseForFilm.releases,AppendToResponseForFilm.videos));
+        controlUrl.append(Film.getAppendToResponse(AppendToResponseForFilm.releases,AppendToResponseForFilm.videos, AppendToResponseForFilm.credits));
         return controlUrl.toString();
     }
 
@@ -191,6 +188,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
         try {
             holder.genres.setText(data.getGenres());
+
         } catch (JSONException e) {
             ErrorHelper.showDialog(getActivity().getString(R.string.json_exсept) + e.getMessage(),
                     getActivity().getSupportFragmentManager().beginTransaction());
@@ -211,6 +209,13 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
             }
         });
         holder.postButton.setOnClickListener(this);
+        try {
+            mCrewsAdapter = new CrewsAdapter(data.getCasts());
+            mRvCrewsList.setAdapter(mCrewsAdapter);
+            mCrewsAdapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

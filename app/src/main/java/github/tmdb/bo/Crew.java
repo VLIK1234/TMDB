@@ -7,12 +7,12 @@ package github.tmdb.bo;
 public class Crew {
     private final String profilePath;
     private final String name;
-    private final String charter;
+    private final String character;
 
-    public Crew(String profilePath, String name, String charter) {
+    public Crew(String profilePath, String name, String character) {
         this.profilePath = profilePath;
         this.name = name;
-        this.charter = charter;
+        this.character = character;
     }
 
     public String getProfilePath() {
@@ -23,7 +23,7 @@ public class Crew {
         return name;
     }
 
-    public String getCharter() {
-        return charter;
+    public String getCharacter() {
+        return character;
     }
 }

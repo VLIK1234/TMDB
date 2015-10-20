@@ -60,6 +60,11 @@ public class JSONObjectWrapper implements Parcelable {
         return arrayReturn;
     }
 
+    protected JSONArray getInternalJsonArray(String idExternal, String key) throws JSONException {
+        JSONArray array = new JSONObject(mJO.optString(idExternal)).getJSONArray(key);
+        return array;
+    }
+
     protected Boolean getBoolean(String key) {
         return mJO.optBoolean(key);
     }

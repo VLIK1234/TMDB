@@ -36,7 +36,7 @@ public class CrewsAdapter extends RecyclerView.Adapter<CrewsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.nameCrew.setText(mCrewList.get(position).getName());
-        holder.charterCrew.setText(mCrewList.get(position).getCharter());
+        holder.charterCrew.setText(mCrewList.get(position).getCharacter());
         ImageLoader.getInstance().displayImage(mCrewList.get(position).getProfilePath(), holder.profileCrew);
     }
 

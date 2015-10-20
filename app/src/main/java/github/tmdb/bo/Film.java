@@ -4,9 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -119,6 +121,18 @@ public class Film extends JSONObjectWrapper {
 
     public List<String> getVideos() throws JSONException {
         return getInternalArray(VIDEOS, RESULTS, "key");
+    }
+
+    public ArrayList<Crew> getCasts() throws JSONException {
+        JSONArray jsonArray = getInternalJsonArray("credits", "cast");
+        ArrayList<Crew> crewList = new ArrayList<>();
+        if (jsonArray!=null) {
+            for (int i = 0; i < jsonArray.length();i++) {
+                crewList.add(new Crew("https://image.tmdb.org/t/p/"+ ApiTMDB.SizePoster.w154 + jsonArray.getJSONObject(i).getString("profile_path"),
+                        jsonArray.getJSONObject(i).getString("name"), jsonArray.getJSONObject(i).getString("character")));
+            }
+        }
+        return crewList;
     }
 
     public String getVoteAverage() {
