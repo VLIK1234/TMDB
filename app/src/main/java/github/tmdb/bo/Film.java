@@ -128,8 +128,7 @@ public class Film extends JSONObjectWrapper {
         ArrayList<Crew> crewList = new ArrayList<>();
         if (jsonArray!=null) {
             for (int i = 0; i < jsonArray.length();i++) {
-                crewList.add(new Crew("https://image.tmdb.org/t/p/"+ ApiTMDB.SizePoster.w154 + jsonArray.getJSONObject(i).getString("profile_path"),
-                        jsonArray.getJSONObject(i).getString("name"), jsonArray.getJSONObject(i).getString("character")));
+                crewList.add(new Crew(jsonArray.getJSONObject(i)));
             }
         }
         return crewList;

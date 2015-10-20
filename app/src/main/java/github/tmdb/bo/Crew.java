@@ -1,5 +1,10 @@
 package github.tmdb.bo;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import github.tmdb.api.ApiTMDB;
+
 /**
  * @author IvanBakach
  * @version on 16.10.2015
@@ -13,6 +18,12 @@ public class Crew {
         this.profilePath = profilePath;
         this.name = name;
         this.character = character;
+    }
+
+    public Crew(JSONObject jsonObject) throws JSONException {
+        this.profilePath = "https://image.tmdb.org/t/p/"+ ApiTMDB.SizePoster.w154 + jsonObject.getString("profile_path");
+        this.name = jsonObject.getString("name");
+        this.character = jsonObject.getString("character");
     }
 
     public String getProfilePath() {
