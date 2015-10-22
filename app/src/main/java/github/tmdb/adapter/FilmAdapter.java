@@ -1,5 +1,6 @@
 package github.tmdb.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,14 +11,10 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import github.tmdb.CoreApplication;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.bo.Film;
@@ -26,9 +23,7 @@ import github.tmdb.bo.Film;
  * @author Ivan Bakach
  * @version on 09.08.2015
  */
-public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
-
-    private DisplayImageOptions mOptions;
+public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
 
     public interface ITouch {
         void touchAction(long idItem);
@@ -36,8 +31,10 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
 
     private ArrayList<Film> mFilmList = new ArrayList<>();
     private ITouch mITouch;
+    private Context mContext;
 
-    public FilmAdapter(ArrayList<Film> filmList, ITouch iTouch){
+    public FilmAdapter(Context context, ArrayList<Film> filmList, ITouch iTouch) {
+        mContext = context;
         mFilmList = filmList;
         mITouch = iTouch;
     }
@@ -45,14 +42,6 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
     @Override
     public FilmAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_item, parent, false);
-        ImageLoaderConfiguration config = ImageLoaderConfiguration.createDefault(CoreApplication.getAppContext());
-        ImageLoader.getInstance().init(config);
-        mOptions = new DisplayImageOptions.Builder()
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .resetViewBeforeLoading(true)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .build();
         return new ViewHolder(v, mFilmList, mITouch);
     }
 
@@ -69,7 +58,8 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
             @Override
             public void run() {
                 if (!TextUtils.isEmpty(url)) {
-                    ImageLoader.getInstance().displayImage(url, holder.poster, mOptions);
+                    Picasso.with(mContext).load(url).into(holder.poster);
+//                    ImageLoader.getInstance().displayImage(url, holder.poster, mOptions);
                 }
             }
         });
@@ -80,7 +70,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder>  {
         return mFilmList.size();
     }
 
-    public void addAll(ArrayList<Film> filmArrayList){
+    public void addAll(ArrayList<Film> filmArrayList) {
         mFilmList.addAll(filmArrayList);
     }
 

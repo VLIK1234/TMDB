@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
@@ -95,7 +95,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         linearLayoutManager.setOrientation(OrientationHelper.HORIZONTAL);
         mRvCrewsList.setLayoutManager(linearLayoutManager);
         ArrayList<Crew> crews = new ArrayList<>();
-        mCrewsAdapter = new CrewsAdapter(crews);
+        mCrewsAdapter = new CrewsAdapter(getActivity(), crews);
         mRvCrewsList.setAdapter(mCrewsAdapter);
         return v;
     }
@@ -205,12 +205,12 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.poster.post(new Runnable() {
             @Override
             public void run() {
-                ImageLoader.getInstance().displayImage(urlPoster, holder.poster);
+                Picasso.with(getActivity()).load(urlPoster).into(holder.poster);
             }
         });
         holder.postButton.setOnClickListener(this);
         try {
-            mCrewsAdapter = new CrewsAdapter(data.getCasts());
+            mCrewsAdapter = new CrewsAdapter(getActivity(), data.getCasts());
             mRvCrewsList.setAdapter(mCrewsAdapter);
             mCrewsAdapter.notifyDataSetChanged();
         } catch (JSONException e) {

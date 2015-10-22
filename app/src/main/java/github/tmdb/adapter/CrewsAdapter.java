@@ -1,5 +1,6 @@
 package github.tmdb.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -21,8 +22,10 @@ import github.tmdb.bo.Crew;
 public class CrewsAdapter extends RecyclerView.Adapter<CrewsAdapter.ViewHolder> {
 
     private final ArrayList<Crew> mCrewList;
+    private final Context mContext;
 
-    public CrewsAdapter(ArrayList<Crew> crewList) {
+    public CrewsAdapter(Context context, ArrayList<Crew> crewList) {
+        mContext = context;
         mCrewList = crewList;
     }
 
@@ -37,7 +40,8 @@ public class CrewsAdapter extends RecyclerView.Adapter<CrewsAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.nameCrew.setText(mCrewList.get(position).getName());
         holder.charterCrew.setText(mCrewList.get(position).getCharacter());
-        ImageLoader.getInstance().displayImage(mCrewList.get(position).getProfilePath(), holder.profileCrew);
+        Picasso.with(mContext).load(mCrewList.get(position).getProfilePath()).into(holder.profileCrew);
+//        ImageLoader.getInstance().displayImage(mCrewList.get(position).getProfilePath(), holder.profileCrew);
     }
 
     @Override

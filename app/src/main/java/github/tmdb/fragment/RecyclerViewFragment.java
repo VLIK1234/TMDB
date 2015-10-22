@@ -141,7 +141,7 @@ public class RecyclerViewFragment extends BaseFragment implements DataManager.Ca
         }
         if (adapter == null) {
             this.data = data;
-            adapter = new FilmAdapter(data, this);
+            adapter = new FilmAdapter(getActivity(), data, this);
             mRecyclerView.setAdapter(adapter);
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.addOnScrollListener(new RecyclerViewScrollListener(mLayoutManager, url, adapter));

@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import github.tmdb.bo.Film;
  */
 public class CustomAdapter extends ArrayAdapter<Film> {
 
-    private Context context;
+    private Context mContext;
 
     static class ViewHolder {
         TextView title;
@@ -35,13 +35,13 @@ public class CustomAdapter extends ArrayAdapter<Film> {
 
     public CustomAdapter(Context context, int resource, int textViewResourceId, List<Film> objects) {
         super(context, resource, textViewResourceId, objects);
-        this.context = context;
+        this.mContext = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.adapter_item, null);
+            convertView = View.inflate(mContext, R.layout.adapter_item, null);
         }
         Film item = getItem(position);
         holder.title = (TextView) convertView.findViewById(R.id.title);
@@ -59,7 +59,7 @@ public class CustomAdapter extends ArrayAdapter<Film> {
         poster.post(new Runnable() {
             @Override
             public void run() {
-                ImageLoader.getInstance().displayImage(url, poster);
+                Picasso.with(mContext).load(url).into(poster);
             }
         });
         return convertView;

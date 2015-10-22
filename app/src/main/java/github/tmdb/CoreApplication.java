@@ -3,9 +3,6 @@ package github.tmdb;
 import android.app.Application;
 import android.content.Context;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,9 +26,6 @@ public class CoreApplication extends Application {
         serviceMap.put(VkDataSource.KEY, new VkDataSource(this));
         serviceMap.put(CachedDataSource.KEY, new CachedDataSource(this));
         serviceMap.put(TMDBDataSource.KEY, new TMDBDataSource());
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
-        ImageLoader.getInstance().init(config);
     }
 
     @Override

@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -117,7 +117,8 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
             @Override
             public void run() {
                 if (!TextUtils.isEmpty(urlBackdrop)) {
-                    ImageLoader.getInstance().displayImage(urlBackdrop, backdrop);
+                    Picasso.with(getBaseContext()).load(urlBackdrop).into(backdrop);
+//                    ImageLoader.getInstance().displayImage(urlBackdrop, backdrop);
                 }
             }
         });
