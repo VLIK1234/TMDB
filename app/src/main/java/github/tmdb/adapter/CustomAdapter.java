@@ -52,7 +52,9 @@ public class CustomAdapter extends ArrayAdapter<Film> {
         holder.title.setText(item.getTitle());
         holder.date.setText(item.getReleaseDate());
         holder.rating.setRating(Float.valueOf(item.getVoteAverage()));
-        holder.ratingText.setText(item.getVoteAverage() + "/10" + " (" + item.getVoteCount() + ")");
+        StringBuilder builder = new StringBuilder();
+        builder.append(item.getVoteAverage()).append("/10 (").append(item.getVoteCount()).append(")");
+        holder.ratingText.setText(builder);
 
         final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
         final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);

@@ -1,5 +1,10 @@
 package github.tmdb.api;
 
+import android.text.TextUtils;
+import android.util.Log;
+
+import github.tmdb.utils.TextUtilsImpl;
+
 /**
  @author IvanBakach
  @version on 22.11.2014
@@ -36,6 +41,8 @@ public class ApiTMDB {
     }
 
     private static final String BASE_PATH = "https://api.themoviedb.org/3/";
+    private static final String IMAGE_PATH_TMDB = "https://image.tmdb.org/t/p/";
+
     private static final String DISCOVER_MOVIE = "discover/movie";
     private static final String NOW_PLAYING = "movie/now_playing";
     private static final String MOVIE = "movie/";
@@ -78,5 +85,7 @@ public class ApiTMDB {
         return BASE_PATH + TV + id;
     }
 
-
+    public static String getImagePath(SizePoster sizePoster, String imageKey) {
+        return !TextUtilsImpl.isEmpty(imageKey) ? IMAGE_PATH_TMDB + sizePoster + imageKey : null;
+    }
 }

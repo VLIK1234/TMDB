@@ -2,6 +2,8 @@ package github.tmdb.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +15,21 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import github.tmdb.R;
-import github.tmdb.bo.Crew;
+import github.tmdb.bo.Cast;
+import github.tmdb.utils.TextUtilsImpl;
 
 /**
  * @author IvanBakach
  * @version on 16.10.2015
  */
-public class CrewsAdapter extends RecyclerView.Adapter<CrewsAdapter.ViewHolder> {
+public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
-    private final ArrayList<Crew> mCrewList;
+    private final ArrayList<Cast> mCastList;
     private final Context mContext;
 
-    public CrewsAdapter(Context context, ArrayList<Crew> crewList) {
+    public CastAdapter(Context context, ArrayList<Cast> castList) {
         mContext = context;
-        mCrewList = crewList;
+        mCastList = castList;
     }
 
     @Override
@@ -38,15 +41,20 @@ public class CrewsAdapter extends RecyclerView.Adapter<CrewsAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.nameCrew.setText(mCrewList.get(position).getName());
-        holder.charterCrew.setText(mCrewList.get(position).getCharacter());
-        Picasso.with(mContext).load(mCrewList.get(position).getProfilePath()).into(holder.profileCrew);
-//        ImageLoader.getInstance().displayImage(mCrewList.get(position).getProfilePath(), holder.profileCrew);
+        holder.nameCrew.setText(mCastList.get(position).getName());
+        String charter = "as "+mCastList.get(position).getCharacter();
+        holder.charterCrew.setText(charter);
+        String profilePath = mCastList.get(position).getProfilePath();
+        if (!TextUtilsImpl.isEmpty(profilePath)) {
+            Picasso.with(mContext).load(mCastList.get(position).getProfilePath()).resizeDimen(R.dimen.crew_profile_width, R.dimen.crew_profile_height).into(holder.profileCrew);
+        } else {
+            Picasso.with(mContext).load(R.drawable.w185).resizeDimen(R.dimen.crew_profile_width, R.dimen.crew_profile_height).into(holder.profileCrew);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mCrewList.size();
+        return mCastList.size();
     }
 
     public class ViewHolder  extends RecyclerView.ViewHolder{

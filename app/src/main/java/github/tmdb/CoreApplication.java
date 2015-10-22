@@ -21,7 +21,6 @@ public class CoreApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sContext = getBaseContext();
-        Language.initialize(this);
         serviceMap.put(HttpDataSource.KEY, new HttpDataSource());
         serviceMap.put(VkDataSource.KEY, new VkDataSource(this));
         serviceMap.put(CachedDataSource.KEY, new CachedDataSource(this));

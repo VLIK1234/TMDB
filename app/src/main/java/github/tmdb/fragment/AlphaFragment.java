@@ -12,9 +12,11 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import github.tmdb.CoreApplication;
 import github.tmdb.R;
 import github.tmdb.api.Language;
 import github.tmdb.app.AbstractActivity;
+import github.tmdb.utils.PreferenceUtil;
 
 /**
  @author IvanBakach
@@ -73,7 +75,7 @@ public class AlphaFragment extends DialogFragment implements RadioGroup.OnChecke
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         RadioButton checkedRadioButton = (RadioButton)radioGroup.findViewById(checkedId);
         String language = checkedRadioButton.getText().toString();
-        Language.setLanguage(language);
+        PreferenceUtil.putString(getString(R.string.key_language), language);
         int checkedIndex = radioGroup.indexOfChild(checkedRadioButton);
         SavePreferences(KEY_SAVED_RADIO_BUTTON_INDEX, checkedIndex);
     }

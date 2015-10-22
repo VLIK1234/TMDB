@@ -1,7 +1,6 @@
 package github.tmdb.fragment;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,17 +28,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import github.tmdb.R;
-import github.tmdb.adapter.CrewsAdapter;
+import github.tmdb.adapter.CastAdapter;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.AppendToResponseForFilm;
 import github.tmdb.api.Language;
 import github.tmdb.app.DetailsActivity;
-import github.tmdb.bo.Crew;
+import github.tmdb.bo.Cast;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
 import github.tmdb.helper.ErrorHelper;
 import github.tmdb.helper.WallPostSendHelper;
-import github.tmdb.image.ImageLoaderIstin;
 import github.tmdb.processing.FilmProcessor;
 import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
@@ -50,7 +48,7 @@ import github.tmdb.source.TMDBDataSource;
 public class DetailFragment extends Fragment implements DataManager.Callback<Film>, View.OnClickListener {
 
     private RecyclerView mRvCrewsList;
-    private CrewsAdapter mCrewsAdapter;
+    private CastAdapter mCastAdapter;
 
     static class ViewHolder {
         TextView title;
@@ -94,9 +92,9 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(OrientationHelper.HORIZONTAL);
         mRvCrewsList.setLayoutManager(linearLayoutManager);
-        ArrayList<Crew> crews = new ArrayList<>();
-        mCrewsAdapter = new CrewsAdapter(getActivity(), crews);
-        mRvCrewsList.setAdapter(mCrewsAdapter);
+        ArrayList<Cast> casts = new ArrayList<>();
+        mCastAdapter = new CastAdapter(getActivity(), casts);
+        mRvCrewsList.setAdapter(mCastAdapter);
         return v;
     }
 
@@ -210,9 +208,9 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         });
         holder.postButton.setOnClickListener(this);
         try {
-            mCrewsAdapter = new CrewsAdapter(getActivity(), data.getCasts());
-            mRvCrewsList.setAdapter(mCrewsAdapter);
-            mCrewsAdapter.notifyDataSetChanged();
+            mCastAdapter = new CastAdapter(getActivity(), data.getCasts());
+            mRvCrewsList.setAdapter(mCastAdapter);
+            mCastAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }

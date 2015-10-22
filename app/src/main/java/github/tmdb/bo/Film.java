@@ -33,7 +33,6 @@ public class Film extends JSONObjectWrapper {
     private static final String VIDEOS = "videos";
     private static final String RUNTIME = "runtime";
     private static final String RESULTS = "results";
-    private static final String HTTPS_IMAGE_TMDB_ORG_T_P = "https://image.tmdb.org/t/p/";
     private static final String KEY = "KEY";
 
     public static final Parcelable.Creator<Film> CREATOR
@@ -123,15 +122,15 @@ public class Film extends JSONObjectWrapper {
         return getInternalArray(VIDEOS, RESULTS, "key");
     }
 
-    public ArrayList<Crew> getCasts() throws JSONException {
+    public ArrayList<Cast> getCasts() throws JSONException {
         JSONArray jsonArray = getInternalJsonArray("credits", "cast");
-        ArrayList<Crew> crewList = new ArrayList<>();
+        ArrayList<Cast> castList = new ArrayList<>();
         if (jsonArray!=null) {
             for (int i = 0; i < jsonArray.length();i++) {
-                crewList.add(new Crew(jsonArray.getJSONObject(i)));
+                castList.add(new Cast(jsonArray.getJSONObject(i)));
             }
         }
-        return crewList;
+        return castList;
     }
 
     public String getVoteAverage() {
@@ -147,17 +146,11 @@ public class Film extends JSONObjectWrapper {
     }
 
     public String getPosterPath(ApiTMDB.SizePoster size) {
-        String resultPosterPath = HTTPS_IMAGE_TMDB_ORG_T_P + size;
-        Log.d("Poster", getString(POSTER_PATH));
-        if (getString(POSTER_PATH) != null) {
-            return resultPosterPath + getString(POSTER_PATH);
-        } else {
-            return null;
-        }
+        return ApiTMDB.getImagePath(size, getString(POSTER_PATH));
     }
 
     public String getBackdropPath(ApiTMDB.SizePoster size) {
-        return HTTPS_IMAGE_TMDB_ORG_T_P + size + getString(BACKDROP_PATH);
+        return ApiTMDB.getImagePath(size, getString(BACKDROP_PATH));
     }
 
     public void initTitle() {

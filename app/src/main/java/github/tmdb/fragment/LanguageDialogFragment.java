@@ -15,13 +15,14 @@ import android.widget.RadioGroup;
 import github.tmdb.R;
 import github.tmdb.api.Language;
 import github.tmdb.app.AbstractActivity;
+import github.tmdb.utils.PreferenceUtil;
 
 /**
  @author IvanBakach
  @version on 05.02.2015
  */
 public class LanguageDialogFragment extends DialogFragment implements RadioGroup.OnCheckedChangeListener{
-
+    //TODO Rewrite on settings
     private RadioGroup radioGroup;
     private Activity activity;
     private final String KEY_SAVED_RADIO_BUTTON_INDEX = "SAVED_RADIO_BUTTON_INDEX";
@@ -34,7 +35,7 @@ public class LanguageDialogFragment extends DialogFragment implements RadioGroup
         radioGroup = (RadioGroup) v.findViewById(R.id.rg_language);
         radioGroup.setOnCheckedChangeListener(this);
         activity = getActivity();
-        LoadPreferences();
+        loadPreferences();
 
         AlertDialog.Builder adb = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.language_setting))
@@ -43,6 +44,14 @@ public class LanguageDialogFragment extends DialogFragment implements RadioGroup
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        switch (radioGroup.getCheckedRadioButtonId()) {
+                            case R.id.rb_english:
+                                PreferenceUtil.putString(getString(R.string.key_language), "en");
+                                break;
+                            case R.id.rb_russian:
+                                PreferenceUtil.putString(getString(R.string.key_language), "ru");
+                                break;
+                        }
                         Language.setLanguage(Language.getLanguage());
                         dialog.cancel();
                     }
@@ -57,14 +66,14 @@ public class LanguageDialogFragment extends DialogFragment implements RadioGroup
     }
 
 
-    private void SavePreferences(String key, int value) {
+    private void savePreferences(String key, int value) {
         SharedPreferences sharedPreferences = activity.getSharedPreferences(LAST_INDEX_CHECK, activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(key, value);
         editor.commit();
     }
 
-    private void LoadPreferences() {
+    private void loadPreferences() {
         SharedPreferences sharedPreferences = activity.getSharedPreferences(LAST_INDEX_CHECK, activity.MODE_PRIVATE);
         int savedRadioIndex = sharedPreferences.getInt(KEY_SAVED_RADIO_BUTTON_INDEX, 0);
         RadioButton savedCheckedRadioButton = (RadioButton) radioGroup.getChildAt(savedRadioIndex);
@@ -81,8 +90,8 @@ public class LanguageDialogFragment extends DialogFragment implements RadioGroup
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         RadioButton checkedRadioButton = (RadioButton)radioGroup.findViewById(checkedId);
         String language = checkedRadioButton.getText().toString();
-        Language.setLanguage(language);
+        PreferenceUtil.putString(getString(R.string.key_language), language);
         int checkedIndex = radioGroup.indexOfChild(checkedRadioButton);
-        SavePreferences(KEY_SAVED_RADIO_BUTTON_INDEX, checkedIndex);
+        savePreferences(KEY_SAVED_RADIO_BUTTON_INDEX, checkedIndex);
     }
 }
