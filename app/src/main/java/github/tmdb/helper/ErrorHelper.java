@@ -17,5 +17,8 @@ public class ErrorHelper {
         if (fragmentTransaction != null) {
             errorDialog.show(fragmentTransaction, message);
         }
+        if (fragmentTransaction != null) {
+            fragmentTransaction.commit();
+        }
     }
 }

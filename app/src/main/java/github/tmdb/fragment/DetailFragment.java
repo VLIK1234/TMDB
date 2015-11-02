@@ -88,12 +88,12 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.overview = (TextView) v.findViewById(R.id.overview);
         holder.trailerButton = (Button) v.findViewById(R.id.trailer_button);
         holder.postButton = (Button) v.findViewById(R.id.post_button);
-        mRvCrewsList = (RecyclerView) v.findViewById(R.id.rv_crew_list);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRvCrewsList = (RecyclerView) v.findViewById(R.id.rv_cast_list);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(OrientationHelper.HORIZONTAL);
         mRvCrewsList.setLayoutManager(linearLayoutManager);
         ArrayList<Cast> casts = new ArrayList<>();
-        mCastAdapter = new CastAdapter(getActivity(), casts);
+        mCastAdapter = new CastAdapter(getContext(), casts);
         mRvCrewsList.setAdapter(mCastAdapter);
         return v;
     }
@@ -169,7 +169,11 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.title.setText(data.getTitle());
         holder.date.setText(data.getReleaseDate());
         holder.rating.setText(data.getVoteAverage());
-        holder.ratingText.setText(getActivity().getString(R.string.rating) + data.getVoteAverage()+ getActivity().getString(R.string.from) + data.getVoteCount());
+        String ratingTemplate = "%s %s %s %s";
+        String rating = String.format(ratingTemplate, getContext().getString(R.string.rating),
+                data.getVoteAverage(),getContext().getString(R.string.from), data.getVoteCount());
+//        holder.ratingText.setText(rating);
+        holder.ratingText.setText(String.format("%s%s%s%s", getContext().getString(R.string.rating), data.getVoteAverage(), getContext().getString(R.string.from), data.getVoteCount()));
 
         ((DetailsActivity) getActivity()).setActionBarTitle(holder.title.getText().toString());
         final SpannableString text_tag;
@@ -188,12 +192,12 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
             holder.genres.setText(data.getGenres());
 
         } catch (JSONException e) {
-            ErrorHelper.showDialog(getActivity().getString(R.string.json_exсept) + e.getMessage(),
+            ErrorHelper.showDialog(getContext().getString(R.string.json_exсept) + e.getMessage(),
                     getActivity().getSupportFragmentManager().beginTransaction());
         }
 
         if (!data.getRuntime().equals("")) {
-            holder.runtime.setText(data.getRuntime() + getActivity().getString(R.string.min));
+            holder.runtime.setText(String.format("%s%s", data.getRuntime(), getContext().getString(R.string.min)));
         }
         else{
             holder.runtime.setText(data.getRuntime());
@@ -203,12 +207,12 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.poster.post(new Runnable() {
             @Override
             public void run() {
-                Picasso.with(getActivity()).load(urlPoster).into(holder.poster);
+                Picasso.with(getContext()).load(urlPoster).into(holder.poster);
             }
         });
         holder.postButton.setOnClickListener(this);
         try {
-            mCastAdapter = new CastAdapter(getActivity(), data.getCasts());
+            mCastAdapter = new CastAdapter(getContext(), data.getCasts());
             mRvCrewsList.setAdapter(mCastAdapter);
             mCastAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
@@ -218,14 +222,14 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
     @Override
     public void onClick(View v) {
-        WallPostSendHelper wallPostSend = new WallPostSendHelper(getActivity().getApplicationContext());
+        WallPostSendHelper wallPostSend = new WallPostSendHelper(getContext());
         wallPostSend.send(postMessage);
     }
 
     @Override
     public void onError(Exception e) {
         e.printStackTrace();
-        ErrorHelper.showDialog(getActivity().getString(R.string.some_exception) + e.getMessage(),
+        ErrorHelper.showDialog(getContext().getString(R.string.some_exception) + e.getMessage(),
                 getActivity().getSupportFragmentManager().beginTransaction());
     }
 

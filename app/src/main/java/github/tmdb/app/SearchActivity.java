@@ -65,7 +65,8 @@ public class SearchActivity extends AbstractActivity implements SearchView.OnQue
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.language_setting:
-                Language.getLanguageDialog(this);
+                Intent intentSetting = new Intent(SearchActivity.this, SettingsActivity.class);
+                startActivity(intentSetting);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

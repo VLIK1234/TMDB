@@ -58,7 +58,9 @@ public class MainScreenActivity extends AbstractActivity implements SearchView.O
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.language_setting:
-                Language.getLanguageDialog(this);
+                Intent intentSetting = new Intent(MainScreenActivity.this, SettingsActivity.class);
+                startActivity(intentSetting);
+//                Language.getLanguageDialog(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

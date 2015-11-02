@@ -34,7 +34,7 @@ public class VkOAuthHelper {
         return !TextUtils.isEmpty(token);
     }
 
-    public static boolean proceedRedirectURL(Activity activity, String url, Callbacks callbacks) {
+    public static boolean proceedRedirectURL(String url, Callbacks callbacks) {
         if (url.startsWith(REDIRECT_URL)) {
             Uri uri = Uri.parse(url);
             String fragment = uri.getFragment();
@@ -61,7 +61,7 @@ public class VkOAuthHelper {
         SharedPreferences sharedPreferences = context.getSharedPreferences(TOKEN, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, token);
-        editor.commit();
+        editor.apply();
     }
 
 //    private void LoadPreferences() {

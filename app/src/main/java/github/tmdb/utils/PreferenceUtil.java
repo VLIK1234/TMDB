@@ -16,6 +16,10 @@ public class PreferenceUtil {
         return getPref().getString(key, "");
     }
 
+    public static String getString(int stringResourceKey) {
+        return getPref().getString(CoreApplication.getAppContext().getString(stringResourceKey), "");
+    }
+
     public static void putString(String key, String value) {
         getPref().edit().putString(key, value).apply();
     }

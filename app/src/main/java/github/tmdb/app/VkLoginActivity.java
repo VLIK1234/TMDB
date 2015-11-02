@@ -73,7 +73,7 @@ public class VkLoginActivity extends AppCompatActivity implements VkOAuthHelper.
          */
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (VkOAuthHelper.proceedRedirectURL(VkLoginActivity.this, url, VkLoginActivity.this)) {
+            if (VkOAuthHelper.proceedRedirectURL(url, VkLoginActivity.this)) {
                 view.setVisibility(View.INVISIBLE);
                 return true;
             } else {
