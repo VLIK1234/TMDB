@@ -61,7 +61,7 @@
         <!-- Source - http://developer.android.com/training/implementing-navigation/ancestral.html-->
         <activity
             android:name="github.tmdb.app.DetailsActivity"
-            android:parentActivityName="github.tmdb.app.ReturnActivity">
+            android:parentActivityName="github.tmdb.app.MainScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
                 <category android:name="android.intent.category.DEFAULT"/>

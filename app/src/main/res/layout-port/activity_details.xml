@@ -22,4 +22,11 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/port_detail_top_margin" />
     </ScrollView>
+
+    <ProgressBar
+        android:id="@android:id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:visibility="visible"/>
 </RelativeLayout>
