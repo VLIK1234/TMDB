@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -52,11 +53,15 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
 
     private String detailUrl;
     private String videoKey;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        mProgressBar = (ProgressBar) findViewById(android.R.id.progress);
+
         if (getSupportActionBar()!=null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(false);
@@ -107,8 +112,10 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
 
     @Override
     public void onDataLoadStart() {
-
+        mProgressBar.setVisibility(View.VISIBLE);
     }
+
+
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -120,6 +127,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
                 if (!TextUtils.isEmpty(urlBackdrop)) {
                     Picasso.with(getBaseContext()).load(urlBackdrop).into(backdrop);
 //                    ImageLoader.getInstance().displayImage(urlBackdrop, backdrop);
+                    mProgressBar.setVisibility(View.GONE);
                 }
             }
         });
@@ -211,6 +219,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     @Override
     public void onError(Exception e) {
         e.printStackTrace();
+        mProgressBar.setVisibility(View.GONE);
         ErrorHelper.showDialog(getString(R.string.some_exception) + e.getMessage(),
                 getSupportFragmentManager().beginTransaction());
     }
