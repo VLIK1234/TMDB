@@ -2,8 +2,6 @@ package github.tmdb.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +24,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
     private final ArrayList<Cast> mCastList;
     private final Context mContext;
+    private int mCharterLabelColor;
 
     public CastAdapter(Context context, ArrayList<Cast> castList) {
         mContext = context;
@@ -42,19 +41,28 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.nameCrew.setText(mCastList.get(position).getName());
-        String charter = "as "+mCastList.get(position).getCharacter();
-        holder.charterCrew.setText(charter);
+        String charter = mCastList.get(position).getCharacter();
+        if (!TextUtilsImpl.isEmpty(charter)) {
+            holder.charterCrew.setText(String.format("as %s", charter));
+        }
+        if (mCharterLabelColor != 0) {
+            holder.charterCrew.setTextColor(mCharterLabelColor);
+        }
         String profilePath = mCastList.get(position).getProfilePath();
         if (!TextUtilsImpl.isEmpty(profilePath)) {
             Picasso.with(mContext).load(mCastList.get(position).getProfilePath()).resizeDimen(R.dimen.crew_profile_width, R.dimen.crew_profile_height).into(holder.profileCrew);
         } else {
-            Picasso.with(mContext).load(R.drawable.w185).resizeDimen(R.dimen.crew_profile_width, R.dimen.crew_profile_height).into(holder.profileCrew);
+            Picasso.with(mContext).load(R.drawable.no_avatar).resizeDimen(R.dimen.crew_profile_width, R.dimen.crew_profile_height).into(holder.profileCrew);
         }
     }
 
     @Override
     public int getItemCount() {
         return mCastList.size();
+    }
+
+    public void setCharterLabelColor(int rgbColor){
+        mCharterLabelColor = rgbColor;
     }
 
     public class ViewHolder  extends RecyclerView.ViewHolder{
@@ -69,4 +77,5 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
             charterCrew = (TextView) itemView.findViewById(R.id.tv_charter_crew);
         }
     }
+
 }

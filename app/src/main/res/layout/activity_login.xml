@@ -2,41 +2,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backColor"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".LoginActivity">
 
-    <Button
-        android:id="@+id/vk_auth"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        android:onClick="onVkAuthClick"
-        android:padding="8dp"
-        android:text="@string/button_log_vkauth" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/cinema_background"/>
 
-    <Button
-        android:id="@+id/no_auth"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_below="@+id/vk_auth"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:onClick="onNoAuthClick"
-        android:padding="8dp"
-        android:text="@string/button_log_noauth" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/alpha"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_above="@+id/vk_auth"
-        android:layout_centerInParent="true"
-        android:onClick="onAlphaClick"
-        android:padding="8dp"
-        android:text="@string/button_alpha"
-        android:visibility="gone" />
+        <Button
+            android:id="@+id/bt_vk_auth"
+            android:layout_width="@dimen/login_button_width_size"
+            android:layout_height="@dimen/login_button_height_size"
+            android:background="@drawable/background_select_login_buttons"
+            android:layout_margin="@dimen/login_button_margin"
+            android:text="@string/button_log_vkauth" />
+
+        <Button
+            android:id="@+id/bt_no_auth"
+            android:layout_width="@dimen/login_button_width_size"
+            android:layout_height="@dimen/login_button_height_size"
+            android:background="@drawable/background_select_login_buttons"
+            android:layout_margin="@dimen/login_button_margin"
+            android:text="@string/button_log_noauth" />
+
+        <Button
+            android:id="@+id/bt_alpha"
+            android:layout_width="@dimen/login_button_width_size"
+            android:layout_height="@dimen/login_button_height_size"
+            android:layout_margin="@dimen/login_button_margin"
+            android:text="@string/button_alpha"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
 </RelativeLayout>

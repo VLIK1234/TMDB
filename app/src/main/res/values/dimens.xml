@@ -32,5 +32,8 @@
     <dimen name="crew_profile_width">100dp</dimen>
     <dimen name="crew_profile_height">140dp</dimen>
     <dimen name="crew_item_height">180dp</dimen>
+    <dimen name="login_button_width_size">200dp</dimen>
+    <dimen name="login_button_height_size">50dp</dimen>
+    <dimen name="login_button_margin">8dp</dimen>
 
 </resources>

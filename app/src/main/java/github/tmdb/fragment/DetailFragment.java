@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -50,6 +51,7 @@ import github.tmdb.helper.WallPostSendHelper;
 import github.tmdb.processing.FilmProcessor;
 import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
+import github.tmdb.utils.UIUtil;
 
 /**
  * Created by ASUS on 21.01.2015.
@@ -57,6 +59,7 @@ import github.tmdb.source.TMDBDataSource;
 public class DetailFragment extends Fragment implements DataManager.Callback<Film>, View.OnClickListener {
 
     private static final String TAG = "DetailFragment";
+    public static final int BACKGROUND_ROOT_ALPHA = 200;
 
     private RecyclerView mRvCrewsList;
     private CastAdapter mCastAdapter;
@@ -244,10 +247,16 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
                                             palette.getPallete();
                                             if (palette.getDarkMutedColor() != null) {
                                                 holder.root.setBackgroundColor(palette.getDarkMutedColor().getRgb());
+                                                Drawable background = holder.root.getBackground();
+                                                background.setAlpha(BACKGROUND_ROOT_ALPHA);
+                                                UIUtil.setBackgroundCompact(holder.root, background);
                                                 setPrimaryTextColor(palette.getLightMutedColor().getRgb());
                                                 setSecondTextColor(palette.getMutedColor().getRgb());
                                             } else {
                                                 holder.root.setBackgroundColor(palette.getDarkVibrantColor().getRgb());
+                                                Drawable background = holder.root.getBackground();
+                                                background.setAlpha(BACKGROUND_ROOT_ALPHA);
+                                                UIUtil.setBackgroundCompact(holder.root, background);
                                                 setPrimaryTextColor(palette.getLightVibrantColor().getRgb());
                                                 setSecondTextColor(palette.getVibrantColor().getRgb());
                                             }
@@ -295,6 +304,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.tagline.setTextColor(rgbColor);
         holder.ratingText.setTextColor(rgbColor);
         holder.castLabel.setTextColor(rgbColor);
+        mCastAdapter.setCharterLabelColor(rgbColor);
+        mCastAdapter.notifyDataSetChanged();
     }
 
     private void setSecondTextColor(int rgbColor) {
