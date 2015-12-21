@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,13 +29,11 @@ import java.util.List;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.DeveloperKey;
-import github.tmdb.api.Language;
 import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
 import github.tmdb.fragment.DetailFragment;
 import github.tmdb.helper.DataManager;
 import github.tmdb.helper.ErrorHelper;
-import github.tmdb.image.ImageLoaderIstin;
 import github.tmdb.processing.FilmProcessor;
 import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
@@ -74,7 +71,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
         detailUrl = description.getDetailsUrl();
 
         backdrop = (ImageView) findViewById(R.id.backdrop);
-        posterExternal = (ImageView) findViewById(R.id.poster);
+        posterExternal = (ImageView) findViewById(R.id.backdrop);
         FragmentTransaction fragmentTransaction;
         Fragment fragment;
 

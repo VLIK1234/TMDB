@@ -1,13 +1,19 @@
 package github.tmdb.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -29,6 +35,20 @@ public class MainScreenActivity extends AbstractActivity implements SearchView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+//        // Inflate the "decor.xml"
+//        DrawerLayout drawer = (DrawerLayout) LayoutInflater.from(getBaseContext()).inflate(R.layout.activity_main_screen, null); // "null" is important.
+//d
+//        // HACK: "steal" the first child of decor view
+//        ViewGroup decor = (ViewGroup) getWindow().getDecorView();
+//        View child = decor.getChildAt(0);
+//        decor.removeView(child);
+//        FrameLayout container = (FrameLayout) drawer.findViewById(R.id.frame_dinamic); // This is the container we defined just now.
+//        container.addView(child);
+//
+//        // Make the drawer replace the first child
+//        decor.addView(drawer);
+//
+
         setTitle(getString(R.string.now_playing));
         FragmentTransaction fragmentTransaction;
         Fragment fragment;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:id="@+id/ll_root"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -26,7 +27,7 @@
                     android:src="@drawable/w342" />
 
                 <ImageView
-                    android:id="@+id/poster"
+                    android:id="@+id/backdrop"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/poster_description"
@@ -41,7 +42,8 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/background_play_button"
                     android:onClick="onClick"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -60,7 +62,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/title_size"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="Title"/>
 
                 <TextView
                     android:id="@+id/date"
@@ -70,7 +73,8 @@
                     android:layout_marginTop="@dimen/space_text_margin"
                     android:textColor="@color/secondary_text"
                     android:textSize="@dimen/second_text_size"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    tools:text="November 2015"/>
 
                 <TextView
                     android:id="@+id/genres"
@@ -79,7 +83,8 @@
                     android:layout_marginBottom="@dimen/space_text_margin"
                     android:layout_marginTop="@dimen/space_text_margin"
                     android:textColor="@color/secondary_text"
-                    android:textSize="@dimen/second_text_size" />
+                    android:textSize="@dimen/second_text_size"
+                    tools:text="Action|Comedy" />
 
                 <TextView
                     android:id="@+id/runtime"
@@ -87,7 +92,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/space_text_margin"
                     android:layout_marginTop="@dimen/space_text_margin"
-                    android:textSize="@dimen/second_text_size" />
+                    android:textSize="@dimen/second_text_size"
+                    tools:text="90 min"/>
 
                 <TextView
                     android:id="@+id/tagline"
@@ -96,7 +102,8 @@
                     android:layout_marginBottom="@dimen/space_text_margin"
                     android:layout_marginTop="@dimen/space_text_margin"
                     android:lineSpacingMultiplier="1.0"
-                    android:textSize="@dimen/second_text_size" />
+                    android:textSize="@dimen/second_text_size"
+                    tools:text="What is lonely day"/>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -118,7 +125,8 @@
                             android:id="@+id/rating_pic"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true" />
+                            android:layout_centerInParent="true"
+                            tools:text="7.0"/>
 
                     </RelativeLayout>
 
@@ -130,7 +138,8 @@
                         android:layout_marginLeft="@dimen/left_star_margin"
                         android:layout_marginStart="@dimen/left_star_margin"
                         android:layout_toEndOf="@id/rating_view"
-                        android:layout_toRightOf="@id/rating_view" />
+                        android:layout_toRightOf="@id/rating_view"
+                        tools:text="Rating 7.0/10" />
 
                 </RelativeLayout>
 
@@ -151,7 +160,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/border_margin"
         android:lineSpacingMultiplier="1.2"
-        android:textSize="@dimen/second_text_size" />
+        android:textSize="@dimen/second_text_size"
+        tools:text="Overview may be long"/>
 
     <View
         android:id="@+id/divider"
@@ -172,7 +182,8 @@
         android:layout_width="wrap_content"
         android:layout_height="180dp"
         android:layout_margin="@dimen/border_margin"
-        android:scrollbars="horizontal"/>
+        android:scrollbars="horizontal"
+        tools:listitem="@layout/adapter_crews"/>
 
     <!--<android.support.v7.widget.RecyclerView-->
         <!--android:id="@+id/rv_crew_list"-->

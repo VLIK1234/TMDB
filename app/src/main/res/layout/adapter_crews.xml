@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="@dimen/crew_profile_width"
               android:layout_height="@dimen/crew_item_height"
               android:layout_margin="2dp"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              tools:showIn="@layout/fragment_detail">
 
     <RelativeLayout
         android:layout_width="@dimen/crew_profile_width"
@@ -14,7 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/content_description_profile"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            tools:src="@drawable/no_avatar"/>
 
         <TextView
             android:id="@+id/tv_name_crew"
@@ -24,7 +27,8 @@
             android:gravity="center_horizontal"
             android:textColor="@android:color/white"
             android:layout_alignParentBottom="true"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            tools:text="Marcelio Gonsales"/>
     </RelativeLayout>
 
     <TextView
@@ -33,5 +37,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textColor="@color/secondary_text"
-        android:textSize="12sp"/>
+        android:textSize="12sp"
+        tools:text="as Long wolf"/>
 </LinearLayout>

@@ -20,7 +20,7 @@
                 android:layout_margin="6dp"
                 android:scaleType="centerCrop"/>
             <ImageView
-                android:id="@+id/poster"
+                android:id="@+id/backdrop"
                 android:contentDescription="@string/poster_description"
                 android:layout_width="170dip"
                 android:layout_height="256dip"

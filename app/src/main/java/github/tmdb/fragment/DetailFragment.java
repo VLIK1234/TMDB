@@ -1,7 +1,6 @@
 package github.tmdb.fragment;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -94,7 +93,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_detail, container, false);
         holder.root = (LinearLayout) v.findViewById(R.id.ll_root);
-        holder.poster = (ImageView) v.findViewById(R.id.poster);
+        holder.poster = (ImageView) v.findViewById(R.id.backdrop);
         holder.title = (TextView) v.findViewById(R.id.title);
         holder.date = (TextView) v.findViewById(R.id.date);
         holder.genres = (TextView) v.findViewById(R.id.genres);
@@ -300,7 +299,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.title.setTextColor(rgbColor);
         holder.overview.setTextColor(rgbColor);
         holder.runtime.setTextColor(rgbColor);
-        holder.rating.setTextColor(rgbColor);
+//        holder.rating.setTextColor(rgbColor);
         holder.tagline.setTextColor(rgbColor);
         holder.ratingText.setTextColor(rgbColor);
         holder.castLabel.setTextColor(rgbColor);

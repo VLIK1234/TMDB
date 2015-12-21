@@ -193,7 +193,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<Array
                     holder.ratingText.setText(item.getVoteAverage() + "/10" + " (" + item.getVoteCount() + ")");
 
                     convertView.setTag(item.getId());
-                    final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
+                    final ImageView poster = (ImageView) convertView.findViewById(R.id.backdrop);
                     final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
                     mImageLoaderIstin.loadAndDisplay(url, poster);
                     return convertView;

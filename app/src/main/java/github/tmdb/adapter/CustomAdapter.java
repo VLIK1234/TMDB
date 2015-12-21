@@ -56,7 +56,7 @@ public class CustomAdapter extends ArrayAdapter<Film> {
         builder.append(item.getVoteAverage()).append("/10 (").append(item.getVoteCount()).append(")");
         holder.ratingText.setText(builder);
 
-        final ImageView poster = (ImageView) convertView.findViewById(R.id.poster);
+        final ImageView poster = (ImageView) convertView.findViewById(R.id.backdrop);
         final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
         poster.post(new Runnable() {
             @Override

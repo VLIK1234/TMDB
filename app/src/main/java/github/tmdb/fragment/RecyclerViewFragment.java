@@ -41,7 +41,7 @@ import github.tmdb.utils.UIUtil;
  */
 public class RecyclerViewFragment extends BaseFragment implements DataManager.Callback<ArrayList<Film>>, FilmAdapter.ITouch {
     public static final String EXTRA_KEY = "extra_lang";
-    private static final int SPAN_COUNT = 4;
+    private static final int SPAN_COUNT = 2;
 
     private int page = 1;
     private String url = "";
@@ -160,7 +160,7 @@ public class RecyclerViewFragment extends BaseFragment implements DataManager.Ca
 
     private LinearLayoutManager getLayoutManger() {
         if (UIUtil.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
-            return new LinearLayoutManager(getActivity());
+            return new GridLayoutManager(getActivity(), 1);
         } else {
             return new GridLayoutManager(getActivity(), SPAN_COUNT);
         }

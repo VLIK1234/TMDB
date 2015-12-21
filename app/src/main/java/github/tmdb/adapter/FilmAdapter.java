@@ -3,7 +3,6 @@ package github.tmdb.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,6 +25,13 @@ import github.tmdb.bo.Film;
  * @version on 09.08.2015
  */
 public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
+
+    public static final DisplayImageOptions OPTIONS = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.drawable.w342)
+            .showImageOnFail(R.drawable.w342)
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .build();
 
     public interface ITouch {
         void touchAction(long idItem);
@@ -51,18 +59,10 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         holder.title.setText(film.getTitle());
         holder.date.setText(film.getReleaseDate());
         holder.rating.setRating(Float.valueOf(film.getVoteAverage()));
-        holder.ratingText.setText(film.getVoteAverage() + "/10" + " (" + film.getVoteCount() + ")");
+        holder.ratingText.setText(String.format("%s/10 (%s)", film.getVoteAverage(), film.getVoteCount()));
 
-        final String url = film.getPosterPath(ApiTMDB.SizePoster.w185);
-        holder.poster.post(new Runnable() {
-            @Override
-            public void run() {
-                if (!TextUtils.isEmpty(url)) {
-                    Picasso.with(mContext).load(url).into(holder.poster);
-//                    ImageLoader.getInstance().displayImage(url, holder.poster, mOptions);
-                }
-            }
-        });
+        ImageLoader.getInstance().displayImage(film.getBackdropPath(ApiTMDB.SizePoster.w342), holder.backdrop, OPTIONS);
+        ImageLoader.getInstance().displayImage(film.getPosterPath(ApiTMDB.SizePoster.w154), holder.poster, OPTIONS);
     }
 
     @Override
@@ -80,6 +80,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         private final TextView date;
         private final RatingBar rating;
         private final TextView ratingText;
+        private final ImageView backdrop;
         private final ImageView poster;
         private final ArrayList<Film> mListFilm;
         private final ITouch mITouch;
@@ -91,6 +92,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
             date = (TextView) convertView.findViewById(R.id.date);
             rating = (RatingBar) convertView.findViewById(R.id.rating);
             ratingText = (TextView) convertView.findViewById(R.id.rating_text);
+            backdrop = (ImageView) convertView.findViewById(R.id.backdrop);
             poster = (ImageView) convertView.findViewById(R.id.poster);
             mListFilm = listFilm;
             mITouch = iTouch;
@@ -98,7 +100,6 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            Log.d("TAG", "Click");
             Film item = mListFilm.get(getAdapterPosition());
             long selectItemID = item.getId();
             mITouch.touchAction(selectItemID);
