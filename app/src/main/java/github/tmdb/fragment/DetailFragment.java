@@ -1,9 +1,10 @@
 package github.tmdb.fragment;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.graphics.Palette;
-import android.support.v7.graphics.PaletteItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +19,6 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +27,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubeStandalonePlayer;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONException;
 
@@ -40,6 +41,7 @@ import github.tmdb.R;
 import github.tmdb.adapter.CastAdapter;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.AppendToResponseForFilm;
+import github.tmdb.api.DeveloperKey;
 import github.tmdb.api.Language;
 import github.tmdb.app.DetailsActivity;
 import github.tmdb.bo.Cast;
@@ -50,6 +52,7 @@ import github.tmdb.helper.WallPostSendHelper;
 import github.tmdb.processing.FilmProcessor;
 import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
+import github.tmdb.utils.BitmapDisplayOptions;
 import github.tmdb.utils.UIUtil;
 
 /**
@@ -59,6 +62,9 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
     private static final String TAG = "DetailFragment";
     public static final int BACKGROUND_ROOT_ALPHA = 200;
+
+    private static final int REQ_START_STANDALONE_PLAYER = 1;
+    private static final int REQ_RESOLVE_SERVICE_MISSING = 2;
 
     private RecyclerView mRvCrewsList;
     private CastAdapter mCastAdapter;
@@ -87,32 +93,34 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
     private List<String> videosKey;
     private String postMessage;
+    private String videoKey;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_detail, container, false);
-        holder.root = (LinearLayout) v.findViewById(R.id.ll_root);
-        holder.poster = (ImageView) v.findViewById(R.id.backdrop);
-        holder.title = (TextView) v.findViewById(R.id.title);
-        holder.date = (TextView) v.findViewById(R.id.date);
-        holder.genres = (TextView) v.findViewById(R.id.genres);
-        holder.runtime = (TextView) v.findViewById(R.id.runtime);
-        holder.rating = (TextView) v.findViewById(R.id.rating_pic);
-        holder.ratingText = (TextView) v.findViewById(R.id.rating_pic_text);
-        holder.tagline = (TextView) v.findViewById(R.id.tagline);
-        holder.overview = (TextView) v.findViewById(R.id.overview);
-        holder.castLabel = (TextView) v.findViewById(R.id.tv_cast_label);
-        holder.trailerButton = (Button) v.findViewById(R.id.trailer_button);
-        holder.postButton = (Button) v.findViewById(R.id.post_button);
-        mRvCrewsList = (RecyclerView) v.findViewById(R.id.rv_cast_list);
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
+        holder.root = (LinearLayout) view.findViewById(R.id.ll_root);
+        holder.poster = (ImageView) view.findViewById(R.id.backdrop);
+        holder.title = (TextView) view.findViewById(R.id.title);
+        holder.date = (TextView) view.findViewById(R.id.date);
+        holder.genres = (TextView) view.findViewById(R.id.genres);
+        holder.runtime = (TextView) view.findViewById(R.id.runtime);
+        holder.rating = (TextView) view.findViewById(R.id.rating_pic);
+        holder.ratingText = (TextView) view.findViewById(R.id.rating_pic_text);
+        holder.tagline = (TextView) view.findViewById(R.id.tagline);
+        holder.overview = (TextView) view.findViewById(R.id.overview);
+        holder.castLabel = (TextView) view.findViewById(R.id.tv_cast_label);
+        holder.trailerButton = (Button) view.findViewById(R.id.trailer_button);
+        holder.trailerButton.setOnClickListener(this);
+        holder.postButton = (Button) view.findViewById(R.id.post_button);
+        mRvCrewsList = (RecyclerView) view.findViewById(R.id.rv_cast_list);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(OrientationHelper.HORIZONTAL);
         mRvCrewsList.setLayoutManager(linearLayoutManager);
         ArrayList<Cast> casts = new ArrayList<>();
         mCastAdapter = new CastAdapter(getContext(), casts);
         mRvCrewsList.setAdapter(mCastAdapter);
-        return v;
+        return view;
     }
 
     @Override
@@ -174,12 +182,11 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         }
         try {
             videosKey = data.getVideos();
-            if (videosKey.size()>=1) {
-                ((DetailsActivity)activity).getVideosKey(videosKey.get(0));
+            if (videosKey.size() >= 1) {
+                videoKey = videosKey.get(0);
                 holder.trailerButton.setVisibility(View.VISIBLE);
-            }
-            else{
-                ((DetailsActivity)activity).getVideosKey("");
+            } else {
+                videoKey = "";
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -192,13 +199,13 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.rating.setText(data.getVoteAverage());
         String ratingTemplate = "%s %s %s %s";
         String rating = String.format(ratingTemplate, getContext().getString(R.string.rating),
-                data.getVoteAverage(),getContext().getString(R.string.from), data.getVoteCount());
+                data.getVoteAverage(), getContext().getString(R.string.from), data.getVoteCount());
         holder.ratingText.setText(rating);
         holder.ratingText.setText(String.format("%s%s%s%s", getContext().getString(R.string.rating), data.getVoteAverage(), getContext().getString(R.string.from), data.getVoteCount()));
 
         ((DetailsActivity) activity).setActionBarTitle(holder.title.getText().toString());
         final SpannableString text_tag;
-        if (data.getTagline() != null&&!data.getTagline().equals("")) {
+        if (data.getTagline() != null && !data.getTagline().equals("")) {
             text_tag = new SpannableString(getString(R.string.tagline) + data.getTagline());
             text_tag.setSpan(new StyleSpan(Typeface.BOLD | Typeface.ITALIC), 0, text_tag.length() - data.getTagline().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             text_tag.setSpan(new TypefaceSpan(getString(R.string.serif)), text_tag.length() - data.getTagline().length(), text_tag.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -219,58 +226,40 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
         if (!data.getRuntime().equals("")) {
             holder.runtime.setText(String.format("%s%s", data.getRuntime(), getContext().getString(R.string.min)));
-        }
-        else{
+        } else {
             holder.runtime.setText(data.getRuntime());
         }
 
         final String urlPoster = data.getPosterPath(ApiTMDB.SizePoster.w342);
-        Picasso.with(getContext())
-                .load(urlPoster)
-                .into(holder.poster, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        Bitmap bitmap = ((BitmapDrawable) holder.poster.getDrawable()).getBitmap();
-
-                        Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(final Palette palette) {
-                                activity.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (palette != null) {
-                                            for (PaletteItem item : palette.getPallete()) {
-                                                Log.d(TAG, "run() returned: " + item);
-
-                                            }
-                                            palette.getPallete();
-                                            if (palette.getDarkMutedColor() != null) {
-                                                holder.root.setBackgroundColor(palette.getDarkMutedColor().getRgb());
-                                                Drawable background = holder.root.getBackground();
-                                                background.setAlpha(BACKGROUND_ROOT_ALPHA);
-                                                UIUtil.setBackgroundCompact(holder.root, background);
-                                                setPrimaryTextColor(palette.getLightMutedColor().getRgb());
-                                                setSecondTextColor(palette.getMutedColor().getRgb());
-                                            } else {
-                                                holder.root.setBackgroundColor(palette.getDarkVibrantColor().getRgb());
-                                                Drawable background = holder.root.getBackground();
-                                                background.setAlpha(BACKGROUND_ROOT_ALPHA);
-                                                UIUtil.setBackgroundCompact(holder.root, background);
-                                                setPrimaryTextColor(palette.getLightVibrantColor().getRgb());
-                                                setSecondTextColor(palette.getVibrantColor().getRgb());
-                                            }
-                                        }
-                                    }
-                                });
+        ImageLoader.getInstance().displayImage(urlPoster, holder.poster, BitmapDisplayOptions.IMAGE_OPTIONS_EMPTY_PH, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                if (loadedImage != null) {
+                    Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
+                        @Override
+                        public void onGenerated(final Palette palette) {
+                            if (palette != null) {
+                                if (palette.getDarkMutedColor() != null && palette.getLightMutedColor() != null) {
+                                    holder.root.setBackgroundColor(palette.getDarkMutedColor().getRgb());
+                                    Drawable background = holder.root.getBackground();
+                                    background.setAlpha(BACKGROUND_ROOT_ALPHA);
+                                    UIUtil.setBackgroundCompact(holder.root, background);
+                                    setPrimaryTextColor(palette.getLightMutedColor().getRgb());
+                                    setSecondTextColor(palette.getMutedColor().getRgb());
+                                } else {
+                                    holder.root.setBackgroundColor(palette.getDarkVibrantColor().getRgb());
+                                    Drawable background = holder.root.getBackground();
+                                    background.setAlpha(BACKGROUND_ROOT_ALPHA);
+                                    UIUtil.setBackgroundCompact(holder.root, background);
+                                    setPrimaryTextColor(palette.getLightVibrantColor().getRgb());
+                                    setSecondTextColor(palette.getVibrantColor().getRgb());
+                                }
                             }
-                        });
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
+                        }
+                    });
+                }
+            }
+        });
 
         holder.postButton.setOnClickListener(this);
         try {
@@ -284,8 +273,26 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
     @Override
     public void onClick(View v) {
-        WallPostSendHelper wallPostSend = new WallPostSendHelper(getContext());
-        wallPostSend.send(postMessage);
+        switch (v.getId()) {
+            case R.id.post_button:
+                WallPostSendHelper wallPostSend = new WallPostSendHelper(getContext());
+                wallPostSend.send(postMessage);
+                break;
+            case R.id.trailer_button:
+                if (videoKey != null) {
+                    Intent intent = YouTubeStandalonePlayer.createVideoIntent(
+                            getActivity(), DeveloperKey.DEVELOPER_KEY, videoKey);
+                    if (intent != null) {
+                        if (canResolveIntent(intent)) {
+                            startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
+                        } else {
+                            YouTubeInitializationResult.SERVICE_MISSING
+                                    .getErrorDialog(getActivity(), REQ_RESOLVE_SERVICE_MISSING).show();
+                        }
+                    }
+                }
+                break;
+        }
     }
 
     @Override
@@ -312,4 +319,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.genres.setTextColor(rgbColor);
     }
 
+    private boolean canResolveIntent(Intent intent) {
+        List<ResolveInfo> resolveInfo = getActivity().getPackageManager().queryIntentActivities(intent, 0);
+        return resolveInfo != null && !resolveInfo.isEmpty();
+    }
 }

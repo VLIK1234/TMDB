@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
 import github.tmdb.R;
 import github.tmdb.bo.Cast;
+import github.tmdb.utils.BitmapDisplayOptions;
 import github.tmdb.utils.TextUtilsImpl;
 
 /**
@@ -45,15 +46,12 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
         if (!TextUtilsImpl.isEmpty(charter)) {
             holder.charterCrew.setText(String.format("as %s", charter));
         }
+        //if color not set yet
         if (mCharterLabelColor != 0) {
             holder.charterCrew.setTextColor(mCharterLabelColor);
         }
         String profilePath = mCastList.get(position).getProfilePath();
-        if (!TextUtilsImpl.isEmpty(profilePath)) {
-            Picasso.with(mContext).load(mCastList.get(position).getProfilePath()).resizeDimen(R.dimen.crew_profile_width, R.dimen.crew_profile_height).into(holder.profileCrew);
-        } else {
-            Picasso.with(mContext).load(R.drawable.no_avatar).resizeDimen(R.dimen.crew_profile_width, R.dimen.crew_profile_height).into(holder.profileCrew);
-        }
+        ImageLoader.getInstance().displayImage(profilePath, holder.profileCrew, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
     }
 
     @Override

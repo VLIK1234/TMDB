@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -58,12 +58,7 @@ public class CustomAdapter extends ArrayAdapter<Film> {
 
         final ImageView poster = (ImageView) convertView.findViewById(R.id.backdrop);
         final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
-        poster.post(new Runnable() {
-            @Override
-            public void run() {
-                Picasso.with(mContext).load(url).into(poster);
-            }
-        });
+        ImageLoader.getInstance().displayImage(url, poster);
         return convertView;
     }
 }

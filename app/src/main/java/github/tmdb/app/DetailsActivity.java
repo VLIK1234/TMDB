@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,7 +21,9 @@ import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
-import com.squareup.picasso.Picasso;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -41,15 +44,10 @@ import github.tmdb.source.TMDBDataSource;
 
 public class DetailsActivity extends AbstractActivity implements DataManager.Callback<Film>, SearchView.OnQueryTextListener {
 
-    private static final int REQ_START_STANDALONE_PLAYER = 1;
-    private static final int REQ_RESOLVE_SERVICE_MISSING = 2;
-
     private ImageView backdrop;
-    private ImageView posterExternal;
     private FilmProcessor filmProcessor = new FilmProcessor();
 
     private String detailUrl;
-    private String videoKey;
     private ProgressBar mProgressBar;
 
     @Override
@@ -71,7 +69,6 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
         detailUrl = description.getDetailsUrl();
 
         backdrop = (ImageView) findViewById(R.id.backdrop);
-        posterExternal = (ImageView) findViewById(R.id.backdrop);
         FragmentTransaction fragmentTransaction;
         Fragment fragment;
 
@@ -82,10 +79,6 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
             fragmentTransaction.commit();
         }
         update(dataSource, processor);
-    }
-
-    public void getVideosKey(String videoKey) {
-        this.videoKey = videoKey;
     }
 
     private FilmProcessor getProcessor() {
@@ -113,42 +106,30 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     }
 
 
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(Film data) {
         final String urlBackdrop = data.getBackdropPath(ApiTMDB.SizePoster.w1280);
-        backdrop.post(new Runnable() {
+        ImageLoader.getInstance().displayImage(urlBackdrop, backdrop, new SimpleImageLoadingListener(){
             @Override
-            public void run() {
-                if (!TextUtils.isEmpty(urlBackdrop)) {
-                    Picasso.with(getBaseContext()).load(urlBackdrop).into(backdrop);
-//                    ImageLoader.getInstance().displayImage(urlBackdrop, backdrop);
-                    mProgressBar.setVisibility(View.GONE);
-                }
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                mProgressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                mProgressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+                mProgressBar.setVisibility(View.GONE);
             }
         });
     }
 
     public void setActionBarTitle(String title) {
         setTitle(title);
-    }
-
-    public void onClick(View view) {
-        if (videoKey != null) {
-
-            Intent intent = YouTubeStandalonePlayer.createVideoIntent(
-                    this, DeveloperKey.DEVELOPER_KEY, videoKey);
-
-            if (intent != null) {
-                if (canResolveIntent(intent)) {
-                    startActivityForResult(intent, REQ_START_STANDALONE_PLAYER);
-                } else {
-                    YouTubeInitializationResult.SERVICE_MISSING
-                            .getErrorDialog(this, REQ_RESOLVE_SERVICE_MISSING).show();
-                }
-            }
-        }
     }
 
     private boolean canResolveIntent(Intent intent) {
