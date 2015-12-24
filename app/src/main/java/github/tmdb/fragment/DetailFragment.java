@@ -39,12 +39,14 @@ import java.util.List;
 
 import github.tmdb.R;
 import github.tmdb.adapter.CastAdapter;
+import github.tmdb.adapter.CrewAdapter;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.AppendToResponseForFilm;
 import github.tmdb.api.DeveloperKey;
 import github.tmdb.api.Language;
 import github.tmdb.app.DetailsActivity;
 import github.tmdb.bo.Cast;
+import github.tmdb.bo.Crew;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
 import github.tmdb.helper.ErrorHelper;
@@ -66,8 +68,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     private static final int REQ_START_STANDALONE_PLAYER = 1;
     private static final int REQ_RESOLVE_SERVICE_MISSING = 2;
 
-    private RecyclerView mRvCrewsList;
     private CastAdapter mCastAdapter;
+    private CrewAdapter mCrewAdapter;
 
     static class ViewHolder {
         LinearLayout root;
@@ -80,9 +82,12 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         TextView tagline;
         TextView overview;
         TextView castLabel;
+        TextView crewLabel;
         ImageView poster;
         Button trailerButton;
         Button postButton;
+        RecyclerView castList;
+        RecyclerView crewList;
     }
 
     public static final String EXTRA_LANG = "extra_lang";
@@ -110,16 +115,23 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.tagline = (TextView) view.findViewById(R.id.tagline);
         holder.overview = (TextView) view.findViewById(R.id.overview);
         holder.castLabel = (TextView) view.findViewById(R.id.tv_cast_label);
+        holder.crewLabel = (TextView) view.findViewById(R.id.tv_crew_label);
         holder.trailerButton = (Button) view.findViewById(R.id.trailer_button);
         holder.trailerButton.setOnClickListener(this);
         holder.postButton = (Button) view.findViewById(R.id.post_button);
-        mRvCrewsList = (RecyclerView) view.findViewById(R.id.rv_cast_list);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(OrientationHelper.HORIZONTAL);
-        mRvCrewsList.setLayoutManager(linearLayoutManager);
+        holder.castList = (RecyclerView) view.findViewById(R.id.rv_cast_list);
+        holder.crewList = (RecyclerView) view.findViewById(R.id.rv_crew_list);
+        final LinearLayoutManager castLayoutManager = new LinearLayoutManager(getContext());
+        castLayoutManager.setOrientation(OrientationHelper.HORIZONTAL);
+        final LinearLayoutManager crewLayoutManager = new LinearLayoutManager(getContext());
+        crewLayoutManager.setOrientation(OrientationHelper.HORIZONTAL);
+        holder.castList.setLayoutManager(castLayoutManager);
+        holder.crewList.setLayoutManager(crewLayoutManager);
         ArrayList<Cast> casts = new ArrayList<>();
-        mCastAdapter = new CastAdapter(getContext(), casts);
-        mRvCrewsList.setAdapter(mCastAdapter);
+        mCastAdapter = new CastAdapter(casts);
+        holder.castList.setAdapter(mCastAdapter);
+        ArrayList<Crew> crews = new ArrayList<>();
+        mCrewAdapter = new CrewAdapter(crews);
         return view;
     }
 
@@ -239,7 +251,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
                         @Override
                         public void onGenerated(final Palette palette) {
                             if (palette != null) {
-                                if (palette.getDarkMutedColor() != null && palette.getLightMutedColor() != null) {
+                                if (palette.getDarkMutedColor() != null && palette.getLightMutedColor() != null &&
+                                        palette.getMutedColor() != null) {
                                     holder.root.setBackgroundColor(palette.getDarkMutedColor().getRgb());
                                     Drawable background = holder.root.getBackground();
                                     background.setAlpha(BACKGROUND_ROOT_ALPHA);
@@ -263,9 +276,16 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
         holder.postButton.setOnClickListener(this);
         try {
-            mCastAdapter = new CastAdapter(getContext(), data.getCasts());
-            mRvCrewsList.setAdapter(mCastAdapter);
+            mCastAdapter = new CastAdapter(data.getCasts());
+            holder.castList.setAdapter(mCastAdapter);
             mCastAdapter.notifyDataSetChanged();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            mCrewAdapter = new CrewAdapter(data.getCrews());
+            holder.crewList.setAdapter(mCrewAdapter);
+            mCrewAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -310,8 +330,11 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.tagline.setTextColor(rgbColor);
         holder.ratingText.setTextColor(rgbColor);
         holder.castLabel.setTextColor(rgbColor);
+        holder.crewLabel.setTextColor(rgbColor);
         mCastAdapter.setCharterLabelColor(rgbColor);
         mCastAdapter.notifyDataSetChanged();
+        mCrewAdapter.setCharterLabelColor(rgbColor);
+        mCrewAdapter.notifyDataSetChanged();
     }
 
     private void setSecondTextColor(int rgbColor) {

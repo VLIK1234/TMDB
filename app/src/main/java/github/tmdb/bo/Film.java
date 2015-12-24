@@ -133,6 +133,17 @@ public class Film extends JSONObjectWrapper {
         return castList;
     }
 
+    public ArrayList<Crew> getCrews() throws JSONException {
+        JSONArray jsonArray = getInternalJsonArray("credits", "crew");
+        ArrayList<Crew> crewsList = new ArrayList<>();
+        if (jsonArray!=null) {
+            for (int i = 0; i < jsonArray.length();i++) {
+                crewsList.add(new Crew(jsonArray.getJSONObject(i)));
+            }
+        }
+        return crewsList;
+    }
+
     public String getVoteAverage() {
         return getString(VOTE_AVERAGE);
     }

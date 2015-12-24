@@ -35,5 +35,8 @@
     <dimen name="login_button_width_size">200dp</dimen>
     <dimen name="login_button_height_size">50dp</dimen>
     <dimen name="login_button_margin">8dp</dimen>
+    <dimen name="adapter_poster_width">85dp</dimen>
+    <dimen name="adapter_poster_height">115dp</dimen>
+    <dimen name="person_adapter_height">210dp</dimen>
 
 </resources>

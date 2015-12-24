@@ -53,5 +53,6 @@
     <string name="post">Post</string>
     <string name="content_description_profile">content_description_profile</string>
     <string name="label_detail_cast">Cast</string>
+    <string name="label_detail_crew">Crew</string>
     <string name="key_language">key_language</string>
 </resources>

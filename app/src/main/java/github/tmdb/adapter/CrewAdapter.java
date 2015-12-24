@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import github.tmdb.R;
 import github.tmdb.bo.Cast;
+import github.tmdb.bo.Crew;
 import github.tmdb.utils.BitmapDisplayOptions;
 import github.tmdb.utils.TextUtilsImpl;
 
@@ -21,13 +22,13 @@ import github.tmdb.utils.TextUtilsImpl;
  * @author IvanBakach
  * @version on 16.10.2015
  */
-public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
+public class CrewAdapter extends RecyclerView.Adapter<CrewAdapter.ViewHolder> {
 
-    private final ArrayList<Cast> mCastList;
+    private final ArrayList<Crew> mCrewList;
     private int mCharterLabelColor;
 
-    public CastAdapter(ArrayList<Cast> castList) {
-        mCastList = castList;
+    public CrewAdapter(ArrayList<Crew> crewList) {
+        mCrewList = crewList;
     }
 
     @Override
@@ -39,8 +40,8 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.nameCrew.setText(mCastList.get(position).getName());
-        String charter = mCastList.get(position).getCharacter();
+        holder.nameCrew.setText(mCrewList.get(position).getName());
+        String charter = mCrewList.get(position).getJob();
         if (!TextUtilsImpl.isEmpty(charter)) {
             holder.charterCrew.setText(String.format("as %s", charter));
         }
@@ -48,13 +49,13 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
         if (mCharterLabelColor != 0) {
             holder.charterCrew.setTextColor(mCharterLabelColor);
         }
-        String profilePath = mCastList.get(position).getProfilePath();
+        String profilePath = mCrewList.get(position).getProfilePath();
         ImageLoader.getInstance().displayImage(profilePath, holder.profileCrew, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
     }
 
     @Override
     public int getItemCount() {
-        return mCastList.size();
+        return mCrewList.size();
     }
 
     public void setCharterLabelColor(int rgbColor){
