@@ -2,7 +2,6 @@ package github.tmdb.bo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.Locale;
 
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.api.AppendToResponseForFilm;
 import github.tmdb.api.Language;
 
 public class Film extends JSONObjectWrapper {
@@ -58,12 +56,12 @@ public class Film extends JSONObjectWrapper {
         super(in);
     }
 
-    public static String getAppendToResponse(AppendToResponseForFilm... appResp) {
+    public static String getAppendToResponse(@ApiTMDB.AppendToResponse String... appResp) {
         StringBuilder sb = new StringBuilder();
         sb.append("&append_to_response=");
 
-        for (AppendToResponseForFilm anAppResp : appResp) {
-            sb.append(String.format(anAppResp + ","));
+        for (String anAppResp : appResp) {
+            sb.append(String.format("%s,", anAppResp));
         }
         return sb.toString();
     }
@@ -98,7 +96,6 @@ public class Film extends JSONObjectWrapper {
         if (!date.equals("")) {
             Calendar calendar = Calendar.getInstance();
             try {
-                Log.d(this.getClass().getSimpleName(), date + " date");
                 java.sql.Date javaSqlDate = java.sql.Date.valueOf(date);
                 calendar.setTime(javaSqlDate);
                 date = String.valueOf(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, new Locale(Language.getLanguage())) + " " + calendar.get(Calendar.YEAR));
@@ -156,16 +153,12 @@ public class Film extends JSONObjectWrapper {
         return getString(TOTAL_PAGES);
     }
 
-    public String getPosterPath(ApiTMDB.SizePoster size) {
+    public String getPosterPath(@ApiTMDB.ImageScale String size) {
         return ApiTMDB.getImagePath(size, getString(POSTER_PATH));
     }
 
-    public String getBackdropPath(ApiTMDB.SizePoster size) {
+    public String getBackdropPath(@ApiTMDB.ImageScale String size) {
         return ApiTMDB.getImagePath(size, getString(BACKDROP_PATH));
-    }
-
-    public void initTitle() {
-        set(KEY, getTitle() + "\n" + getReleaseDate());
     }
 
     public Long getId() {

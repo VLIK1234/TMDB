@@ -21,7 +21,7 @@ public class Crew {
     }
 
     public Crew(JSONObject jsonObject) throws JSONException {
-        this.profilePath = ApiTMDB.getImagePath(ApiTMDB.SizePoster.w154, jsonObject.getString("profile_path"));
+        this.profilePath = ApiTMDB.getImagePath(ApiTMDB.POSTER_154X231_BACKDROP_154X87, jsonObject.getString("profile_path"));
         this.name = jsonObject.getString("name");
         this.job = jsonObject.getString("job");
     }

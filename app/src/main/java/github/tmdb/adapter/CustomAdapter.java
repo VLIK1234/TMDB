@@ -57,7 +57,7 @@ public class CustomAdapter extends ArrayAdapter<Film> {
         holder.ratingText.setText(builder);
 
         final ImageView poster = (ImageView) convertView.findViewById(R.id.backdrop);
-        final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
+        final String url = item.getPosterPath(ApiTMDB.POSTER_185X278_BACKDROP_185X104);
         ImageLoader.getInstance().displayImage(url, poster);
         return convertView;
     }

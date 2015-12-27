@@ -109,7 +109,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onDone(Film data) {
-        final String urlBackdrop = data.getBackdropPath(ApiTMDB.SizePoster.w1280);
+        final String urlBackdrop = data.getBackdropPath(ApiTMDB.POSTER_1280X1920_BACKDROP_1280X720);
         ImageLoader.getInstance().displayImage(urlBackdrop, backdrop, new SimpleImageLoadingListener(){
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -170,7 +170,7 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     }
 
     private void onSearch(String search) throws UnsupportedEncodingException {
-        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(URLEncoder.encode(search, getString(R.string.utf_8))), search);
+        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(URLEncoder.encode(search, getString(R.string.utf_8)), ApiTMDB.SEARCH_TYPE_PHRASE), search);
         Intent intent = new Intent(DetailsActivity.this, SearchActivity.class);
         intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
         startActivity(intent);

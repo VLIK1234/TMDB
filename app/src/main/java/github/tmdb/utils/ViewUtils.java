@@ -1,4 +1,4 @@
-package github.tmdb.fragment;
+package github.tmdb.utils;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

@@ -11,7 +11,6 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 
 import github.tmdb.R;
-import github.tmdb.fragment.ViewUtils;
 
 public final class BitmapDisplayOptions {
 

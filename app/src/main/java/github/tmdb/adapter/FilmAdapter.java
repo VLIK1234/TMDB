@@ -59,8 +59,8 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         holder.rating.setRating(Float.valueOf(film.getVoteAverage()));
         holder.ratingText.setText(String.format("%s/10 (%s)", film.getVoteAverage(), film.getVoteCount()));
 
-        ImageLoader.getInstance().displayImage(film.getBackdropPath(ApiTMDB.SizePoster.w342), holder.backdrop, OPTIONS);
-        ImageLoader.getInstance().displayImage(film.getPosterPath(ApiTMDB.SizePoster.w154), holder.poster, OPTIONS);
+        ImageLoader.getInstance().displayImage(film.getBackdropPath(ApiTMDB.POSTER_342X513_BACKDROP_342X192), holder.backdrop, OPTIONS);
+        ImageLoader.getInstance().displayImage(film.getPosterPath(ApiTMDB.POSTER_154X231_BACKDROP_154X87), holder.poster, OPTIONS);
     }
 
     @Override

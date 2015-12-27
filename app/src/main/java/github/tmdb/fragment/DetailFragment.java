@@ -41,7 +41,6 @@ import github.tmdb.R;
 import github.tmdb.adapter.CastAdapter;
 import github.tmdb.adapter.CrewAdapter;
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.api.AppendToResponseForFilm;
 import github.tmdb.api.DeveloperKey;
 import github.tmdb.api.Language;
 import github.tmdb.app.DetailsActivity;
@@ -176,7 +175,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     private String getUrl() {
         StringBuilder controlUrl = new StringBuilder(detailUrl);
         controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(language);
-        controlUrl.append(Film.getAppendToResponse(AppendToResponseForFilm.releases, AppendToResponseForFilm.videos, AppendToResponseForFilm.credits));
+        controlUrl.append(Film.getAppendToResponse(ApiTMDB.APPEND_TO_RESPONSE_RELEASES, ApiTMDB.APPEND_TO_RESPONSE_VIDEOS, ApiTMDB.APPEND_TO_RESPONSE_CREDITS));
         return controlUrl.toString();
     }
 
@@ -242,7 +241,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
             holder.runtime.setText(data.getRuntime());
         }
 
-        final String urlPoster = data.getPosterPath(ApiTMDB.SizePoster.w342);
+        final String urlPoster = data.getPosterPath(ApiTMDB.POSTER_342X513_BACKDROP_342X192);
         ImageLoader.getInstance().displayImage(urlPoster, holder.poster, BitmapDisplayOptions.IMAGE_OPTIONS_EMPTY_PH, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {

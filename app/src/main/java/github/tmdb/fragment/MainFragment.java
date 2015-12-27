@@ -194,7 +194,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<Array
 
                     convertView.setTag(item.getId());
                     final ImageView poster = (ImageView) convertView.findViewById(R.id.backdrop);
-                    final String url = item.getPosterPath(ApiTMDB.SizePoster.w185);
+                    final String url = item.getPosterPath(ApiTMDB.POSTER_185X278_BACKDROP_185X104);
                     mImageLoaderIstin.loadAndDisplay(url, poster);
                     return convertView;
                 }
