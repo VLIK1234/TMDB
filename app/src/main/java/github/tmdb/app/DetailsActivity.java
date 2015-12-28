@@ -1,140 +1,55 @@
 package github.tmdb.app;
 
-import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubeStandalonePlayer;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.List;
 
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.api.DeveloperKey;
 import github.tmdb.bo.DescriptionOfTheFilm;
-import github.tmdb.bo.Film;
 import github.tmdb.fragment.DetailFragment;
-import github.tmdb.helper.DataManager;
 import github.tmdb.helper.ErrorHelper;
-import github.tmdb.processing.FilmProcessor;
-import github.tmdb.source.HttpDataSource;
-import github.tmdb.source.TMDBDataSource;
 
 
-public class DetailsActivity extends AbstractActivity implements DataManager.Callback<Film>, SearchView.OnQueryTextListener {
-
-    private ImageView backdrop;
-    private FilmProcessor filmProcessor = new FilmProcessor();
-
-    private String detailUrl;
-    private ProgressBar mProgressBar;
+public class DetailsActivity extends AbstractActivity implements SearchView.OnQueryTextListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        mProgressBar = (ProgressBar) findViewById(android.R.id.progress);
-
-        if (getSupportActionBar()!=null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(false);
         }
-        final HttpDataSource dataSource = getHttpDataSource();
-        final FilmProcessor processor = getProcessor();
 
         DescriptionOfTheFilm description = getIntent().getParcelableExtra(
                 DescriptionOfTheFilm.class.getCanonicalName());
-        detailUrl = description.getDetailsUrl();
+        String detailUrl = description.getDetailsUrl();
 
-        backdrop = (ImageView) findViewById(R.id.backdrop);
         FragmentTransaction fragmentTransaction;
         Fragment fragment;
 
         if (savedInstanceState == null) {
-            fragment = DetailFragment.newInstance(this.detailUrl);
+            fragment = DetailFragment.newInstance(detailUrl);
             fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.frame_detail, fragment);
             fragmentTransaction.commit();
         }
-        update(dataSource, processor);
-    }
-
-    private FilmProcessor getProcessor() {
-        return filmProcessor;
-    }
-
-    private HttpDataSource getHttpDataSource() {
-        return new TMDBDataSource();
-    }
-
-    private void update(HttpDataSource dataSource, FilmProcessor processor) {
-        DataManager.loadData(DetailsActivity.this,
-                getUrl(),
-                dataSource,
-                processor);
-    }
-
-    private String getUrl() {
-        return detailUrl;
-    }
-
-    @Override
-    public void onDataLoadStart() {
-        mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Override
-    public void onDone(Film data) {
-        final String urlBackdrop = data.getBackdropPath(ApiTMDB.POSTER_1280X1920_BACKDROP_1280X720);
-        ImageLoader.getInstance().displayImage(urlBackdrop, backdrop, new SimpleImageLoadingListener(){
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                mProgressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                mProgressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-                mProgressBar.setVisibility(View.GONE);
-            }
-        });
     }
 
     public void setActionBarTitle(String title) {
         setTitle(title);
-    }
-
-    private boolean canResolveIntent(Intent intent) {
-        List<ResolveInfo> resolveInfo = getPackageManager().queryIntentActivities(intent, 0);
-        return resolveInfo != null && !resolveInfo.isEmpty();
     }
 
     @Override
@@ -192,13 +107,5 @@ public class DetailsActivity extends AbstractActivity implements DataManager.Cal
     @Override
     public boolean onQueryTextChange(String s) {
         return true;
-    }
-
-    @Override
-    public void onError(Exception e) {
-        e.printStackTrace();
-        mProgressBar.setVisibility(View.GONE);
-        ErrorHelper.showDialog(getString(R.string.some_exception) + e.getMessage(),
-                getSupportFragmentManager().beginTransaction());
     }
 }

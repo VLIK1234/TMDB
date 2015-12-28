@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -159,10 +160,18 @@ public class RecyclerViewFragment extends Fragment implements DataManager.Callba
     }
 
     private LinearLayoutManager getLayoutManger() {
-        if (UIUtil.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
-            return new GridLayoutManager(getActivity(), 1);
+        if (getResources().getDisplayMetrics().densityDpi != DisplayMetrics.DENSITY_TV) {
+            if (UIUtil.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+                return new GridLayoutManager(getActivity(), 1);
+            } else {
+                return new GridLayoutManager(getActivity(), SPAN_COUNT);
+            }
         } else {
-            return new GridLayoutManager(getActivity(), SPAN_COUNT);
+            if (UIUtil.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+                return new GridLayoutManager(getActivity(), SPAN_COUNT);
+            } else {
+                return new GridLayoutManager(getActivity(), 3);
+            }
         }
     }
 

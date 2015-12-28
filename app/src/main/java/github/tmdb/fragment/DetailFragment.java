@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeStandalonePlayer;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONException;
@@ -83,6 +84,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         TextView castLabel;
         TextView crewLabel;
         ImageView poster;
+        ImageView backdrop;
         Button trailerButton;
         Button postButton;
         RecyclerView castList;
@@ -104,7 +106,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         holder.root = (LinearLayout) view.findViewById(R.id.ll_root);
-        holder.poster = (ImageView) view.findViewById(R.id.backdrop);
+        holder.poster = (ImageView) view.findViewById(R.id.poster);
+        holder.backdrop = (ImageView) view.findViewById(R.id.backdrop);
         holder.title = (TextView) view.findViewById(R.id.title);
         holder.date = (TextView) view.findViewById(R.id.date);
         holder.genres = (TextView) view.findViewById(R.id.genres);
@@ -204,7 +207,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
             ErrorHelper.showDialog(getString(R.string.json_exсept) + e.getMessage(),
                     activity.getSupportFragmentManager().beginTransaction());
         }
-
+        final String urlBackdrop = data.getBackdropPath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563);
+        ImageLoader.getInstance().displayImage(urlBackdrop, holder.backdrop);
         holder.title.setText(data.getTitle());
         holder.date.setText(data.getReleaseDate());
         holder.rating.setText(data.getVoteAverage());
