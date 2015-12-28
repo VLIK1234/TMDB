@@ -38,6 +38,7 @@
         </activity>
         <activity
             android:name="github.tmdb.app.MainScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="standard"
             android:screenOrientation="fullSensor"/>
         <activity

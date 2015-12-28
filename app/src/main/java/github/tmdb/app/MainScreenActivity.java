@@ -1,53 +1,50 @@
 package github.tmdb.app;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.api.Language;
 import github.tmdb.bo.DescriptionOfTheFilm;
-import github.tmdb.fragment.ListFilmFragment;
 import github.tmdb.fragment.RecyclerViewFragment;
 import github.tmdb.helper.ErrorHelper;
+
 /**
- @author IvanBakach
- @version on 12.01.2015
+ * @author IvanBakach
+ * @version on 12.01.2015
  */
-public class MainScreenActivity extends AbstractActivity implements SearchView.OnQueryTextListener {
+public class MainScreenActivity extends AbstractActivity implements SearchView.OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_screen);
-//        // Inflate the "decor.xml"
-//        DrawerLayout drawer = (DrawerLayout) LayoutInflater.from(getBaseContext()).inflate(R.layout.activity_main_screen, null); // "null" is important.
-//d
-//        // HACK: "steal" the first child of decor view
-//        ViewGroup decor = (ViewGroup) getWindow().getDecorView();
-//        View child = decor.getChildAt(0);
-//        decor.removeView(child);
-//        FrameLayout container = (FrameLayout) drawer.findViewById(R.id.frame_dinamic); // This is the container we defined just now.
-//        container.addView(child);
-//
-//        // Make the drawer replace the first child
-//        decor.addView(drawer);
-//
+        setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         setTitle(getString(R.string.now_playing));
         FragmentTransaction fragmentTransaction;
@@ -108,6 +105,41 @@ public class MainScreenActivity extends AbstractActivity implements SearchView.O
 
     @Override
     public boolean onQueryTextChange(String s) {
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }

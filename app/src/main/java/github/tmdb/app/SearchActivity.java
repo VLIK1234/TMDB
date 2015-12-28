@@ -28,9 +28,7 @@ public class SearchActivity extends AbstractActivity implements SearchView.OnQue
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_screen);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        setContentView(R.layout.activity_main);
 
         FragmentTransaction fragmentTransaction;
         Fragment fragment;

@@ -39,7 +39,7 @@ import github.tmdb.utils.UIUtil;
  * @author Ivan Bakach
  * @version on 09.08.2015
  */
-public class RecyclerViewFragment extends BaseFragment implements DataManager.Callback<ArrayList<Film>>, FilmAdapter.ITouch {
+public class RecyclerViewFragment extends Fragment implements DataManager.Callback<ArrayList<Film>>, FilmAdapter.ITouch {
     public static final String EXTRA_KEY = "extra_lang";
     private static final int SPAN_COUNT = 2;
 

@@ -55,4 +55,6 @@
     <string name="label_detail_cast">Cast</string>
     <string name="label_detail_crew">Crew</string>
     <string name="key_language">key_language</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
