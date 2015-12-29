@@ -181,7 +181,7 @@ public class RecyclerViewFragment extends Fragment implements DataManager.Callba
         progressBar.setVisibility(View.GONE);
         empty.setVisibility(View.GONE);
         err.setVisibility(View.VISIBLE);
-        err.setText(err.getText() + "\n" + e.getMessage());
+        err.setText(String.format("%s\n%s", err.getText(), e.getMessage()));
     }
 
     @Override
