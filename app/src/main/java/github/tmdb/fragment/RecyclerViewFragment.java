@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -186,9 +187,17 @@ public class RecyclerViewFragment extends Fragment implements DataManager.Callba
 
     @Override
     public void touchAction(long idItem) {
-        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(idItem));
-        Intent intent = new Intent(CoreApplication.getAppContext(), DetailsActivity.class);
-        intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
-        getActivity().startActivity(intent);
+        FragmentTransaction fragmentTransaction;
+        Fragment fragment;
+        fragment = DetailFragment.newInstance(ApiTMDB.getMovie(idItem));
+        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.frame_dinamic, fragment);
+        fragmentTransaction.addToBackStack(DetailFragment.class.getName());
+        fragmentTransaction.commit();
+//
+//        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(idItem));
+//        Intent intent = new Intent(CoreApplication.getAppContext(), DetailsActivity.class);
+//        intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
+//        getActivity().startActivity(intent);
     }
 }

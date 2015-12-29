@@ -218,7 +218,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.ratingText.setText(rating);
         holder.ratingText.setText(String.format("%s%s%s%s", getContext().getString(R.string.rating), data.getVoteAverage(), getContext().getString(R.string.from), data.getVoteCount()));
 
-        ((DetailsActivity) activity).setActionBarTitle(holder.title.getText().toString());
+        activity.setTitle(holder.title.getText().toString());
         final SpannableString text_tag;
         if (data.getTagline() != null && !data.getTagline().equals("")) {
             text_tag = new SpannableString(getString(R.string.tagline) + data.getTagline());
