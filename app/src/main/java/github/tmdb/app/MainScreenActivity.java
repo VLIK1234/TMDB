@@ -85,10 +85,14 @@ public class MainScreenActivity extends AbstractActivity implements SearchView.O
     }
 
     private void onSearch(String search) throws UnsupportedEncodingException {
-        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getSearchMovie(URLEncoder.encode(search, getString(R.string.utf_8)), ApiTMDB.SEARCH_TYPE_PHRASE), search);
-        Intent intent = new Intent(MainScreenActivity.this, SearchActivity.class);
-        intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
-        startActivity(intent);
+        FragmentTransaction fragmentTransaction;
+        Fragment fragment;
+        String urlSearch = ApiTMDB.getSearchMovie(URLEncoder.encode(search, getString(R.string.utf_8)), ApiTMDB.SEARCH_TYPE_PHRASE);
+        fragment = RecyclerViewFragment.newInstance(urlSearch);
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.addToBackStack("SearchFragment");
+        fragmentTransaction.add(R.id.frame_dinamic, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -116,6 +120,7 @@ public class MainScreenActivity extends AbstractActivity implements SearchView.O
         } else {
             super.onBackPressed();
         }
+        setTitle(getString(R.string.now_playing));
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

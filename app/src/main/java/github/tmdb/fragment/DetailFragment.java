@@ -1,5 +1,7 @@
 package github.tmdb.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -25,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -71,7 +75,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     private CastAdapter mCastAdapter;
     private CrewAdapter mCrewAdapter;
 
-    static class ViewHolder {
+    private static class ViewHolder {
         LinearLayout root;
         TextView title;
         TextView date;
@@ -89,6 +93,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         Button postButton;
         RecyclerView castList;
         RecyclerView crewList;
+        ProgressBar mProgressBar;
+        ScrollView mScrollView;
     }
 
     public static final String EXTRA_LANG = "extra_lang";
@@ -100,6 +106,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     private List<String> videosKey;
     private String postMessage;
     private String videoKey;
+    private int mShortAnimationDuration;
 
     @Nullable
     @Override
@@ -121,6 +128,9 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.trailerButton = (Button) view.findViewById(R.id.trailer_button);
         holder.trailerButton.setOnClickListener(this);
         holder.postButton = (Button) view.findViewById(R.id.post_button);
+        holder.mProgressBar = (ProgressBar) view.findViewById(android.R.id.progress);
+        holder.mScrollView = (ScrollView) view.findViewById(R.id.scroll);
+        holder.mScrollView.setVisibility(View.GONE);
         holder.castList = (RecyclerView) view.findViewById(R.id.rv_cast_list);
         holder.crewList = (RecyclerView) view.findViewById(R.id.rv_crew_list);
         final LinearLayoutManager castLayoutManager = new LinearLayoutManager(getContext());
@@ -142,7 +152,8 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         super.onActivityCreated(savedInstanceState);
         final HttpDataSource dataSource = getHttpDataSource();
         final FilmProcessor processor = getProcessor();
-
+        mShortAnimationDuration = getResources().getInteger(
+                android.R.integer.config_shortAnimTime);
         this.detailUrl = getLanguage();
         language = Language.getLanguage();
         update(dataSource, processor);
@@ -184,7 +195,6 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
 
     @Override
     public void onDataLoadStart() {
-
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -292,6 +302,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        crossfade();
     }
 
     @Override
@@ -323,6 +334,33 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         e.printStackTrace();
         ErrorHelper.showDialog(getContext().getString(R.string.some_exception) + e.getMessage(),
                 getActivity().getSupportFragmentManager().beginTransaction());
+    }
+
+    private void crossfade() {
+        // Set the content view to 0% opacity but visible, so that it is visible
+        // (but fully transparent) during the animation.
+        holder.mScrollView.setAlpha(0f);
+        holder.mScrollView.setVisibility(View.VISIBLE);
+
+        // Animate the content view to 100% opacity, and clear any animation
+        // listener set on the view.
+        holder.mScrollView.animate()
+                .alpha(1f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(null);
+
+        // Animate the loading view to 0% opacity. After the animation ends,
+        // set its visibility to GONE as an optimization step (it won't
+        // participate in layout passes, etc.)
+        holder.mProgressBar.animate()
+                .alpha(0f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        holder.mProgressBar.setVisibility(View.GONE);
+                    }
+                });
     }
 
     private void setPrimaryTextColor(int rgbColor) {
