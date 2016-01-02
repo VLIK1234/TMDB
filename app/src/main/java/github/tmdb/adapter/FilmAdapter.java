@@ -1,6 +1,7 @@
 package github.tmdb.adapter;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
+import by.istin.android.xcore.utils.CursorUtils;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.bo.Film;
+import github.tmdb.core.cursor.FollowListCursor;
 
 /**
  * @author Ivan Bakach
@@ -38,10 +41,16 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     private ArrayList<Film> mFilmList = new ArrayList<>();
     private ITouch mITouch;
     private Context mContext;
+    private FollowListCursor mFollowListCursor;
 
     public FilmAdapter(Context context, ArrayList<Film> filmList, ITouch iTouch) {
         mContext = context;
         mFilmList = filmList;
+        mITouch = iTouch;
+    }
+    public FilmAdapter(Context context, FollowListCursor followListCursor, ITouch iTouch) {
+        mContext = context;
+        mFollowListCursor = followListCursor;
         mITouch = iTouch;
     }
 
@@ -70,6 +79,12 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
 
     public void addAll(ArrayList<Film> filmArrayList) {
         mFilmList.addAll(filmArrayList);
+    }
+
+    public void swapCursor(FollowListCursor followListCursor) {
+        CursorUtils.close(mFollowListCursor);
+        mFollowListCursor = followListCursor;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

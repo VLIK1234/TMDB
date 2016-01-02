@@ -30,6 +30,7 @@ import github.tmdb.adapter.FilmAdapter;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.Language;
 import github.tmdb.app.DetailsActivity;
+import github.tmdb.app.MainScreenActivity;
 import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
@@ -155,6 +156,7 @@ public class RecyclerViewFragment extends Fragment implements DataManager.Callba
             this.data.clear();
             updateAdapter(data);
         }
+        crossfade();
     }
 
     private void updateAdapter(List<Film> data) {
@@ -218,17 +220,6 @@ public class RecyclerViewFragment extends Fragment implements DataManager.Callba
 
     @Override
     public void touchAction(long idItem) {
-        FragmentTransaction fragmentTransaction;
-        Fragment fragment;
-        fragment = DetailFragment.newInstance(ApiTMDB.getMovie(idItem));
-        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.frame_dinamic, fragment);
-        fragmentTransaction.addToBackStack(DetailFragment.class.getName());
-        fragmentTransaction.commit();
-//
-//        DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(idItem));
-//        Intent intent = new Intent(CoreApplication.getAppContext(), DetailsActivity.class);
-//        intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
-//        getActivity().startActivity(intent);
+        ((MainScreenActivity) getActivity()).setCurrentFragment(DetailFragment.newInstance(ApiTMDB.getMovie(idItem)), true);
     }
 }

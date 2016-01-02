@@ -83,7 +83,6 @@ public class LanguageDialogFragment extends DialogFragment implements RadioGroup
     @Override
     public void onCancel(DialogInterface dialog) {
         super.onCancel(dialog);
-        ((AbstractActivity)getActivity()).restartActivity();
     }
 
     @Override

@@ -1,23 +1,28 @@
 package github.tmdb.app;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-/**
- @author IvanBakach
- @version on 31.01.2015
- */
+import github.tmdb.R;
 
-public  abstract class AbstractActivity extends AppCompatActivity {
+/**
+ * Created by IstiN on 13.11.13.
+ */
+public abstract class AbstractActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.content, createFragment())
+                    .commit();
+        }
     }
 
-    public void restartActivity() {
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
-    }
+    protected abstract Fragment createFragment();
+
 }

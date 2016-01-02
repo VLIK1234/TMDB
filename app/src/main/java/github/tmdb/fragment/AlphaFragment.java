@@ -68,7 +68,6 @@ public class AlphaFragment extends DialogFragment implements RadioGroup.OnChecke
     @Override
     public void onCancel(DialogInterface dialog) {
         super.onCancel(dialog);
-        ((AbstractActivity)getActivity()).restartActivity();
     }
 
     @Override

@@ -48,6 +48,11 @@ public class DetailsActivity extends AbstractActivity implements SearchView.OnQu
         }
     }
 
+    @Override
+    protected Fragment createFragment() {
+        return null;
+    }
+
     public void setActionBarTitle(String title) {
         setTitle(title);
     }
