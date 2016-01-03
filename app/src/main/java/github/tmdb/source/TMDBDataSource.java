@@ -7,8 +7,8 @@ import java.io.InputStream;
 import github.tmdb.CoreApplication;
 
 /**
- @author IvanBakach
- @version on 22.11.2014
+ * @author IvanBakach
+ * @version on 22.11.2014
  */
 public class TMDBDataSource extends HttpDataSource {
 

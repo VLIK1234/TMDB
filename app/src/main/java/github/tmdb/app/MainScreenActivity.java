@@ -21,6 +21,7 @@ import android.widget.Toast;
 import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
+import github.tmdb.fragment.MoviesFragment;
 import github.tmdb.fragment.RecyclerViewFragment;
 
 /**
@@ -61,7 +62,7 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
 
         setTitle(getString(R.string.now_playing));
 
-        setCurrentFragment(RecyclerViewFragment.newInstance(ApiTMDB.getNowPlayingGet()), false);
+        setCurrentFragment(Fragment.instantiate(getBaseContext(), MoviesFragment.class.getName()), false);
     }
 
     public void setCurrentFragment(Fragment fragment, boolean withBackStack) {

@@ -1,44 +1,42 @@
 package github.tmdb.fragment;
 
-import android.graphics.Movie;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import java.net.HttpURLConnection;
-
-import by.istin.android.xcore.callable.ISuccess;
+import by.istin.android.xcore.fragment.collection.RecyclerViewFragment;
 import by.istin.android.xcore.model.CursorModel;
 import by.istin.android.xcore.provider.ModelContract;
 import by.istin.android.xcore.source.DataSourceRequest;
-import by.istin.android.xcore.source.impl.http.exception.IOStatusException;
-import by.istin.android.xcore.fragment.collection.RecyclerViewFragment;
 import github.tmdb.R;
 import github.tmdb.adapter.FilmAdapter;
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.core.cursor.FollowListCursor;
-import github.tmdb.core.model.MovieEntity;
+import github.tmdb.app.MainScreenActivity;
+import github.tmdb.core.cursor.MoviesListCursor;
+import github.tmdb.core.model.MovieItemEntity;
 import github.tmdb.core.processor.MovieEntityProcessor;
+import github.tmdb.listener.RecyclerViewScrollListener;
 
 /**
  * @author IvanBakach
  * @version on 13.11.2015
  */
-public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder, FilmAdapter, FollowListCursor> implements FilmAdapter.ITouch{
+public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder, FilmAdapter, MoviesListCursor> implements FilmAdapter.ITouch {
 
     public static final int SPAN_COUNT = 2;
-    private View mEmptyView;
+//    private View mEmptyView;
 
     @Override
-    public FilmAdapter createAdapter(FragmentActivity fragmentActivity, FollowListCursor cursor) {
-        return new FilmAdapter(getContext(), cursor, this);
+    public FilmAdapter createAdapter(FragmentActivity fragmentActivity, MoviesListCursor cursor) {
+        return new FilmAdapter(cursor, this);
     }
 
     @Override
@@ -49,21 +47,23 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        if (view != null) {
-            mEmptyView = view.findViewById(android.R.id.empty);
-        }
+//        if (view != null) {
+//            mEmptyView = view.findViewById(android.R.id.empty);
+//        }
         return view;
     }
 
     @Override
     public RecyclerView getCollectionView() {
         RecyclerView recyclerView = super.getCollectionView();
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), SPAN_COUNT));
+        LinearLayoutManager layoutManager = new GridLayoutManager(getContext(), SPAN_COUNT);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager, ApiTMDB.getNowPlayingGet(), recyclerView.getAdapter()));
         return recyclerView;
     }
 
     @Override
-    public void swap(FilmAdapter personListAdapter, FollowListCursor cursor) {
+    public void swap(FilmAdapter personListAdapter, MoviesListCursor cursor) {
         personListAdapter.swapCursor(cursor);
     }
 
@@ -79,29 +79,29 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
 
     @Override
     public void onError(Exception exception, DataSourceRequest dataSourceRequest) {
-        if (exception instanceof by.istin.android.xcore.source.impl.http.exception.IOStatusException) {
-            if (((IOStatusException) exception).getStatusCode() == HttpURLConnection.HTTP_NOT_FOUND) {
-                hideProgress();
-                mEmptyView.setVisibility(View.VISIBLE);
-            } else {
-                super.onError(exception, dataSourceRequest);
-            }
-        }
+//        if (exception instanceof by.istin.android.xcore.source.impl.http.exception.IOStatusException) {
+//            if (((IOStatusException) exception).getStatusCode() == HttpURLConnection.HTTP_NOT_FOUND) {
+//                hideProgress();
+//                mEmptyView.setVisibility(View.VISIBLE);
+//            } else {
+//                super.onError(exception, dataSourceRequest);
+//            }
+//        }
     }
 
     @Override
-    public CursorModel.CursorModelCreator<FollowListCursor> getCursorModelCreator() {
-        return FollowListCursor.CREATOR;
+    public CursorModel.CursorModelCreator<MoviesListCursor> getCursorModelCreator() {
+        return MoviesListCursor.CREATOR;
     }
 
     @Override
     public Uri getUri() {
-        return ModelContract.getUri(MovieEntity.class);
+        return ModelContract.getUri(MovieItemEntity.class);
     }
 
     @Override
     public String getUrl() {
-        return ApiTMDB.getNowPlayingGet();
+        return ApiTMDB.getNowPlayingGet()+"?api_key=f413bc4bacac8dff174a909f8ef535ae";
     }
 
     @Override
@@ -111,11 +111,12 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
 
     @Override
     public String getOrder() {
-        return MovieEntity.ID;
+        return MovieItemEntity.POSITION;
     }
 
     @Override
     public void touchAction(long idItem) {
-
+        Toast.makeText(getContext(), "Item "+ idItem, Toast.LENGTH_SHORT).show();
+        ((MainScreenActivity) getActivity()).setCurrentFragment(Fragment.instantiate(getContext(), MovieDetailFragment.class.getName()), true);
     }
 }

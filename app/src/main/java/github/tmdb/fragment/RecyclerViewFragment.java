@@ -3,13 +3,11 @@ package github.tmdb.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,14 +22,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import github.tmdb.CoreApplication;
 import github.tmdb.R;
 import github.tmdb.adapter.FilmAdapter;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.api.Language;
-import github.tmdb.app.DetailsActivity;
 import github.tmdb.app.MainScreenActivity;
-import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
 import github.tmdb.listener.RecyclerViewScrollListener;
@@ -68,7 +63,7 @@ public class RecyclerViewFragment extends Fragment implements DataManager.Callba
         empty = (TextView) v.findViewById(R.id.tv_empty);
         progressBar = (ProgressBar) v.findViewById(R.id.pb_progress);
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.srl_swipe_container);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_list_films);
+//        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_list_films);
         mLayoutManager = getLayoutManger();
         return v;
     }
@@ -148,7 +143,7 @@ public class RecyclerViewFragment extends Fragment implements DataManager.Callba
         }
         if (adapter == null) {
             this.data = data;
-            adapter = new FilmAdapter(getActivity(), data, this);
+//            adapter = new FilmAdapter(data, this);
             mRecyclerView.setAdapter(adapter);
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.addOnScrollListener(new RecyclerViewScrollListener(mLayoutManager, url, adapter));

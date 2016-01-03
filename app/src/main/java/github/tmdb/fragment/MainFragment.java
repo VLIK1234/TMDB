@@ -38,8 +38,8 @@ import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
 
 /**
- @author IvanBakach
- @version on 12.01.2015
+ * @author IvanBakach
+ * @version on 12.01.2015
  */
 
 public class MainFragment extends Fragment implements DataManager.Callback<ArrayList<Film>> {

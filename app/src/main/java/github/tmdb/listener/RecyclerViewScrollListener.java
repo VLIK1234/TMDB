@@ -1,17 +1,23 @@
 package github.tmdb.listener;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import github.tmdb.adapter.FilmAdapter;
+import by.istin.android.xcore.ContextHolder;
+import by.istin.android.xcore.service.DataSourceService;
+import by.istin.android.xcore.service.StatusResultReceiver;
+import by.istin.android.xcore.source.DataSourceRequest;
+import by.istin.android.xcore.source.impl.http.HttpDataSource;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.bo.Film;
-import github.tmdb.helper.DataManager;
+import github.tmdb.core.processor.MovieEntityProcessor;
 import github.tmdb.processing.FilmArrayProcessor;
 import github.tmdb.source.DataSource;
 import github.tmdb.source.TMDBDataSource;
@@ -23,12 +29,12 @@ import github.tmdb.source.TMDBDataSource;
 public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
     private LinearLayoutManager mLayoutManager;
-    public FilmAdapter mAdapter;
+    public RecyclerView.Adapter mAdapter;
     private View mFooterProgress;
     public String mUrl;
     private int mPage = 1;
 
-    public RecyclerViewScrollListener(LinearLayoutManager layoutManager, String url, FilmAdapter adapter) {
+    public RecyclerViewScrollListener(LinearLayoutManager layoutManager, String url, RecyclerView.Adapter adapter) {
         mLayoutManager = layoutManager;
         mUrl = url;
         mAdapter = adapter;
@@ -36,6 +42,7 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
     public String getUrl(int page) {
         StringBuilder controlUrl = new StringBuilder(mUrl);
+        controlUrl.append("?api_key=f413bc4bacac8dff174a909f8ef535ae");
         controlUrl.append(ApiTMDB.getPage(controlUrl.toString(), page));
         controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Locale.getDefault().getLanguage());
         return controlUrl.toString();
@@ -61,24 +68,46 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
             mPage++;
-            DataManager.loadData(new DataManager.Callback<ArrayList<Film>>() {
-                                     @Override
-                                     public void onDataLoadStart() {
-                                         refreshFooter();
-                                     }
 
-                                     @Override
-                                     public void onDone(ArrayList<Film> data) {
-                                         updateAdapter(data);
-                                     }
+            final DataSourceRequest dataSourceRequest = new DataSourceRequest(getUrl(mPage));
+            DataSourceService.execute(
+                    ContextHolder.get(),
+                    dataSourceRequest,
+                    MovieEntityProcessor.APP_SERVICE_KEY,
+                    HttpDataSource.APP_SERVICE_KEY,
+                    new StatusResultReceiver(new Handler(Looper.getMainLooper())) {
+                        @Override
+                        public void onStart(Bundle resultData) {
+                        }
 
-                                     @Override
-                                     public void onError(Exception e) {
-                                     }
-                                 },
-                    getUrl(mPage),
-                    getDataSource(),
-                    getProcessor());
+                        @Override
+                        public void onDone(Bundle resultData) {
+//                            mAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onError(Exception exception) {
+                        }
+                    }
+            );
+//            DataManager.loadData(new DataManager.Callback<ArrayList<Film>>() {
+//                                     @Override
+//                                     public void onDataLoadStart() {
+//                                         refreshFooter();
+//                                     }
+//
+//                                     @Override
+//                                     public void onDone(ArrayList<Film> data) {
+//                                         updateAdapter(data);
+//                                     }
+//
+//                                     @Override
+//                                     public void onError(Exception e) {
+//                                     }
+//                                 },
+//                    getUrl(mPage),
+//                    getDataSource(),
+//                    getProcessor());
         }
     }
 
@@ -90,7 +119,7 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 //            mIsPagingEnabled = false;
 ////            mListView.removeFooterView(mFooterProgress);
 //        }
-        mAdapter.addAll((ArrayList<Film>) data);
+//        mAdapter.addAll((ArrayList<Film>) data);
         mAdapter.notifyDataSetChanged();
     }
 

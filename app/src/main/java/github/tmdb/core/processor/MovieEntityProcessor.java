@@ -14,9 +14,8 @@ import by.istin.android.xcore.model.ParcelableModel;
 import by.istin.android.xcore.processor.impl.AbstractGsonBatchProcessor;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
 import by.istin.android.xcore.source.DataSourceRequest;
-import github.tmdb.core.model.Content;
-import github.tmdb.core.model.MovieEntity;
-import github.tmdb.core.model.SampleEntity;
+import github.tmdb.api.ApiTMDB;
+import github.tmdb.core.model.MovieItemEntity;
 
 /**
  * Created by IstiN on 13.11.13.
@@ -62,7 +61,7 @@ public class MovieEntityProcessor extends AbstractGsonBatchProcessor<MovieEntity
     }
 
     public MovieEntityProcessor(IDBContentProviderSupport contentProviderSupport) {
-        super(MovieEntity.class, Response.class, contentProviderSupport);
+        super(MovieItemEntity.class, Response.class, contentProviderSupport);
     }
 
     @Override
@@ -73,13 +72,18 @@ public class MovieEntityProcessor extends AbstractGsonBatchProcessor<MovieEntity
     @Override
     protected void onStartProcessing(DataSourceRequest dataSourceRequest, IDBConnection dbConnection) {
         super.onStartProcessing(dataSourceRequest, dbConnection);
-        dbConnection.delete(DBHelper.getTableName(MovieEntity.class), null, null);
+        if (ApiTMDB.getNowPlayingGet().equals(dataSourceRequest.getUri())) {
+            dbConnection.delete(DBHelper.getTableName(MovieItemEntity.class), null, null);
+        }
+        if ("page=1".equals(dataSourceRequest.getUri())) {
+            dbConnection.delete(DBHelper.getTableName(MovieItemEntity.class), null, null);
+        }
     }
 
     @Override
     protected void onProcessingFinish(DataSourceRequest dataSourceRequest, Response response) throws Exception {
         super.onProcessingFinish(dataSourceRequest, response);
-        notifyChange(ContextHolder.get(), MovieEntity.class);
+        notifyChange(ContextHolder.get(), MovieItemEntity.class);
     }
 
     @Override

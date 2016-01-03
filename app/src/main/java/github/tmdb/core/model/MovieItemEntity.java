@@ -1,29 +1,38 @@
 package github.tmdb.core.model;
 
+import android.content.ContentValues;
 import android.provider.BaseColumns;
 
 import com.google.gson.annotations.SerializedName;
 
+import by.istin.android.xcore.annotations.dbBoolean;
 import by.istin.android.xcore.annotations.dbDouble;
 import by.istin.android.xcore.annotations.dbInteger;
 import by.istin.android.xcore.annotations.dbLong;
 import by.istin.android.xcore.annotations.dbString;
+import by.istin.android.xcore.db.IDBConnection;
+import by.istin.android.xcore.db.entity.IBeforeArrayUpdate;
+import by.istin.android.xcore.db.impl.DBHelper;
+import by.istin.android.xcore.source.DataSourceRequest;
 
 /**
  * @author Ivan Bakach
  * @version on 02.01.2016
  */
-public class MovieEntity implements BaseColumns {
+public class MovieItemEntity implements BaseColumns, IBeforeArrayUpdate {
 
     @dbLong
     @SerializedName(value = "id")
-    public static final String ID = "id";
+    public static final String ID = _ID;
+
+    @dbLong
+    public static final String EXTERNAL_ID = "id";
 
     @dbString
     public static final String POSTER_PATH = "poster_path";
 
-    @dbString
-    public static final String ADULT = "adult";//boolean
+    @dbBoolean
+    public static final String ADULT = "adult";
 
     @dbString
     public static final String OVERVIEW = "overview";
@@ -49,9 +58,19 @@ public class MovieEntity implements BaseColumns {
     @dbInteger
     public static final String VOTE_COUNT = "vote_count";
 
-    @dbString
-    public static final String VIDEO = "video";//boolean
+    @dbBoolean
+    public static final String VIDEO = "video";
 
     @dbDouble
     public static final String VOTE_AVERAGE = "vote_average";
+
+    @dbInteger
+    public static final String POSITION = "position";
+
+    @Override
+    public void onBeforeListUpdate(DBHelper dbHelper, IDBConnection dbConnection, DataSourceRequest dataSourceRequest, int position, ContentValues contentValues) {
+        if (dataSourceRequest != null) {
+            contentValues.put(POSITION, position);
+        }
+    }
 }

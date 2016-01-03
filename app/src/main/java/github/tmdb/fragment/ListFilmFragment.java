@@ -1,7 +1,6 @@
 package github.tmdb.fragment;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,15 +26,14 @@ import github.tmdb.app.DetailsActivity;
 import github.tmdb.bo.DescriptionOfTheFilm;
 import github.tmdb.bo.Film;
 import github.tmdb.helper.DataManager;
-import github.tmdb.image.ImageLoaderIstin;
 import github.tmdb.listener.ListViewListener;
 import github.tmdb.processing.FilmArrayProcessor;
 import github.tmdb.source.HttpDataSource;
 import github.tmdb.source.TMDBDataSource;
 
 /**
- @author IvanBakach
- @version on 31.01.2015
+ * @author IvanBakach
+ * @version on 31.01.2015
  */
 public class ListFilmFragment extends BaseFragment implements DataManager.Callback<List<Film>> {
     public static final String EXTRA_KEY = "extra_lang";

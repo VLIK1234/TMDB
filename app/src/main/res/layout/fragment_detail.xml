@@ -216,7 +216,7 @@
                         android:id="@+id/rv_cast_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scrollbars="horizontal"
+                        tools:scrollbars="horizontal"
                         tools:listitem="@layout/adapter_crews"/>
                 </LinearLayout>
 
@@ -241,7 +241,7 @@
                         android:id="@+id/rv_crew_list"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:scrollbars="horizontal"
+                        tools:scrollbars="horizontal"
                         tools:listitem="@layout/adapter_crews"/>
                 </LinearLayout>
             </LinearLayout>

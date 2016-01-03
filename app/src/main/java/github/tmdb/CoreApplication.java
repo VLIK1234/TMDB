@@ -16,7 +16,7 @@ import github.tmdb.source.VkDataSource;
 
 public class CoreApplication extends Application {
 
-    private Map<String,Object> serviceMap = new HashMap<>();
+    private Map<String, Object> serviceMap = new HashMap<>();
     private static Context sContext;
 
     @Override
@@ -25,7 +25,7 @@ public class CoreApplication extends Application {
         sContext = getBaseContext();
         // Create global configuration and initialize ImageLoader with this config
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-        .build();
+                .build();
         ImageLoader.getInstance().init(config);
         serviceMap.put(HttpDataSource.KEY, new HttpDataSource());
         serviceMap.put(VkDataSource.KEY, new VkDataSource(this));
@@ -41,7 +41,7 @@ public class CoreApplication extends Application {
         return super.getSystemService(name);
     }
 
-    public static Context getAppContext(){
+    public static Context getAppContext() {
         return sContext;
     }
 

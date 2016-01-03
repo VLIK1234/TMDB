@@ -1,7 +1,5 @@
 package github.tmdb.adapter;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +13,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
+import by.istin.android.xcore.model.CursorModel;
 import by.istin.android.xcore.utils.CursorUtils;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.bo.Film;
-import github.tmdb.core.cursor.FollowListCursor;
+import github.tmdb.core.cursor.MoviesListCursor;
+import github.tmdb.core.model.MovieItemEntity;
 
 /**
  * @author Ivan Bakach
@@ -38,56 +37,63 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         void touchAction(long idItem);
     }
 
-    private ArrayList<Film> mFilmList = new ArrayList<>();
     private ITouch mITouch;
-    private Context mContext;
-    private FollowListCursor mFollowListCursor;
+    private View.OnClickListener mOnClickListener;
+    private MoviesListCursor mCursor;
+    private ArrayList<Long> mIdLists = new ArrayList<>();
 
-    public FilmAdapter(Context context, ArrayList<Film> filmList, ITouch iTouch) {
-        mContext = context;
-        mFilmList = filmList;
-        mITouch = iTouch;
-    }
-    public FilmAdapter(Context context, FollowListCursor followListCursor, ITouch iTouch) {
-        mContext = context;
-        mFollowListCursor = followListCursor;
+    public FilmAdapter(MoviesListCursor moviesListCursor, ITouch iTouch) {
+        mCursor = moviesListCursor;
         mITouch = iTouch;
     }
 
     @Override
     public FilmAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_item, parent, false);
-        return new ViewHolder(v, mFilmList, mITouch);
+        return new ViewHolder(v, mOnClickListener);
     }
 
     @Override
-    public void onBindViewHolder(final FilmAdapter.ViewHolder holder, int position) {
-        Film film = mFilmList.get(position);
-        holder.title.setText(film.getTitle());
-        holder.date.setText(film.getReleaseDate());
-        holder.rating.setRating(Float.valueOf(film.getVoteAverage()));
-        holder.ratingText.setText(String.format("%s/10 (%s)", film.getVoteAverage(), film.getVoteCount()));
+    public void onBindViewHolder(final FilmAdapter.ViewHolder holder, final int position) {
+        final CursorModel cursor = mCursor.get(position);
 
-        ImageLoader.getInstance().displayImage(film.getBackdropPath(ApiTMDB.POSTER_500X750_BACKDROP_500X281), holder.backdrop, OPTIONS);
-        ImageLoader.getInstance().displayImage(film.getPosterPath(ApiTMDB.POSTER_154X231_BACKDROP_154X87), holder.poster, OPTIONS);
+        mIdLists.add(CursorUtils.getLong(MovieItemEntity.EXTERNAL_ID, cursor));
+        mOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mITouch.touchAction(mIdLists.get(position));
+            }
+        };
+        holder.title.setText(CursorUtils.getString(MovieItemEntity.TITLE, cursor));
+        holder.date.setText(CursorUtils.getString(MovieItemEntity.RELEASE_DATE, cursor));
+        holder.rating.setRating(CursorUtils.getFloat(MovieItemEntity.VOTE_AVERAGE, cursor));
+        holder.ratingText.setText(String.format("%s/10 (%s)",
+                CursorUtils.getFloat(MovieItemEntity.VOTE_AVERAGE, cursor), CursorUtils.getInt(MovieItemEntity.VOTE_COUNT, cursor)));
+
+        ImageLoader.getInstance().
+                displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_500X750_BACKDROP_500X281,
+                        CursorUtils.getString(MovieItemEntity.BACKDROP_PATH, cursor)), holder.backdrop, OPTIONS);
+        ImageLoader.getInstance().
+                displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_154X231_BACKDROP_154X87,
+                        CursorUtils.getString(MovieItemEntity.POSTER_PATH, cursor)), holder.poster, OPTIONS);
     }
 
     @Override
     public int getItemCount() {
-        return mFilmList.size();
+        return mCursor.size();
     }
 
-    public void addAll(ArrayList<Film> filmArrayList) {
-        mFilmList.addAll(filmArrayList);
-    }
+//    public void addAll(ArrayList<Film> filmArrayList) {
+//        mFilmList.addAll(filmArrayList);
+//    }
 
-    public void swapCursor(FollowListCursor followListCursor) {
-        CursorUtils.close(mFollowListCursor);
-        mFollowListCursor = followListCursor;
+    public void swapCursor(MoviesListCursor moviesListCursor) {
+        CursorUtils.close(mCursor);
+        mCursor = moviesListCursor;
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView title;
         private final TextView date;
@@ -95,27 +101,17 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         private final TextView ratingText;
         private final ImageView backdrop;
         private final ImageView poster;
-        private final ArrayList<Film> mListFilm;
-        private final ITouch mITouch;
 
-        public ViewHolder(View convertView, ArrayList<Film> listFilm, ITouch iTouch) {
+        public ViewHolder(View convertView, View.OnClickListener onClickListener) {
             super(convertView);
-            convertView.setOnClickListener(this);
+            convertView.setOnClickListener(onClickListener);
             title = (TextView) convertView.findViewById(R.id.title);
             date = (TextView) convertView.findViewById(R.id.date);
             rating = (RatingBar) convertView.findViewById(R.id.rating);
             ratingText = (TextView) convertView.findViewById(R.id.rating_text);
             backdrop = (ImageView) convertView.findViewById(R.id.backdrop);
             poster = (ImageView) convertView.findViewById(R.id.poster);
-            mListFilm = listFilm;
-            mITouch = iTouch;
         }
 
-        @Override
-        public void onClick(View v) {
-            Film item = mListFilm.get(getAdapterPosition());
-            long selectItemID = item.getId();
-            mITouch.touchAction(selectItemID);
-        }
     }
 }
