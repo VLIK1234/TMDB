@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import github.tmdb.core.cursor.MoviesDetailCursor;
 import github.tmdb.core.model.MovieDetailEntity;
 import github.tmdb.core.processor.MovieDetailProcessor;
 import github.tmdb.utils.BitmapDisplayOptions;
+import github.tmdb.utils.TextUtilsImpl;
 
 /**
  * @author Ivan Bakach
@@ -122,9 +124,23 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
         if (cursor.getCount() > 0) {
             holder.title.setText(CursorUtils.getString(MovieDetailEntity.TITLE, cursor));
             holder.date.setText(CursorUtils.getString(MovieDetailEntity.RELEASE_DATE, cursor));
-            holder.runtime.setText(String.valueOf(CursorUtils.getInt(MovieDetailEntity.RUNTIME, cursor)));
-            holder.rating.setText(String.valueOf(CursorUtils.getDouble(MovieDetailEntity.VOTE_AVERAGE, cursor)));
-            holder.tagline.setText(CursorUtils.getString(MovieDetailEntity.TAGLINE, cursor));
+            holder.runtime.setText(String.format("%1$d %2$s", CursorUtils.getInt(MovieDetailEntity.RUNTIME, cursor), getString(R.string.min)));
+
+            String voteAverage = String.valueOf(CursorUtils.getDouble(MovieDetailEntity.VOTE_AVERAGE, cursor));
+            holder.rating.setText(voteAverage);
+            String voteCount = String.valueOf(CursorUtils.getInt(MovieDetailEntity.VOTE_COUNT, cursor));
+            SpannableStringBuilder ratingBuilder = new SpannableStringBuilder();
+            ratingBuilder
+                    .append(TextUtilsImpl.setBold(getString(R.string.rating)))
+                    .append(String.format(getString(R.string.rating_template), voteAverage, voteCount));
+            holder.ratingText.setText(ratingBuilder);
+
+            SpannableStringBuilder taglineBuilder = new SpannableStringBuilder();
+            taglineBuilder
+                    .append(TextUtilsImpl.setBold(getString(R.string.tagline)))
+                    .append(TextUtilsImpl.lineBreak())
+                    .append(CursorUtils.getString(MovieDetailEntity.TAGLINE, cursor));
+            holder.tagline.setText(taglineBuilder);
             holder.overview.setText(CursorUtils.getString(MovieDetailEntity.OVERVIEW, cursor));
 
             final String urlBackdrop = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.BACKDROP_PATH, cursor));
@@ -136,12 +152,12 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
 
     @Override
     protected String[] getAdapterColumns() {
-        return new String[]{MovieDetailEntity.TITLE, MovieDetailEntity.OVERVIEW, MovieDetailEntity.RELEASE_DATE, String.valueOf(MovieDetailEntity.RUNTIME), MovieDetailEntity.TAGLINE};
+        return new String[]{MovieDetailEntity.TITLE, MovieDetailEntity.OVERVIEW, MovieDetailEntity.RELEASE_DATE};
     }
 
     @Override
     protected int[] getAdapterControlIds() {
-        return new int[]{R.id.title, R.id.overview, R.id.date, R.id.runtime, R.id.tagline};
+        return new int[]{R.id.title, R.id.overview, R.id.date};
     }
 
     @Override

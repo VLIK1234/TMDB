@@ -17,7 +17,7 @@
 
     <string name="search_hint">Поиск</string>
 
-    <string name="tagline">Слоган\n</string>
+    <string name="tagline">Слоган:</string>
     <string name="search_by">"Поиск по "</string>
     <string name="now_playing">Новинки кино</string>
     <string name="error_title_dialog">Ошибка</string>
@@ -26,7 +26,7 @@
     <string name="backdrop_description">Backdrop</string>
     <string name="error_player">Произошла ошибка с вызовом YouTubePlayer (%1$s)</string>
     <string name="language_setting">Язык</string>
-    <string name="min">" мин"</string>
+    <string name="min">"мин"</string>
     <string name="rating">"Рейтинг: "</string>
     <string name="from">"/10 по "</string>
 </resources>

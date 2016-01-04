@@ -25,7 +25,7 @@
     <string name="search_hint">Search</string>
 
     <string name="edit_txt">Login</string>
-    <string name="tagline">Tagline\n</string>
+    <string name="tagline">Tagline:</string>
     <string name="serif">serif</string>
     <string name="no_poster">no poster</string>
     <string name="utf_8">UTF-8</string>
@@ -47,8 +47,8 @@
     <string name="english">En</string>
     <string name="russian">Ru</string>
     <string name="alpha">Alpha</string>
-    <string name="min">" min"</string>
-    <string name="rating">"Ratings: "</string>
+    <string name="min">"min"</string>
+    <string name="rating">"Ratings:"</string>
     <string name="from">"/10 from "</string>
     <string name="post">Post</string>
     <string name="content_description_profile">content_description_profile</string>
@@ -57,4 +57,5 @@
     <string name="key_language">key_language</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="rating_template"> %1$s/10 from %2$s</string>
 </resources>
