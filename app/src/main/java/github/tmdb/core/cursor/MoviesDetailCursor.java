@@ -19,8 +19,9 @@ public class MoviesDetailCursor extends CursorModel {
     public static String DETAIL_SQL_REQUEST = new StringBuilder()
             .append("SELECT ")
             .append("* ")
-            .append("FROM " + DBHelper.getTableName(MovieDetailEntity.class) + " ")
-            .append("WHERE " + MovieDetailEntity.ID + " = %s")
+            .append("FROM " + DBHelper.getTableName(MovieDetailEntity.class) + " m , ")
+            .append(DBHelper.getTableName(Genre.class) + " g ")
+            .append("WHERE m." + MovieDetailEntity.ID + " = %1$s AND g." + Genre.MOVIE_ID + " = %1$s")
             .toString();
 
     public MoviesDetailCursor(Cursor cursor) {

@@ -41,7 +41,7 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
     }
 
     public String getUrl(int page) {
-        StringBuilder controlUrl = new StringBuilder(mUrl);
+        StringBuilder controlUrl = new StringBuilder(mUrl.split("[?]")[0]);
         controlUrl.append("?api_key=f413bc4bacac8dff174a909f8ef535ae");
         controlUrl.append(ApiTMDB.getPage(controlUrl.toString(), page));
         controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Locale.getDefault().getLanguage());

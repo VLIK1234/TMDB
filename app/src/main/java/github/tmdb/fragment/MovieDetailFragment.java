@@ -1,9 +1,13 @@
 package github.tmdb.fragment;
 
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
@@ -18,19 +22,26 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import java.util.List;
 
 import by.istin.android.xcore.db.impl.DBHelper;
 import by.istin.android.xcore.fragment.XFragment;
 import by.istin.android.xcore.model.CursorModel;
 import by.istin.android.xcore.provider.ModelContract;
+import by.istin.android.xcore.utils.ContentUtils;
 import by.istin.android.xcore.utils.CursorUtils;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
+import github.tmdb.core.cursor.GenreCursorHelper;
 import github.tmdb.core.cursor.MoviesDetailCursor;
+import github.tmdb.core.model.Genre;
 import github.tmdb.core.model.MovieDetailEntity;
 import github.tmdb.core.processor.MovieDetailProcessor;
 import github.tmdb.utils.BitmapDisplayOptions;
 import github.tmdb.utils.TextUtilsImpl;
+import github.tmdb.utils.UIUtil;
 
 /**
  * @author Ivan Bakach
@@ -62,6 +73,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
 
     private static final String TAG = "MovieDetailFragment";
     public static final String ID_MOVIE_KEY = "ID_MOVIE";
+    public static final int BACKGROUND_ROOT_ALPHA = 200;
 
     private long idMovie;
     private ViewHolder holder = new ViewHolder();
@@ -142,11 +154,45 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
                     .append(CursorUtils.getString(MovieDetailEntity.TAGLINE, cursor));
             holder.tagline.setText(taglineBuilder);
             holder.overview.setText(CursorUtils.getString(MovieDetailEntity.OVERVIEW, cursor));
+//            holder.genres.append(CursorUtils.getString(Genre.NAME, cursor) + "|");
+//            while (cursor.moveToNext()) {
+//                holder.genres.append(CursorUtils.getString(Genre.NAME, cursor) + "|");
+//            }
+//            cursor.moveToFirst();
 
             final String urlBackdrop = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.BACKDROP_PATH, cursor));
             ImageLoader.getInstance().displayImage(urlBackdrop, holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
             final String urlPoster = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.POSTER_PATH, cursor));
-            ImageLoader.getInstance().displayImage(urlPoster, holder.poster, BitmapDisplayOptions.IMAGE_OPTIONS_EMPTY_PH);
+            ImageLoader.getInstance().displayImage(urlPoster, holder.poster, BitmapDisplayOptions.IMAGE_OPTIONS_EMPTY_PH , new SimpleImageLoadingListener(){
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    if (loadedImage != null) {
+                        Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
+                            @Override
+                            public void onGenerated(final Palette palette) {
+                                if (palette != null) {
+                                    if (palette.getDarkMutedColor() != null && palette.getLightMutedColor() != null &&
+                                            palette.getMutedColor() != null) {
+                                        holder.root.setBackgroundColor(palette.getDarkMutedColor().getRgb());
+                                        Drawable background = holder.root.getBackground();
+                                        background.setAlpha(BACKGROUND_ROOT_ALPHA);
+                                        UIUtil.setBackgroundCompact(holder.root, background);
+                                        setPrimaryTextColor(palette.getLightMutedColor().getRgb());
+                                        setSecondTextColor(palette.getMutedColor().getRgb());
+                                    } else {
+                                        holder.root.setBackgroundColor(palette.getDarkVibrantColor().getRgb());
+                                        Drawable background = holder.root.getBackground();
+                                        background.setAlpha(BACKGROUND_ROOT_ALPHA);
+                                        UIUtil.setBackgroundCompact(holder.root, background);
+                                        setPrimaryTextColor(palette.getLightVibrantColor().getRgb());
+                                        setSecondTextColor(palette.getVibrantColor().getRgb());
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 
@@ -165,4 +211,17 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
         Log.d(TAG, "onLoaderReset: ");
     }
 
+    private void setPrimaryTextColor(int rgbColor) {
+        holder.title.setTextColor(rgbColor);
+        holder.overview.setTextColor(rgbColor);
+        holder.runtime.setTextColor(rgbColor);
+//        holder.rating.setTextColor(rgbColor);
+        holder.tagline.setTextColor(rgbColor);
+        holder.ratingText.setTextColor(rgbColor);
+    }
+
+    private void setSecondTextColor(int rgbColor) {
+        holder.date.setTextColor(rgbColor);
+        holder.genres.setTextColor(rgbColor);
+    }
 }

@@ -1,5 +1,6 @@
 package github.tmdb.adapter;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,9 +57,8 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     public void onBindViewHolder(final FilmAdapter.ViewHolder holder, final int position) {
         CursorModel cursor = mCursor.get(position);
 
-//        mIdLists.add(position, CursorUtils.getLong(MovieItemEntity.EXTERNAL_ID, cursor));
-        holder.poster.setTag(CursorUtils.getLong(MovieItemEntity.EXTERNAL_ID, cursor));
-        holder.poster.setOnClickListener(new View.OnClickListener() {
+        holder.mainView.setTag(CursorUtils.getLong(MovieItemEntity.EXTERNAL_ID, cursor));
+        holder.mainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mITouch.touchAction((long)v.getTag());
@@ -94,7 +94,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
+        private final CardView mainView;
         private final TextView title;
         private final TextView date;
         private final RatingBar rating;
@@ -104,6 +104,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
 
         public ViewHolder(View convertView) {
             super(convertView);
+            mainView = (CardView) convertView.findViewById(R.id.card_view);
             title = (TextView) convertView.findViewById(R.id.title);
             date = (TextView) convertView.findViewById(R.id.date);
             rating = (RatingBar) convertView.findViewById(R.id.rating);

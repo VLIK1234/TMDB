@@ -72,7 +72,7 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
         fragmentTransaction.add(R.id.content, fragment);
         if (withBackStack) {
             getSupportFragmentManager().popBackStack(fragmentName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            fragmentTransaction.addToBackStack(fragment.getClass().getName());
+            fragmentTransaction.addToBackStack(fragmentName);
         }
         fragmentTransaction.commit();
     }

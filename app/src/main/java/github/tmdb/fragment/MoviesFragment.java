@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +38,6 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
     @Override
     public FilmAdapter createAdapter(FragmentActivity fragmentActivity, MoviesListCursor cursor) {
         return new FilmAdapter(cursor, this);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -101,7 +97,7 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
 
     @Override
     public String getUrl() {
-        return ApiTMDB.getNowPlayingGet()+"?api_key=f413bc4bacac8dff174a909f8ef535ae";
+        return ApiTMDB.getNowPlayingGet()+"?api_key=f413bc4bacac8dff174a909f8ef535ae&page=1";
     }
 
     @Override
@@ -116,7 +112,6 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
 
     @Override
     public void touchAction(long idItem) {
-        Toast.makeText(getContext(), "Item "+ idItem, Toast.LENGTH_SHORT).show();
         ((MainScreenActivity) getActivity()).setCurrentFragment(MovieDetailFragment.newInstance(idItem), true);
     }
 }
