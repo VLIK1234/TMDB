@@ -38,7 +38,6 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     }
 
     private ITouch mITouch;
-    private View.OnClickListener mOnClickListener;
     private MoviesListCursor mCursor;
     private ArrayList<Long> mIdLists = new ArrayList<>();
 
@@ -50,20 +49,21 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
     @Override
     public FilmAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_item, parent, false);
-        return new ViewHolder(v, mOnClickListener);
+        return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(final FilmAdapter.ViewHolder holder, final int position) {
-        final CursorModel cursor = mCursor.get(position);
+        CursorModel cursor = mCursor.get(position);
 
-        mIdLists.add(CursorUtils.getLong(MovieItemEntity.EXTERNAL_ID, cursor));
-        mOnClickListener = new View.OnClickListener() {
+//        mIdLists.add(position, CursorUtils.getLong(MovieItemEntity.EXTERNAL_ID, cursor));
+        holder.poster.setTag(CursorUtils.getLong(MovieItemEntity.EXTERNAL_ID, cursor));
+        holder.poster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mITouch.touchAction(mIdLists.get(position));
+                mITouch.touchAction((long)v.getTag());
             }
-        };
+        });
         holder.title.setText(CursorUtils.getString(MovieItemEntity.TITLE, cursor));
         holder.date.setText(CursorUtils.getString(MovieItemEntity.RELEASE_DATE, cursor));
         holder.rating.setRating(CursorUtils.getFloat(MovieItemEntity.VOTE_AVERAGE, cursor));
@@ -102,9 +102,8 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         private final ImageView backdrop;
         private final ImageView poster;
 
-        public ViewHolder(View convertView, View.OnClickListener onClickListener) {
+        public ViewHolder(View convertView) {
             super(convertView);
-            convertView.setOnClickListener(onClickListener);
             title = (TextView) convertView.findViewById(R.id.title);
             date = (TextView) convertView.findViewById(R.id.date);
             rating = (RatingBar) convertView.findViewById(R.id.rating);

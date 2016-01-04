@@ -30,12 +30,12 @@ public class MovieDetailProcessor extends AbstractGsonBatchProcessor<ContentValu
     @Override
     protected void onStartProcessing(DataSourceRequest dataSourceRequest, IDBConnection dbConnection) {
         super.onStartProcessing(dataSourceRequest, dbConnection);
-        dbConnection.delete(DBHelper.getTableName(MovieDetailEntity.class), null, null);
-        dbConnection.delete(DBHelper.getTableName(Cast.class), null, null);
-        dbConnection.delete(DBHelper.getTableName(Crew.class), null, null);
-        dbConnection.delete(DBHelper.getTableName(Genre.class), null, null);
-        dbConnection.delete(DBHelper.getTableName(ProductionCompany.class), null, null);
-        dbConnection.delete(DBHelper.getTableName(ProductionCountry.class), null, null);
+//        dbConnection.delete(DBHelper.getTableName(MovieDetailEntity.class), null, null);
+//        dbConnection.delete(DBHelper.getTableName(Cast.class), null, null);
+//        dbConnection.delete(DBHelper.getTableName(Crew.class), null, null);
+//        dbConnection.delete(DBHelper.getTableName(Genre.class), null, null);
+//        dbConnection.delete(DBHelper.getTableName(ProductionCompany.class), null, null);
+//        dbConnection.delete(DBHelper.getTableName(ProductionCountry.class), null, null);
     }
 
     @Override

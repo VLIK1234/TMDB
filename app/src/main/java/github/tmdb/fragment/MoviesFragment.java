@@ -117,6 +117,6 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
     @Override
     public void touchAction(long idItem) {
         Toast.makeText(getContext(), "Item "+ idItem, Toast.LENGTH_SHORT).show();
-        ((MainScreenActivity) getActivity()).setCurrentFragment(Fragment.instantiate(getContext(), MovieDetailFragment.class.getName()), true);
+        ((MainScreenActivity) getActivity()).setCurrentFragment(MovieDetailFragment.newInstance(idItem), true);
     }
 }
