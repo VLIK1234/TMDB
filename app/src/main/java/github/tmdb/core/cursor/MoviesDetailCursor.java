@@ -17,19 +17,19 @@ public class MoviesDetailCursor extends CursorModel {
             .toString();
 
     public static String DETAIL_SQL_REQUEST = new StringBuilder()
-            .append("SELECT ")
-            .append("m.* ")
-            .append("FROM " + DBHelper.getTableName(MovieDetailEntity.class) + " m ")
-            .append("WHERE m." + MovieDetailEntity.ID + " = %1$s")
-            .toString();
-
-//    .append("SELECT m.*, ").append("g.").append(Genre.NAME)
-//    .append(" FROM ")
-//    .append(DBHelper.getTableName(MovieDetailEntity.class)).append(" m ")
-//    .append("INNER JOIN ")
-//    .append(DBHelper.getTableName(Genre.class)).append(" g ")
-//    .append("ON g." + Genre.MOVIE_ID + " = %1$d AND m." + MovieDetailEntity._ID + " = %1$d")
-//    .toString();
+//            .append("SELECT ")
+//            .append("m.* ")
+//            .append("FROM " + DBHelper.getTableName(MovieDetailEntity.class) + " m ")
+//            .append("WHERE m." + MovieDetailEntity.ID + " = %1$s")
+//            .toString();
+//    SELECT s.SupplierID, s.SupplierName, GROUP_CONCAT(p.ProductName) FROM Suppliers s LEFT JOIN Products p ON p.SupplierID = 11 WHERE s.SupplierID = 11
+    .append("SELECT m.*, ").append("GROUP_CONCAT(g.").append(Genre.NAME).append(") AS " + Genre.NAME)
+    .append(" FROM ")
+    .append(DBHelper.getTableName(MovieDetailEntity.class)).append(" m ")
+    .append("LEFT JOIN ")
+    .append(DBHelper.getTableName(Genre.class)).append(" g ")
+    .append("ON g." + Genre.MOVIE_ID + " = %1$d WHERE m." + MovieDetailEntity._ID + " = %1$d")
+    .toString();
     public MoviesDetailCursor(Cursor cursor) {
         super(cursor);
     }

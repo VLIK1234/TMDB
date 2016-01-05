@@ -131,6 +131,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
         if (cursor.getCount() > 0) {
             holder.title.setText(CursorUtils.getString(MovieDetailEntity.TITLE, cursor));
             holder.date.setText(CursorUtils.getString(MovieDetailEntity.RELEASE_DATE, cursor));
+            holder.genres.setText(!StringUtil.isEmpty(CursorUtils.getString(Genre.NAME, cursor)) ? CursorUtils.getString(Genre.NAME, cursor).replaceAll("[,]"," | ") : StringUtil.EMPTY);
             holder.runtime.setText(String.format("%1$d %2$s", CursorUtils.getInt(MovieDetailEntity.RUNTIME, cursor), getString(R.string.min)));
 
             String voteAverage = String.valueOf(CursorUtils.getDouble(MovieDetailEntity.VOTE_AVERAGE, cursor));
@@ -151,7 +152,6 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
                         .append(tagline);
                 holder.tagline.setText(taglineBuilder);
             }
-            holder.overview.setText(CursorUtils.getString(MovieDetailEntity.OVERVIEW, cursor));
 
             final String urlBackdrop = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.BACKDROP_PATH, cursor));
             ImageLoader.getInstance().displayImage(urlBackdrop, holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
@@ -186,12 +186,6 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
                     }
                 }
             });
-
-            StringBuilder genresLine = new StringBuilder();
-            do {
-                genresLine.append(String.format("%s%s", CursorUtils.getString(Genre.NAME, cursor), (!cursor.isLast() ? " | " : StringUtil.EMPTY)));
-            } while (cursor.moveToNext());
-            holder.genres.setText(genresLine.toString());
         }
     }
 

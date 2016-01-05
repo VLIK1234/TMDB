@@ -129,14 +129,10 @@ public class MovieDetailEntity implements BaseColumns, IOnProceedEntity {
         JsonArray genresArray = value.getAsJsonArray();
         for (int i = 0; i < genresArray.size(); i++) {
             JsonObject genre = genresArray.get(i).getAsJsonObject();
-            for (Map.Entry<String, JsonElement> itemGenre : genre.entrySet()) {
-                if (Genre.ID_KEY.equals(itemGenre.getKey())) {
-                    genresValue.put(Genre.ID, itemGenre.getValue().getAsLong());
-                } else if (Genre.NAME.equals(itemGenre.getKey())) {
-                    genresValue.put(itemGenre.getKey(), itemGenre.getValue().getAsString());
-                }
-            }
+            String genreName = genre.get(Genre.NAME).getAsString();
+            genresValue.put(Genre.NAME, genreName);
             genresValue.put(Genre.MOVIE_ID, idMovie);
+            genresValue.put(Genre.ID, genreName.hashCode() + idMovie);
             dbHelper.updateOrInsert(dataSourceRequest, db, Genre.class, genresValue);
             genresValue.clear();
         }
