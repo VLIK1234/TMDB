@@ -18,12 +18,18 @@ public class MoviesDetailCursor extends CursorModel {
 
     public static String DETAIL_SQL_REQUEST = new StringBuilder()
             .append("SELECT ")
-            .append("* ")
-            .append("FROM " + DBHelper.getTableName(MovieDetailEntity.class) + " m , ")
-            .append(DBHelper.getTableName(Genre.class) + " g ")
-            .append("WHERE m." + MovieDetailEntity.ID + " = %1$s AND g." + Genre.MOVIE_ID + " = %1$s")
+            .append("m.* ")
+            .append("FROM " + DBHelper.getTableName(MovieDetailEntity.class) + " m ")
+            .append("WHERE m." + MovieDetailEntity.ID + " = %1$s")
             .toString();
 
+//    .append("SELECT m.*, ").append("g.").append(Genre.NAME)
+//    .append(" FROM ")
+//    .append(DBHelper.getTableName(MovieDetailEntity.class)).append(" m ")
+//    .append("INNER JOIN ")
+//    .append(DBHelper.getTableName(Genre.class)).append(" g ")
+//    .append("ON g." + Genre.MOVIE_ID + " = %1$d AND m." + MovieDetailEntity._ID + " = %1$d")
+//    .toString();
     public MoviesDetailCursor(Cursor cursor) {
         super(cursor);
     }

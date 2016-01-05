@@ -67,7 +67,6 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 //        Log.d("TAG", visibleItemCount + " " + pastVisiblesItems + " " + (visibleItemCount + pastVisiblesItems) + " " + totalItemCount);
 
         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-            mPage++;
 
             final DataSourceRequest dataSourceRequest = new DataSourceRequest(getUrl(mPage));
             DataSourceService.execute(
@@ -83,6 +82,7 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
                         @Override
                         public void onDone(Bundle resultData) {
 //                            mAdapter.notifyDataSetChanged();
+                            mPage++;
                         }
 
                         @Override

@@ -202,6 +202,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/person_adapter_height"
                     android:layout_margin="@dimen/border_margin"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
                     <TextView
@@ -227,6 +228,7 @@
                     android:layout_marginLeft="@dimen/border_margin"
                     android:layout_marginRight="@dimen/border_margin"
                     android:layout_marginStart="@dimen/border_margin"
+                    android:visibility="gone"
                     android:orientation="vertical">
 
                     <TextView

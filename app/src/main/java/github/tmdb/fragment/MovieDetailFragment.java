@@ -1,6 +1,5 @@
 package github.tmdb.fragment;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -24,17 +23,13 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.util.List;
-
-import by.istin.android.xcore.db.impl.DBHelper;
 import by.istin.android.xcore.fragment.XFragment;
 import by.istin.android.xcore.model.CursorModel;
 import by.istin.android.xcore.provider.ModelContract;
-import by.istin.android.xcore.utils.ContentUtils;
 import by.istin.android.xcore.utils.CursorUtils;
+import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.core.cursor.GenreCursorHelper;
 import github.tmdb.core.cursor.MoviesDetailCursor;
 import github.tmdb.core.model.Genre;
 import github.tmdb.core.model.MovieDetailEntity;
@@ -147,23 +142,21 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
                     .append(String.format(getString(R.string.rating_template), voteAverage, voteCount));
             holder.ratingText.setText(ratingBuilder);
 
-            SpannableStringBuilder taglineBuilder = new SpannableStringBuilder();
-            taglineBuilder
-                    .append(TextUtilsImpl.setBold(getString(R.string.tagline)))
-                    .append(TextUtilsImpl.lineBreak())
-                    .append(CursorUtils.getString(MovieDetailEntity.TAGLINE, cursor));
-            holder.tagline.setText(taglineBuilder);
+            String tagline = CursorUtils.getString(MovieDetailEntity.TAGLINE, cursor);
+            if (!StringUtil.isEmpty(tagline)) {
+                SpannableStringBuilder taglineBuilder = new SpannableStringBuilder();
+                taglineBuilder
+                        .append(TextUtilsImpl.setBold(getString(R.string.tagline)))
+                        .append(TextUtilsImpl.lineBreak())
+                        .append(tagline);
+                holder.tagline.setText(taglineBuilder);
+            }
             holder.overview.setText(CursorUtils.getString(MovieDetailEntity.OVERVIEW, cursor));
-//            holder.genres.append(CursorUtils.getString(Genre.NAME, cursor) + "|");
-//            while (cursor.moveToNext()) {
-//                holder.genres.append(CursorUtils.getString(Genre.NAME, cursor) + "|");
-//            }
-//            cursor.moveToFirst();
 
             final String urlBackdrop = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.BACKDROP_PATH, cursor));
             ImageLoader.getInstance().displayImage(urlBackdrop, holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
             final String urlPoster = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.POSTER_PATH, cursor));
-            ImageLoader.getInstance().displayImage(urlPoster, holder.poster, BitmapDisplayOptions.IMAGE_OPTIONS_EMPTY_PH , new SimpleImageLoadingListener(){
+            ImageLoader.getInstance().displayImage(urlPoster, holder.poster, BitmapDisplayOptions.IMAGE_OPTIONS_EMPTY_PH, new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                     if (loadedImage != null) {
@@ -193,6 +186,12 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
                     }
                 }
             });
+
+            StringBuilder genresLine = new StringBuilder();
+            do {
+                genresLine.append(String.format("%s%s", CursorUtils.getString(Genre.NAME, cursor), (!cursor.isLast() ? " | " : StringUtil.EMPTY)));
+            } while (cursor.moveToNext());
+            holder.genres.setText(genresLine.toString());
         }
     }
 
