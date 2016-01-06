@@ -14,6 +14,7 @@ import by.istin.android.xcore.db.IDBConnection;
 import by.istin.android.xcore.db.entity.IBeforeArrayUpdate;
 import by.istin.android.xcore.db.impl.DBHelper;
 import by.istin.android.xcore.source.DataSourceRequest;
+import by.istin.android.xcore.utils.StringUtil;
 
 /**
  * @author Ivan Bakach
@@ -69,7 +70,14 @@ public class MovieItemEntity implements BaseColumns, IBeforeArrayUpdate {
 
     @Override
     public void onBeforeListUpdate(DBHelper dbHelper, IDBConnection dbConnection, DataSourceRequest dataSourceRequest, int position, ContentValues contentValues) {
-        if (dataSourceRequest != null) {
+        if (dataSourceRequest == null) {
+            return;
+        }
+        String range = dataSourceRequest.getParam("range");
+        if (!StringUtil.isEmpty(range)) {
+            Integer startPosition = Integer.parseInt(range);
+            contentValues.put(POSITION, position + startPosition);
+        } else {
             contentValues.put(POSITION, position);
         }
     }

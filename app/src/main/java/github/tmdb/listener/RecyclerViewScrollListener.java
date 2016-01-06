@@ -69,6 +69,7 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
 
             final DataSourceRequest dataSourceRequest = new DataSourceRequest(getUrl(mPage));
+            dataSourceRequest.putParam("range", String.valueOf(mPage * 20));
             DataSourceService.execute(
                     ContextHolder.get(),
                     dataSourceRequest,
