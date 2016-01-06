@@ -102,7 +102,7 @@ public final class BitmapDisplayOptions {
             .showImageForEmptyUri(R.drawable.no_avatar)
             .showImageOnFail(R.drawable.no_avatar)
             .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
-            .bitmapConfig(Bitmap.Config.ARGB_4444)
+            .bitmapConfig(Bitmap.Config.RGB_565)
             .cacheInMemory(true)
             .resetViewBeforeLoading(true)
             .delayBeforeLoading(100)
