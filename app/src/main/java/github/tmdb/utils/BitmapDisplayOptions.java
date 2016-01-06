@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -36,7 +38,7 @@ public final class BitmapDisplayOptions {
         }
 
     };
-//    public static final DisplayImageOptions DEFAULT_BITMAP_DISPLAY_OPTIONS = new DisplayImageOptions.Builder()
+    //    public static final DisplayImageOptions DEFAULT_BITMAP_DISPLAY_OPTIONS = new DisplayImageOptions.Builder()
 //            .showImageForEmptyUri(R.drawable.no_image_vertical)
 //            .showImageOnFail(R.drawable.no_image_vertical)
 //            .resetViewBeforeLoading(true)
@@ -70,7 +72,7 @@ public final class BitmapDisplayOptions {
         }
 
     };
-//    public static final DisplayImageOptions BLURRED_BITMAP_DISPLAY_OPTIONS = new DisplayImageOptions.Builder()
+    //    public static final DisplayImageOptions BLURRED_BITMAP_DISPLAY_OPTIONS = new DisplayImageOptions.Builder()
 //            .showImageForEmptyUri(R.drawable.no_image_vertical)
 //            .showImageOnFail(R.drawable.no_image_vertical)
 //            .resetViewBeforeLoading(true)
@@ -99,11 +101,13 @@ public final class BitmapDisplayOptions {
     public static final DisplayImageOptions PORTRAIT_BITMAP_DISPLAY_OPTIONS = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.no_avatar)
             .showImageOnFail(R.drawable.no_avatar)
+            .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+            .bitmapConfig(Bitmap.Config.ARGB_4444)
+            .cacheInMemory(true)
             .resetViewBeforeLoading(true)
             .delayBeforeLoading(100)
-            .cacheInMemory(true)
             .cacheOnDisk(true)
-            .extraForDownloader(true)
+            .extraForDownloader(false)
             .displayer(FADE_IN_BITMAP_DISPLAYER) // default
             .build();
 }

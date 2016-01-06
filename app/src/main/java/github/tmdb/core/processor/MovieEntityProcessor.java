@@ -72,7 +72,7 @@ public class MovieEntityProcessor extends AbstractGsonBatchProcessor<MovieEntity
     @Override
     protected void onStartProcessing(DataSourceRequest dataSourceRequest, IDBConnection dbConnection) {
         super.onStartProcessing(dataSourceRequest, dbConnection);
-        if (ApiTMDB.getNowPlayingGet().equals(dataSourceRequest.getUri())) {
+        if (ApiTMDB.getMovieNowPlaying().equals(dataSourceRequest.getUri())) {
             dbConnection.delete(DBHelper.getTableName(MovieItemEntity.class), null, null);
         }
         if ("page=1".equals(dataSourceRequest.getUri())) {

@@ -2,16 +2,14 @@ package github.tmdb.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import by.istin.android.xcore.fragment.collection.RecyclerViewFragment;
 import by.istin.android.xcore.model.CursorModel;
@@ -54,7 +52,7 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
         RecyclerView recyclerView = super.getCollectionView();
         LinearLayoutManager layoutManager = new GridLayoutManager(getContext(), SPAN_COUNT);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager, ApiTMDB.getNowPlayingGet(), recyclerView.getAdapter()));
+        recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager, ApiTMDB.getMovieNowPlaying(), recyclerView.getAdapter()));
         return recyclerView;
     }
 
@@ -70,19 +68,12 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
 
     @Override
     public long getCacheExpiration() {
-        return 1L;
+        return DateUtils.DAY_IN_MILLIS;
     }
 
     @Override
     public void onError(Exception exception, DataSourceRequest dataSourceRequest) {
-//        if (exception instanceof by.istin.android.xcore.source.impl.http.exception.IOStatusException) {
-//            if (((IOStatusException) exception).getStatusCode() == HttpURLConnection.HTTP_NOT_FOUND) {
-//                hideProgress();
-//                mEmptyView.setVisibility(View.VISIBLE);
-//            } else {
-//                super.onError(exception, dataSourceRequest);
-//            }
-//        }
+
     }
 
     @Override
@@ -97,7 +88,7 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
 
     @Override
     public String getUrl() {
-        return ApiTMDB.getNowPlayingGet()+"?api_key=f413bc4bacac8dff174a909f8ef535ae&page=1";
+        return ApiTMDB.getMovieNowPlaying()+"?api_key=f413bc4bacac8dff174a909f8ef535ae&page=1";
     }
 
     @Override

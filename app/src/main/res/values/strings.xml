@@ -47,8 +47,8 @@
     <string name="english">En</string>
     <string name="russian">Ru</string>
     <string name="alpha">Alpha</string>
-    <string name="min">"min"</string>
-    <string name="rating">"Ratings:"</string>
+    <string name="min">"%1$s min"</string>
+    <string name="rating">"Ratings: "</string>
     <string name="from">"/10 from "</string>
     <string name="post">Post</string>
     <string name="content_description_profile">content_description_profile</string>

@@ -144,7 +144,7 @@ public class ListFilmFragment extends BaseFragment implements DataManager.Callba
                     Film item = (Film) adapter.getItem(position);
                     selectItemID = item.getId();
 
-                    DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovie(selectItemID));
+                    DescriptionOfTheFilm description = new DescriptionOfTheFilm(ApiTMDB.getMovieDetail(selectItemID));
                     Intent intent = new Intent(getActivity(), DetailsActivity.class);
                     intent.putExtra(DescriptionOfTheFilm.class.getCanonicalName(), description);
                     startActivity(intent);

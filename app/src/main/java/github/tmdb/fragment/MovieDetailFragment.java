@@ -2,6 +2,7 @@ package github.tmdb.fragment;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -118,7 +119,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
 
     @Override
     public String getUrl() {
-        return ApiTMDB.getMovie(idMovie) + "?api_key=f413bc4bacac8dff174a909f8ef535ae";
+        return ApiTMDB.getMovieDetail(idMovie) + "?api_key=f413bc4bacac8dff174a909f8ef535ae";
     }
 
     @Override
@@ -129,34 +130,12 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     @Override
     protected void onLoadFinished(Cursor cursor) {
         if (cursor.getCount() > 0) {
-            holder.title.setText(CursorUtils.getString(MovieDetailEntity.TITLE, cursor));
-            holder.date.setText(CursorUtils.getString(MovieDetailEntity.RELEASE_DATE, cursor));
-            holder.genres.setText(!StringUtil.isEmpty(CursorUtils.getString(Genre.NAME, cursor)) ? CursorUtils.getString(Genre.NAME, cursor).replaceAll("[,]"," | ") : StringUtil.EMPTY);
-            holder.runtime.setText(String.format("%1$d %2$s", CursorUtils.getInt(MovieDetailEntity.RUNTIME, cursor), getString(R.string.min)));
-
-            String voteAverage = String.valueOf(CursorUtils.getDouble(MovieDetailEntity.VOTE_AVERAGE, cursor));
-            holder.rating.setText(voteAverage);
-            String voteCount = String.valueOf(CursorUtils.getInt(MovieDetailEntity.VOTE_COUNT, cursor));
-            SpannableStringBuilder ratingBuilder = new SpannableStringBuilder();
-            ratingBuilder
-                    .append(TextUtilsImpl.setBold(getString(R.string.rating)))
-                    .append(String.format(getString(R.string.rating_template), voteAverage, voteCount));
-            holder.ratingText.setText(ratingBuilder);
-
-            String tagline = CursorUtils.getString(MovieDetailEntity.TAGLINE, cursor);
-            if (!StringUtil.isEmpty(tagline)) {
-                SpannableStringBuilder taglineBuilder = new SpannableStringBuilder();
-                taglineBuilder
-                        .append(TextUtilsImpl.setBold(getString(R.string.tagline)))
-                        .append(TextUtilsImpl.lineBreak())
-                        .append(tagline);
-                holder.tagline.setText(taglineBuilder);
-            }
+            setTextInfo(cursor);
 
             final String urlBackdrop = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.BACKDROP_PATH, cursor));
             ImageLoader.getInstance().displayImage(urlBackdrop, holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
             final String urlPoster = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.POSTER_PATH, cursor));
-            ImageLoader.getInstance().displayImage(urlPoster, holder.poster, BitmapDisplayOptions.IMAGE_OPTIONS_EMPTY_PH, new SimpleImageLoadingListener() {
+            ImageLoader.getInstance().displayImage(urlPoster, holder.poster, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS, new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                     if (loadedImage != null) {
@@ -186,6 +165,30 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
                     }
                 }
             });
+        }
+    }
+
+    private void setTextInfo(Cursor cursor) {
+        holder.genres.setText(!StringUtil.isEmpty(CursorUtils.getString(Genre.NAME, cursor)) ? CursorUtils.getString(Genre.NAME, cursor).replaceAll("[,]"," | ") : StringUtil.EMPTY);
+        holder.runtime.setText(String.format(getString(R.string.min), CursorUtils.getInt(MovieDetailEntity.RUNTIME, cursor)));
+
+        String voteAverage = String.valueOf(CursorUtils.getDouble(MovieDetailEntity.VOTE_AVERAGE, cursor));
+        holder.rating.setText(voteAverage);
+        String voteCount = String.valueOf(CursorUtils.getInt(MovieDetailEntity.VOTE_COUNT, cursor));
+        SpannableStringBuilder ratingBuilder = new SpannableStringBuilder();
+        ratingBuilder
+                .append(TextUtilsImpl.setBold(getString(R.string.rating)))
+                .append(String.format(getString(R.string.rating_template), voteAverage, voteCount));
+        holder.ratingText.setText(ratingBuilder);
+
+        String tagline = CursorUtils.getString(MovieDetailEntity.TAGLINE, cursor);
+        if (!StringUtil.isEmpty(tagline)) {
+            SpannableStringBuilder taglineBuilder = new SpannableStringBuilder();
+            taglineBuilder
+                    .append(TextUtilsImpl.setBold(getString(R.string.tagline)))
+                    .append(TextUtilsImpl.lineBreak())
+                    .append(tagline);
+            holder.tagline.setText(taglineBuilder);
         }
     }
 

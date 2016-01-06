@@ -26,7 +26,7 @@
     <string name="backdrop_description">Backdrop</string>
     <string name="error_player">Произошла ошибка с вызовом YouTubePlayer (%1$s)</string>
     <string name="language_setting">Язык</string>
-    <string name="min">"мин"</string>
+    <string name="min">"%1$s мин"</string>
     <string name="rating">"Рейтинг: "</string>
     <string name="from">"/10 по "</string>
 </resources>

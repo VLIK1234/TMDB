@@ -215,6 +215,6 @@ public class RecyclerViewFragment extends Fragment implements DataManager.Callba
 
     @Override
     public void touchAction(long idItem) {
-        ((MainScreenActivity) getActivity()).setCurrentFragment(DetailFragment.newInstance(ApiTMDB.getMovie(idItem)), true);
+        ((MainScreenActivity) getActivity()).setCurrentFragment(DetailFragment.newInstance(ApiTMDB.getMovieDetail(idItem)), true);
     }
 }

@@ -20,19 +20,13 @@ import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.core.cursor.MoviesListCursor;
 import github.tmdb.core.model.MovieItemEntity;
+import github.tmdb.utils.BitmapDisplayOptions;
 
 /**
  * @author Ivan Bakach
  * @version on 09.08.2015
  */
 public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
-
-    public static final DisplayImageOptions OPTIONS = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.drawable.w342)
-            .showImageOnFail(R.drawable.w342)
-            .cacheInMemory(true)
-            .cacheOnDisk(true)
-            .build();
 
     public interface ITouch {
         void touchAction(long idItem);
@@ -72,10 +66,10 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
 
         ImageLoader.getInstance().
                 displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_500X750_BACKDROP_500X281,
-                        CursorUtils.getString(MovieItemEntity.BACKDROP_PATH, cursor)), holder.backdrop, OPTIONS);
+                        CursorUtils.getString(MovieItemEntity.BACKDROP_PATH, cursor)), holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
         ImageLoader.getInstance().
                 displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_154X231_BACKDROP_154X87,
-                        CursorUtils.getString(MovieItemEntity.POSTER_PATH, cursor)), holder.poster, OPTIONS);
+                        CursorUtils.getString(MovieItemEntity.POSTER_PATH, cursor)), holder.poster, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
     }
 
     @Override
