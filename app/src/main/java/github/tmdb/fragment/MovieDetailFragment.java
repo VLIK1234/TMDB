@@ -69,7 +69,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
 
     private static final String TAG = "MovieDetailFragment";
     public static final String ID_MOVIE_KEY = "ID_MOVIE";
-    public static final int BACKGROUND_ROOT_ALPHA = 200;
+    public static final float BACKGROUND_ROOT_ALPHA = 0.8f;
 
     private long idMovie;
     private ViewHolder holder = new ViewHolder();
@@ -131,45 +131,40 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     protected void onLoadFinished(Cursor cursor) {
         if (cursor.getCount() > 0) {
             setTextInfo(cursor);
-
-            final String urlBackdrop = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.BACKDROP_PATH, cursor));
-            ImageLoader.getInstance().displayImage(urlBackdrop, holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
-            final String urlPoster = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.POSTER_PATH, cursor));
-            ImageLoader.getInstance().displayImage(urlPoster, holder.poster, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    if (loadedImage != null) {
-                        Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
-                            @Override
-                            public void onGenerated(final Palette palette) {
-                                if (palette != null) {
-                                    if (palette.getDarkMutedColor() != null && palette.getLightMutedColor() != null &&
-                                            palette.getMutedColor() != null) {
-                                        holder.root.setBackgroundColor(palette.getDarkMutedColor().getRgb());
-                                        Drawable background = holder.root.getBackground();
-                                        background.setAlpha(BACKGROUND_ROOT_ALPHA);
-                                        UIUtil.setBackgroundCompact(holder.root, background);
-                                        setPrimaryTextColor(palette.getLightMutedColor().getRgb());
-                                        setSecondTextColor(palette.getMutedColor().getRgb());
-                                    } else {
-                                        holder.root.setBackgroundColor(palette.getDarkVibrantColor().getRgb());
-                                        Drawable background = holder.root.getBackground();
-                                        background.setAlpha(BACKGROUND_ROOT_ALPHA);
-                                        UIUtil.setBackgroundCompact(holder.root, background);
-                                        setPrimaryTextColor(palette.getLightVibrantColor().getRgb());
-                                        setSecondTextColor(palette.getVibrantColor().getRgb());
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            });
+            setImages(cursor);
         }
     }
 
+    @Override
+    protected String[] getAdapterColumns() {
+        return new String[]{MovieDetailEntity.TITLE, MovieDetailEntity.OVERVIEW, MovieDetailEntity.RELEASE_DATE};
+    }
+
+    @Override
+    protected int[] getAdapterControlIds() {
+        return new int[]{R.id.title, R.id.overview, R.id.date};
+    }
+
+    @Override
+    protected void onLoaderReset() {
+    }
+
+    private void setPrimaryTextColor(int rgbColor) {
+        holder.title.setTextColor(rgbColor);
+        holder.overview.setTextColor(rgbColor);
+        holder.runtime.setTextColor(rgbColor);
+//        holder.rating.setTextColor(rgbColor);
+        holder.tagline.setTextColor(rgbColor);
+        holder.ratingText.setTextColor(rgbColor);
+    }
+
+    private void setSecondTextColor(int rgbColor) {
+        holder.date.setTextColor(rgbColor);
+        holder.genres.setTextColor(rgbColor);
+    }
+
     private void setTextInfo(Cursor cursor) {
-        holder.genres.setText(!StringUtil.isEmpty(CursorUtils.getString(Genre.NAME, cursor)) ? CursorUtils.getString(Genre.NAME, cursor).replaceAll("[,]"," | ") : StringUtil.EMPTY);
+        holder.genres.setText(!StringUtil.isEmpty(CursorUtils.getString(Genre.NAME, cursor)) ? CursorUtils.getString(Genre.NAME, cursor).replaceAll("[,]", " | ") : StringUtil.EMPTY);
         holder.runtime.setText(String.format(getString(R.string.min), CursorUtils.getInt(MovieDetailEntity.RUNTIME, cursor)));
 
         String voteAverage = String.valueOf(CursorUtils.getDouble(MovieDetailEntity.VOTE_AVERAGE, cursor));
@@ -192,32 +187,34 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
         }
     }
 
-    @Override
-    protected String[] getAdapterColumns() {
-        return new String[]{MovieDetailEntity.TITLE, MovieDetailEntity.OVERVIEW, MovieDetailEntity.RELEASE_DATE};
+    private void setImages(Cursor cursor) {
+        final String urlBackdrop = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.BACKDROP_PATH, cursor));
+        ImageLoader.getInstance().displayImage(urlBackdrop, holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
+        final String urlPoster = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.POSTER_PATH, cursor));
+        ImageLoader.getInstance().displayImage(urlPoster, holder.poster, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                if (loadedImage != null) {
+                    Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
+                        @Override
+                        public void onGenerated(final Palette palette) {
+                            if (palette != null) {
+                                if (palette.getDarkMutedColor() != null && palette.getLightMutedColor() != null && palette.getMutedColor() != null) {
+                                    setPaletteColor(palette.getDarkMutedColor().getRgb(), palette.getLightMutedColor().getRgb(), palette.getMutedColor().getRgb());
+                                } else {
+                                    setPaletteColor(palette.getDarkVibrantColor().getRgb(), palette.getLightVibrantColor().getRgb(), palette.getVibrantColor().getRgb());
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
-    @Override
-    protected int[] getAdapterControlIds() {
-        return new int[]{R.id.title, R.id.overview, R.id.date};
-    }
-
-    @Override
-    protected void onLoaderReset() {
-        Log.d(TAG, "onLoaderReset: ");
-    }
-
-    private void setPrimaryTextColor(int rgbColor) {
-        holder.title.setTextColor(rgbColor);
-        holder.overview.setTextColor(rgbColor);
-        holder.runtime.setTextColor(rgbColor);
-//        holder.rating.setTextColor(rgbColor);
-        holder.tagline.setTextColor(rgbColor);
-        holder.ratingText.setTextColor(rgbColor);
-    }
-
-    private void setSecondTextColor(int rgbColor) {
-        holder.date.setTextColor(rgbColor);
-        holder.genres.setTextColor(rgbColor);
+    private void setPaletteColor(int rootColor, int primaryTextColor, int secondaryTextColor) {
+        holder.root.setBackgroundColor(UIUtil.adjustAlpha(rootColor, BACKGROUND_ROOT_ALPHA));
+        setPrimaryTextColor(primaryTextColor);
+        setSecondTextColor(secondaryTextColor);
     }
 }
