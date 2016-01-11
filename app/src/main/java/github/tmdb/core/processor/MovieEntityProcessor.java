@@ -2,6 +2,7 @@ package github.tmdb.core.processor;
 
 import android.content.ContentValues;
 import android.os.Parcel;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -14,6 +15,7 @@ import by.istin.android.xcore.model.ParcelableModel;
 import by.istin.android.xcore.processor.impl.AbstractGsonBatchProcessor;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
 import by.istin.android.xcore.source.DataSourceRequest;
+import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.core.model.MovieItemEntity;
 
@@ -69,13 +71,12 @@ public class MovieEntityProcessor extends AbstractGsonBatchProcessor<MovieEntity
         return APP_SERVICE_KEY;
     }
 
+    private static final String TAG = "MovieEntityProcessor";
     @Override
     protected void onStartProcessing(DataSourceRequest dataSourceRequest, IDBConnection dbConnection) {
         super.onStartProcessing(dataSourceRequest, dbConnection);
-        if (ApiTMDB.getMovieNowPlaying().equals(dataSourceRequest.getUri())) {
-            dbConnection.delete(DBHelper.getTableName(MovieItemEntity.class), null, null);
-        }
-        if ("page=1".equals(dataSourceRequest.getUri())) {
+        Log.d(TAG, "onStartProcessing: "+ StringUtil.decode(dataSourceRequest.getUri()));
+        if (StringUtil.decode(dataSourceRequest.getUri()).contains("page=1")||!StringUtil.decode(dataSourceRequest.getUri()).contains("page=")) {
             dbConnection.delete(DBHelper.getTableName(MovieItemEntity.class), null, null);
         }
     }

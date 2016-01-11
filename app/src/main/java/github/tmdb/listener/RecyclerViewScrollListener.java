@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.List;
@@ -56,41 +57,46 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
         return new FilmArrayProcessor();
     }
 
+    boolean isUpdate = true;
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         int visibleItemCount = mLayoutManager.getChildCount();
-        int totalItemCount = mLayoutManager.getItemCount();
+        final int totalItemCount = mLayoutManager.getItemCount();
         int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
 //        if (mFooterProgress == null) {
 //            mFooterProgress = View.inflate(mContext, R.layout.view_footer_progress, null);
 //        }
-//        Log.d("TAG", visibleItemCount + " " + pastVisiblesItems + " " + (visibleItemCount + pastVisiblesItems) + " " + totalItemCount);
+        Log.d("TAG", visibleItemCount + " " + pastVisiblesItems+ " " + totalItemCount + " " + ((visibleItemCount + pastVisiblesItems)>=totalItemCount) );
 
         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+            if (isUpdate) {
 
-            final DataSourceRequest dataSourceRequest = new DataSourceRequest(getUrl(mPage));
-            dataSourceRequest.putParam("range", String.valueOf(mPage * 20));
-            DataSourceService.execute(
-                    ContextHolder.get(),
-                    dataSourceRequest,
-                    MovieEntityProcessor.APP_SERVICE_KEY,
-                    HttpDataSource.APP_SERVICE_KEY,
-                    new StatusResultReceiver(new Handler(Looper.getMainLooper())) {
-                        @Override
-                        public void onStart(Bundle resultData) {
-                        }
+                final DataSourceRequest dataSourceRequest = new DataSourceRequest(getUrl(mPage));
+                dataSourceRequest.putParam("range", String.valueOf(mPage * 20));
+                DataSourceService.execute(
+                        ContextHolder.get(),
+                        dataSourceRequest,
+                        MovieEntityProcessor.APP_SERVICE_KEY,
+                        HttpDataSource.APP_SERVICE_KEY,
+                        new StatusResultReceiver(new Handler(Looper.getMainLooper())) {
+                            @Override
+                            public void onStart(Bundle resultData) {
+                                isUpdate = false;
+                            }
 
-                        @Override
-                        public void onDone(Bundle resultData) {
+                            @Override
+                            public void onDone(Bundle resultData) {
 //                            mAdapter.notifyDataSetChanged();
-                            mPage++;
-                        }
+                                mPage++;
+                                isUpdate = true;
+                            }
 
-                        @Override
-                        public void onError(Exception exception) {
+                            @Override
+                            public void onError(Exception exception) {
+                            }
                         }
-                    }
-            );
+                );
+            }
 //            DataManager.loadData(new DataManager.Callback<ArrayList<Film>>() {
 //                                     @Override
 //                                     public void onDataLoadStart() {
