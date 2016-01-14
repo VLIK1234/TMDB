@@ -60,8 +60,8 @@ public class RecyclerViewFragment extends Fragment implements DataManager.Callba
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_recycler_main, container, false);
         err = (TextView) v.findViewById(R.id.tv_error);
-        empty = (TextView) v.findViewById(R.id.tv_empty);
-        progressBar = (ProgressBar) v.findViewById(R.id.pb_progress);
+        empty = (TextView) v.findViewById(R.id.empty);
+        progressBar = (ProgressBar) v.findViewById(R.id.progress);
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.srl_swipe_container);
 //        mRecyclerView = (RecyclerView) v.findViewById(R.id.rv_list_films);
         mLayoutManager = getLayoutManger();

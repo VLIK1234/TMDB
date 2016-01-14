@@ -43,28 +43,48 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        if (view != null) {
-            swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_swipe_container);
-            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    refresh();
-                }
-            });
-        }
+//        if (view != null) {
+//            swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_swipe_container);
+//            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//                @Override
+//                public void onRefresh() {
+//                    refresh();
+//                }
+//            });
+//        }
 //        if (view != null) {
 //            mEmptyView = view.findViewById(android.R.id.empty);
 //        }
         return view;
     }
 
+//    @Override
+//    public RecyclerView getCollectionView() {
+//        RecyclerView recyclerView = super.getCollectionView();
+//        LinearLayoutManager layoutManager = new GridLayoutManager(getContext(), SPAN_COUNT);
+//        recyclerView.setLayoutManager(layoutManager);
+////        recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager, ApiTMDB.getMovieNowPlaying(), recyclerView.getAdapter()));
+//        return recyclerView;
+//    }
+
     @Override
-    public RecyclerView getCollectionView() {
-        RecyclerView recyclerView = super.getCollectionView();
-        LinearLayoutManager layoutManager = new GridLayoutManager(getContext(), SPAN_COUNT);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager, ApiTMDB.getMovieNowPlaying(), recyclerView.getAdapter()));
-        return recyclerView;
+    protected RecyclerView.LayoutManager createLayoutManager() {
+        return new GridLayoutManager(getContext(), SPAN_COUNT);
+    }
+
+    @Override
+    protected Integer getSwipeRefreshLayoutId() {
+        return R.id.srl_swipe_container;
+    }
+
+    @Override
+    protected boolean isPagingSupport() {
+        return true;
+    }
+
+    @Override
+    protected void onPageLoad(int newPage, int totalItemCount) {
+        loadData(getActivity(), getUrl() + "&page=" + newPage, getUrl());
     }
 
     @Override
@@ -99,7 +119,7 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
 
     @Override
     public String getUrl() {
-        return ApiTMDB.getMovieNowPlaying()+"?api_key=f413bc4bacac8dff174a909f8ef535ae&page=1";
+        return ApiTMDB.getMovieNowPlaying()+"?api_key=f413bc4bacac8dff174a909f8ef535ae";
     }
 
     @Override
@@ -115,13 +135,5 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
     @Override
     public void touchAction(long idItem) {
         ((MainScreenActivity) getActivity()).setCurrentFragment(MovieDetailFragment.newInstance(idItem), true);
-    }
-
-    @Override
-    public void onReceiverOnDone(Bundle resultData) {
-        super.onReceiverOnDone(resultData);
-        if (swipeRefreshLayout.isRefreshing()) {
-            swipeRefreshLayout.setRefreshing(false);
-        }
     }
 }
