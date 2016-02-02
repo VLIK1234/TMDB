@@ -184,7 +184,7 @@ public class MainFragment extends Fragment implements DataManager.Callback<Array
                     Film item = getItem(position);
                     holder.title = (TextView) convertView.findViewById(R.id.title);
                     holder.date = (TextView) convertView.findViewById(R.id.date);
-                    holder.rating = (RatingBar) convertView.findViewById(R.id.rating);
+//                    holder.rating = (RatingBar) convertView.findViewById(R.id.rating);
                     holder.ratingText = (TextView) convertView.findViewById(R.id.rating_text);
 
                     holder.title.setText(item.getTitle());
@@ -193,9 +193,9 @@ public class MainFragment extends Fragment implements DataManager.Callback<Array
                     holder.ratingText.setText(item.getVoteAverage() + "/10" + " (" + item.getVoteCount() + ")");
 
                     convertView.setTag(item.getId());
-                    final ImageView poster = (ImageView) convertView.findViewById(R.id.backdrop);
-                    final String url = item.getPosterPath(ApiTMDB.POSTER_185X278_BACKDROP_185X104);
-                    mImageLoaderIstin.loadAndDisplay(url, poster);
+//                    final ImageView poster = (ImageView) convertView.findViewById(R.id.backdrop);
+//                    final String url = item.getPosterPath(ApiTMDB.POSTER_185X278_BACKDROP_185X104);
+//                    mImageLoaderIstin.loadAndDisplay(url, poster);
                     return convertView;
                 }
 

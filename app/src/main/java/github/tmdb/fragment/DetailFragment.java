@@ -75,21 +75,21 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     private CrewAdapter mCrewAdapter;
 
     private static class ViewHolder {
-        LinearLayout root;
+//        LinearLayout root;
         TextView title;
         TextView date;
         TextView genres;
         TextView runtime;
-        TextView rating;
+//        TextView rating;
         TextView ratingText;
         TextView tagline;
         TextView overview;
         TextView castLabel;
         TextView crewLabel;
         ImageView poster;
-        ImageView backdrop;
+//        ImageView backdrop;
         Button trailerButton;
-        Button postButton;
+//        Button postButton;
         RecyclerView castList;
         RecyclerView crewList;
         ProgressBar mProgressBar;
@@ -111,27 +111,27 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
-        holder.root = (LinearLayout) view.findViewById(R.id.ll_root);
+//        holder.root = (LinearLayout) view.findViewById(R.id.ll_root);
         holder.poster = (ImageView) view.findViewById(R.id.poster);
-        holder.backdrop = (ImageView) view.findViewById(R.id.backdrop);
+//        holder.backdrop = (ImageView) view.findViewById(R.id.backdrop);
         holder.title = (TextView) view.findViewById(R.id.title);
         holder.date = (TextView) view.findViewById(R.id.date);
         holder.genres = (TextView) view.findViewById(R.id.genres);
         holder.runtime = (TextView) view.findViewById(R.id.runtime);
-        holder.rating = (TextView) view.findViewById(R.id.rating_pic);
+//        holder.rating = (TextView) view.findViewById(R.id.rating_pic);
         holder.ratingText = (TextView) view.findViewById(R.id.rating_pic_text);
         holder.tagline = (TextView) view.findViewById(R.id.tagline);
         holder.overview = (TextView) view.findViewById(R.id.overview);
-        holder.castLabel = (TextView) view.findViewById(R.id.tv_cast_label);
-        holder.crewLabel = (TextView) view.findViewById(R.id.tv_crew_label);
+//        holder.castLabel = (TextView) view.findViewById(R.id.tv_cast_label);
+//        holder.crewLabel = (TextView) view.findViewById(R.id.tv_crew_label);
         holder.trailerButton = (Button) view.findViewById(R.id.trailer_button);
         holder.trailerButton.setOnClickListener(this);
-        holder.postButton = (Button) view.findViewById(R.id.post_button);
+//        holder.postButton = (Button) view.findViewById(R.id.post_button);
         holder.mProgressBar = (ProgressBar) view.findViewById(android.R.id.progress);
         holder.mScrollView = (ScrollView) view.findViewById(R.id.scroll);
         holder.mScrollView.setVisibility(View.GONE);
-        holder.castList = (RecyclerView) view.findViewById(R.id.rv_cast_list);
-        holder.crewList = (RecyclerView) view.findViewById(R.id.rv_crew_list);
+//        holder.castList = (RecyclerView) view.findViewById(R.id.rv_cast_list);
+//        holder.crewList = (RecyclerView) view.findViewById(R.id.rv_crew_list);
         final LinearLayoutManager castLayoutManager = new LinearLayoutManager(getContext());
         castLayoutManager.setOrientation(OrientationHelper.HORIZONTAL);
         final LinearLayoutManager crewLayoutManager = new LinearLayoutManager(getContext());
@@ -139,7 +139,7 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
         holder.castList.setLayoutManager(castLayoutManager);
         holder.crewList.setLayoutManager(crewLayoutManager);
         ArrayList<Cast> casts = new ArrayList<>();
-        mCastAdapter = new CastAdapter(casts);
+//        mCastAdapter = new CastAdapter(casts);
         holder.castList.setAdapter(mCastAdapter);
         ArrayList<Crew> crews = new ArrayList<>();
         mCrewAdapter = new CrewAdapter(crews);
@@ -218,11 +218,11 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
             ErrorHelper.showDialog(getString(R.string.json_exсept) + e.getMessage(),
                     activity.getSupportFragmentManager().beginTransaction());
         }
-        final String urlBackdrop = data.getBackdropPath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563);
-        ImageLoader.getInstance().displayImage(urlBackdrop, holder.backdrop);
+//        final String urlBackdrop = data.getBackdropPath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563);
+//        ImageLoader.getInstance().displayImage(urlBackdrop, holder.backdrop);
         holder.title.setText(data.getTitle());
         holder.date.setText(data.getReleaseDate());
-        holder.rating.setText(data.getVoteAverage());
+//        holder.rating.setText(data.getVoteAverage());
         String ratingTemplate = "%s %s %s %s";
         String rating = String.format(ratingTemplate, getContext().getString(R.string.rating),
                 data.getVoteAverage(), getContext().getString(R.string.from), data.getVoteCount());
@@ -266,17 +266,17 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
                             if (palette != null) {
                                 if (palette.getDarkMutedColor() != null && palette.getLightMutedColor() != null &&
                                         palette.getMutedColor() != null) {
-                                    holder.root.setBackgroundColor(palette.getDarkMutedColor().getRgb());
-                                    Drawable background = holder.root.getBackground();
-                                    background.setAlpha(BACKGROUND_ROOT_ALPHA);
-                                    UIUtil.setBackgroundCompact(holder.root, background);
-                                    setPrimaryTextColor(palette.getLightMutedColor().getRgb());
+//                                    holder.root.setBackgroundColor(palette.getDarkMutedColor().getRgb());
+//                                    Drawable background = holder.root.getBackground();
+//                                    background.setAlpha(BACKGROUND_ROOT_ALPHA);
+//                                    UIUtil.setBackgroundCompact(holder.root, background);
+//                                    setPrimaryTextColor(palette.getLightMutedColor().getRgb());
                                     setSecondTextColor(palette.getMutedColor().getRgb());
                                 } else {
-                                    holder.root.setBackgroundColor(palette.getDarkVibrantColor().getRgb());
-                                    Drawable background = holder.root.getBackground();
-                                    background.setAlpha(BACKGROUND_ROOT_ALPHA);
-                                    UIUtil.setBackgroundCompact(holder.root, background);
+//                                    holder.root.setBackgroundColor(palette.getDarkVibrantColor().getRgb());
+//                                    Drawable background = holder.root.getBackground();
+//                                    background.setAlpha(BACKGROUND_ROOT_ALPHA);
+//                                    UIUtil.setBackgroundCompact(holder.root, background);
                                     setPrimaryTextColor(palette.getLightVibrantColor().getRgb());
                                     setSecondTextColor(palette.getVibrantColor().getRgb());
                                 }
@@ -287,31 +287,31 @@ public class DetailFragment extends Fragment implements DataManager.Callback<Fil
             }
         });
 
-        holder.postButton.setOnClickListener(this);
-        try {
-            mCastAdapter = new CastAdapter(data.getCasts());
-            holder.castList.setAdapter(mCastAdapter);
-            mCastAdapter.notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            mCrewAdapter = new CrewAdapter(data.getCrews());
-            holder.crewList.setAdapter(mCrewAdapter);
-            mCrewAdapter.notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        holder.postButton.setOnClickListener(this);
+//        try {
+//            mCastAdapter = new CastAdapter(data.getCasts());
+//            holder.castList.setAdapter(mCastAdapter);
+//            mCastAdapter.notifyDataSetChanged();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            mCrewAdapter = new CrewAdapter(data.getCrews());
+//            holder.crewList.setAdapter(mCrewAdapter);
+//            mCrewAdapter.notifyDataSetChanged();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         crossfade();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.post_button:
-                WallPostSendHelper wallPostSend = new WallPostSendHelper(getContext());
-                wallPostSend.send(postMessage);
-                break;
+//            case R.id.post_button:
+//                WallPostSendHelper wallPostSend = new WallPostSendHelper(getContext());
+//                wallPostSend.send(postMessage);
+//                break;
             case R.id.trailer_button:
                 if (videoKey != null) {
                     Intent intent = YouTubeStandalonePlayer.createVideoIntent(

@@ -60,15 +60,15 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         });
         holder.title.setText(CursorUtils.getString(MovieItemEntity.TITLE, cursor));
         holder.date.setText(CursorUtils.getString(MovieItemEntity.RELEASE_DATE, cursor));
-        holder.rating.setRating(CursorUtils.getFloat(MovieItemEntity.VOTE_AVERAGE, cursor));
+//        holder.rating.setRating(CursorUtils.getFloat(MovieItemEntity.VOTE_AVERAGE, cursor));
         holder.ratingText.setText(String.format("%s/10 (%s)",
                 CursorUtils.getFloat(MovieItemEntity.VOTE_AVERAGE, cursor), CursorUtils.getInt(MovieItemEntity.VOTE_COUNT, cursor)));
 
+//        ImageLoader.getInstance().
+//                displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_500X750_BACKDROP_500X281,
+//                        CursorUtils.getString(MovieItemEntity.BACKDROP_PATH, cursor)), holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
         ImageLoader.getInstance().
-                displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_500X750_BACKDROP_500X281,
-                        CursorUtils.getString(MovieItemEntity.BACKDROP_PATH, cursor)), holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
-        ImageLoader.getInstance().
-                displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_154X231_BACKDROP_154X87,
+                displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_92X138_BACKDROP_92X52,
                         CursorUtils.getString(MovieItemEntity.POSTER_PATH, cursor)), holder.poster, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
     }
 
@@ -91,9 +91,9 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         private final CardView mainView;
         private final TextView title;
         private final TextView date;
-        private final RatingBar rating;
+//        private final RatingBar rating;
         private final TextView ratingText;
-        private final ImageView backdrop;
+//        private final ImageView backdrop;
         private final ImageView poster;
 
         public ViewHolder(View convertView) {
@@ -101,9 +101,9 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
             mainView = (CardView) convertView.findViewById(R.id.card_view);
             title = (TextView) convertView.findViewById(R.id.title);
             date = (TextView) convertView.findViewById(R.id.date);
-            rating = (RatingBar) convertView.findViewById(R.id.rating);
+//            rating = (RatingBar) convertView.findViewById(R.id.rating);
             ratingText = (TextView) convertView.findViewById(R.id.rating_text);
-            backdrop = (ImageView) convertView.findViewById(R.id.backdrop);
+//            backdrop = (ImageView) convertView.findViewById(R.id.backdrop);
             poster = (ImageView) convertView.findViewById(R.id.poster);
         }
 

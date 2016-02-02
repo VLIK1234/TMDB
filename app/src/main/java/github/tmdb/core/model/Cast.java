@@ -32,9 +32,9 @@ public class Cast implements BaseColumns {
 
     @dbString
     public static final String NAME = "name";
-
-    @dbInteger
-    public static final String ORDER = "order";
+//
+//    @dbInteger
+//    public static final String ORDER = "order";
 
     @dbString
     public static final String PROFILE_PATH = "profile_path";

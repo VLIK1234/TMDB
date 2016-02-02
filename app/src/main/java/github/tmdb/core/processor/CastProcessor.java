@@ -16,17 +16,16 @@ import by.istin.android.xcore.processor.impl.AbstractGsonBatchProcessor;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
 import by.istin.android.xcore.source.DataSourceRequest;
 import by.istin.android.xcore.utils.StringUtil;
-import github.tmdb.api.ApiTMDB;
+import github.tmdb.core.model.Cast;
 import github.tmdb.core.model.MovieItemEntity;
 
+public class CastProcessor extends AbstractGsonBatchProcessor<CastProcessor.Response> {
 
-public class MovieEntityProcessor extends AbstractGsonBatchProcessor<MovieEntityProcessor.Response> {
-
-    public static final String APP_SERVICE_KEY = "core:movieentity:processor";
+    public static final String APP_SERVICE_KEY = "core:cast:processor";
 
     public static class Response extends ParcelableModel {
 
-        @SerializedName("results")
+        @SerializedName("cast")
         private List<ContentValues> results;
 
         public static final Creator<Response> CREATOR = new Creator<Response>() {
@@ -60,8 +59,8 @@ public class MovieEntityProcessor extends AbstractGsonBatchProcessor<MovieEntity
         }
     }
 
-    public MovieEntityProcessor(IDBContentProviderSupport contentProviderSupport) {
-        super(MovieItemEntity.class, Response.class, contentProviderSupport);
+    public CastProcessor(IDBContentProviderSupport contentProviderSupport) {
+        super(Cast.class, Response.class, contentProviderSupport);
     }
 
     @Override
@@ -73,16 +72,13 @@ public class MovieEntityProcessor extends AbstractGsonBatchProcessor<MovieEntity
     @Override
     protected void onStartProcessing(DataSourceRequest dataSourceRequest, IDBConnection dbConnection) {
         super.onStartProcessing(dataSourceRequest, dbConnection);
-        Log.d(TAG, "onStartProcessing: "+ StringUtil.decode(dataSourceRequest.getUri()));
-        if (StringUtil.decode(dataSourceRequest.getUri()).contains("page=1")||!StringUtil.decode(dataSourceRequest.getUri()).contains("page=")) {
-            dbConnection.delete(DBHelper.getTableName(MovieItemEntity.class), null, null);
-        }
+        dbConnection.delete(DBHelper.getTableName(Cast.class), null, null);
     }
 
     @Override
     protected void onProcessingFinish(DataSourceRequest dataSourceRequest, Response response) throws Exception {
         super.onProcessingFinish(dataSourceRequest, response);
-        notifyChange(ContextHolder.get(), MovieItemEntity.class);
+        notifyChange(ContextHolder.get(), Cast.class);
     }
 
     @Override

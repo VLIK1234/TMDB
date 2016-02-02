@@ -46,7 +46,7 @@ public class CustomAdapter extends ArrayAdapter<Film> {
         Film item = getItem(position);
         holder.title = (TextView) convertView.findViewById(R.id.title);
         holder.date = (TextView) convertView.findViewById(R.id.date);
-        holder.rating = (RatingBar) convertView.findViewById(R.id.rating);
+//        holder.rating = (RatingBar) convertView.findViewById(R.id.rating);
         holder.ratingText = (TextView) convertView.findViewById(R.id.rating_text);
 
         holder.title.setText(item.getTitle());
@@ -56,9 +56,9 @@ public class CustomAdapter extends ArrayAdapter<Film> {
         builder.append(item.getVoteAverage()).append("/10 (").append(item.getVoteCount()).append(")");
         holder.ratingText.setText(builder);
 
-        final ImageView poster = (ImageView) convertView.findViewById(R.id.backdrop);
-        final String url = item.getPosterPath(ApiTMDB.POSTER_185X278_BACKDROP_185X104);
-        ImageLoader.getInstance().displayImage(url, poster);
+//        final ImageView poster = (ImageView) convertView.findViewById(R.id.backdrop);
+//        final String url = item.getPosterPath(ApiTMDB.POSTER_185X278_BACKDROP_185X104);
+//        ImageLoader.getInstance().displayImage(url, poster);
         return convertView;
     }
 }

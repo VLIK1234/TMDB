@@ -1,6 +1,5 @@
 package github.tmdb.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +9,9 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.util.ArrayList;
-
+import by.istin.android.xcore.utils.CursorUtils;
 import github.tmdb.R;
-import github.tmdb.bo.Cast;
+import github.tmdb.core.cursor.CastCursor;
 import github.tmdb.utils.BitmapDisplayOptions;
 import github.tmdb.utils.TextUtilsImpl;
 
@@ -23,11 +21,12 @@ import github.tmdb.utils.TextUtilsImpl;
  */
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
-    private final ArrayList<Cast> mCastList;
+    private CastCursor mCursor;
     private int mCharterLabelColor;
 
-    public CastAdapter(ArrayList<Cast> castList) {
-        mCastList = castList;
+    public CastAdapter(CastCursor cursors) {
+        swapCursor(cursors);
+        mCursor = cursors;
     }
 
     @Override
@@ -39,8 +38,9 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.nameCrew.setText(mCastList.get(position).getName());
-        String charter = mCastList.get(position).getCharacter();
+        mCursor.moveToPosition(position);
+        holder.nameCrew.setText(mCursor.getName());
+        String charter = mCursor.getCharacter();
         if (!TextUtilsImpl.isEmpty(charter)) {
             holder.charterCrew.setText(String.format("as %s", charter));
         }
@@ -48,13 +48,19 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
         if (mCharterLabelColor != 0) {
             holder.charterCrew.setTextColor(mCharterLabelColor);
         }
-        String profilePath = mCastList.get(position).getProfilePath();
+        String profilePath = mCursor.getProfilePath();
         ImageLoader.getInstance().displayImage(profilePath, holder.profileCrew, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
     }
 
     @Override
     public int getItemCount() {
-        return mCastList.size();
+        return mCursor.size();
+    }
+
+    public void swapCursor(CastCursor moviesListCursor) {
+        CursorUtils.close(mCursor);
+        mCursor = moviesListCursor;
+        notifyDataSetChanged();
     }
 
     public void setCharterLabelColor(int rgbColor){

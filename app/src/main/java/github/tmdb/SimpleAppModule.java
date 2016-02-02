@@ -28,6 +28,7 @@ import github.tmdb.core.model.ProductionCountry;
 import github.tmdb.core.model.SampleEntity;
 import github.tmdb.core.model.SpokenLanguage;
 import github.tmdb.core.model.Video;
+import github.tmdb.core.processor.CastProcessor;
 import github.tmdb.core.processor.ContentEntityProcessor;
 import github.tmdb.core.processor.MovieDetailProcessor;
 import github.tmdb.core.processor.MovieEntityProcessor;
@@ -79,12 +80,13 @@ public class SimpleAppModule extends XCoreHelper.BaseModule {
         registerAppService(new ContentEntityProcessor(dbContentProviderSupport));
         registerAppService(new MovieEntityProcessor(dbContentProviderSupport));
         registerAppService(new MovieDetailProcessor(dbContentProviderSupport));
+        registerAppService(new CastProcessor(dbContentProviderSupport));
         registerAppService(new ErrorHandler(
                 "Error",
                 "Check your internet connection",
                 "Server error",
                 "Developer error",
-                "istin2007@gmail.com"
+                "vlik1234@gmail.com"
         ));
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)

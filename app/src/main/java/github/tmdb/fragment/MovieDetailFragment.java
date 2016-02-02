@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -46,25 +48,26 @@ import github.tmdb.utils.UIUtil;
 public class MovieDetailFragment extends XFragment<CursorModel> {
 
     private static class ViewHolder {
-        LinearLayout root;
+//        LinearLayout root;
         TextView title;
         TextView date;
         TextView genres;
         TextView runtime;
-        TextView rating;
+//        TextView rating;
         TextView ratingText;
         TextView tagline;
         TextView overview;
         TextView castLabel;
         TextView crewLabel;
         ImageView poster;
-        ImageView backdrop;
+//        ImageView backdrop;
         Button trailerButton;
         Button postButton;
         RecyclerView castList;
         RecyclerView crewList;
         ProgressBar mProgressBar;
         ScrollView mScrollView;
+        FrameLayout mCastContainer;
     }
 
     private static final String TAG = "MovieDetailFragment";
@@ -73,6 +76,8 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
 
     private long idMovie;
     private ViewHolder holder = new ViewHolder();
+
+    private View mLeak;
 
     public static Fragment newInstance(long idMovie) {
         MovieDetailFragment fragmentPart = new MovieDetailFragment();
@@ -90,19 +95,44 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_detail, null);
-        holder.root = (LinearLayout) view.findViewById(R.id.ll_root);
-        holder.poster = (ImageView) view.findViewById(R.id.poster);
-        holder.backdrop = (ImageView) view.findViewById(R.id.backdrop);
-        holder.title = (TextView) view.findViewById(R.id.title);
-        holder.date = (TextView) view.findViewById(R.id.date);
-        holder.genres = (TextView) view.findViewById(R.id.genres);
-        holder.runtime = (TextView) view.findViewById(R.id.runtime);
-        holder.rating = (TextView) view.findViewById(R.id.rating_pic);
-        holder.ratingText = (TextView) view.findViewById(R.id.rating_pic_text);
-        holder.tagline = (TextView) view.findViewById(R.id.tagline);
-        holder.overview = (TextView) view.findViewById(R.id.overview);
-        return view;
+        Log.d(TAG, "onCreateView: ");
+        mLeak = inflater.inflate(R.layout.fragment_detail, container, false);
+//        holder.root = (LinearLayout) mLeak.findViewById(R.id.ll_root);
+        holder.poster = (ImageView) mLeak.findViewById(R.id.poster);
+//        holder.backdrop = (ImageView) mLeak.findViewById(R.id.backdrop);
+        holder.title = (TextView) mLeak.findViewById(R.id.title);
+        holder.date = (TextView) mLeak.findViewById(R.id.date);
+        holder.genres = (TextView) mLeak.findViewById(R.id.genres);
+        holder.runtime = (TextView) mLeak.findViewById(R.id.runtime);
+//        holder.rating = (TextView) mLeak.findViewById(R.id.rating_pic);
+        holder.ratingText = (TextView) mLeak.findViewById(R.id.rating_pic_text);
+        holder.tagline = (TextView) mLeak.findViewById(R.id.tagline);
+        holder.overview = (TextView) mLeak.findViewById(R.id.overview);
+        holder.mCastContainer = (FrameLayout) mLeak.findViewById(R.id.cast_container);
+        return mLeak;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.cast_container, CastFragment.newInstance(idMovie))
+                .commit();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "onDestroyView: ");
+        mLeak = null;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mLeak = null;
     }
 
     @Override
@@ -168,7 +198,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
         holder.runtime.setText(String.format(getString(R.string.min), CursorUtils.getInt(MovieDetailEntity.RUNTIME, cursor)));
 
         String voteAverage = String.valueOf(CursorUtils.getDouble(MovieDetailEntity.VOTE_AVERAGE, cursor));
-        holder.rating.setText(voteAverage);
+//        holder.rating.setText(voteAverage);
         String voteCount = String.valueOf(CursorUtils.getInt(MovieDetailEntity.VOTE_COUNT, cursor));
         SpannableStringBuilder ratingBuilder = new SpannableStringBuilder();
         ratingBuilder
@@ -188,8 +218,8 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     }
 
     private void setImages(Cursor cursor) {
-        final String urlBackdrop = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.BACKDROP_PATH, cursor));
-        ImageLoader.getInstance().displayImage(urlBackdrop, holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
+//        final String urlBackdrop = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.BACKDROP_PATH, cursor));
+//        ImageLoader.getInstance().displayImage(urlBackdrop, holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
         final String urlPoster = ApiTMDB.getImagePath(ApiTMDB.POSTER_1000X1500_BACKDROP_1000X563, CursorUtils.getString(MovieDetailEntity.POSTER_PATH, cursor));
         ImageLoader.getInstance().displayImage(urlPoster, holder.poster, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS, new SimpleImageLoadingListener() {
             @Override
@@ -213,7 +243,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     }
 
     private void setPaletteColor(int rootColor, int primaryTextColor, int secondaryTextColor) {
-        holder.root.setBackgroundColor(UIUtil.adjustAlpha(rootColor, BACKGROUND_ROOT_ALPHA));
+//        holder.root.setBackgroundColor(UIUtil.adjustAlpha(rootColor, BACKGROUND_ROOT_ALPHA));
         setPrimaryTextColor(primaryTextColor);
         setSecondTextColor(secondaryTextColor);
     }

@@ -29,7 +29,7 @@ import github.tmdb.source.TMDBDataSource;
  */
 public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     public RecyclerView.Adapter mAdapter;
     private View mFooterProgress;
     public String mUrl;
@@ -62,7 +62,7 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         int visibleItemCount = mLayoutManager.getChildCount();
         final int totalItemCount = mLayoutManager.getItemCount();
-        int pastVisiblesItems = ((LinearLayoutManager)mLayoutManager).findFirstVisibleItemPosition();
+        int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
 //        if (mFooterProgress == null) {
 //            mFooterProgress = View.inflate(mContext, R.layout.view_footer_progress, null);
 //        }

@@ -103,11 +103,10 @@ public final class BitmapDisplayOptions {
             .showImageOnFail(R.drawable.no_avatar)
             .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
             .bitmapConfig(Bitmap.Config.RGB_565)
-            .cacheInMemory(true)
             .resetViewBeforeLoading(true)
             .delayBeforeLoading(100)
+            .cacheInMemory(true)
             .cacheOnDisk(true)
-            .extraForDownloader(false)
             .displayer(FADE_IN_BITMAP_DISPLAYER) // default
             .build();
 }
