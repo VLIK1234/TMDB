@@ -58,4 +58,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="rating_template"> %1$s/10 from %2$s</string>
+    <string name="default_content_description">DefaultContentDescription</string>
+    <string name="rating_text_template">%1$s/10 (%2$s)</string>
 </resources>

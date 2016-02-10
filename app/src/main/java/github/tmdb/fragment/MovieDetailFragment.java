@@ -59,6 +59,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     private TextView mTagline;
     private TextView mOverview;
     private FrameLayout mCastContainer;
+    private Fragment mCastFragment;
 
     public static Fragment newInstance(long idMovie) {
         MovieDetailFragment fragmentPart = new MovieDetailFragment();
@@ -94,16 +95,18 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         FragmentManager fragmentManager = getFragmentManager();
+        mCastFragment = CastFragment.newInstance(idMovie);
         fragmentManager.beginTransaction()
-                .add(R.id.cast_container, CastFragment.newInstance(idMovie))
+                .add(R.id.cast_container, mCastFragment)
                 .commit();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d(TAG, "onDestroyView: ");
-        mLeak = null;
+        if (mCastFragment != null) {
+            getFragmentManager().beginTransaction().remove(mCastFragment).commit();
+        }
     }
 
     @Override
@@ -126,7 +129,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
 
     @Override
     public String getUrl() {
-        return ApiTMDB.getMovieDetail(idMovie) + "?api_key=f413bc4bacac8dff174a909f8ef535ae";
+        return ApiTMDB.getMovieDetail(idMovie) + "?"+"api_key=f413bc4bacac8dff174a909f8ef535ae";
     }
 
     @Override

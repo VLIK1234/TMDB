@@ -6,6 +6,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,6 +23,7 @@ import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.fragment.MapFragment;
+import github.tmdb.fragment.MovieDetailFragment;
 import github.tmdb.fragment.MoviesFragment;
 
 /**
@@ -30,30 +32,20 @@ import github.tmdb.fragment.MoviesFragment;
  */
 public class MainScreenActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, NavigationView.OnNavigationItemSelectedListener {
 
+    private Fragment mMoviesFragment;
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Click", Toast.LENGTH_SHORT).show();
-                //What to do on back clicked
-            }
-        });
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Click", Toast.LENGTH_SHORT).show();
-            }
-        });
+                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -62,14 +54,23 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
 
         setTitle(getString(R.string.now_playing));
 
-        setCurrentFragment(Fragment.instantiate(getBaseContext(), MoviesFragment.class.getName()), false);
+        mMoviesFragment = Fragment.instantiate(getBaseContext(), MoviesFragment.class.getName());
+        setCurrentFragment(mMoviesFragment, false);
     }
 
     public void setCurrentFragment(Fragment fragment, boolean withBackStack) {
         String fragmentName = fragment.getClass().getName();
+        if (MovieDetailFragment.class.getName().equals(fragmentName)) {
+            fragment.setTargetFragment(mMoviesFragment, 777);
+//            if (getSupportActionBar() != null) {
+//                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//                getSupportActionBar().setDisplayShowHomeEnabled(true);
+//            }
+        }
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content, fragment, fragmentName);
+        fragmentTransaction.add(R.id.content, fragment, fragmentName);
         if (withBackStack) {
             getSupportFragmentManager().popBackStack(fragmentName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentTransaction.addToBackStack(fragmentName);
@@ -95,7 +96,6 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
             case R.id.language_setting:
                 Intent intentSetting = new Intent(MainScreenActivity.this, SettingsActivity.class);
                 startActivity(intentSetting);
-//                Language.getLanguageDialog(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

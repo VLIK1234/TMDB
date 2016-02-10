@@ -1,5 +1,6 @@
 package github.tmdb.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import java.util.ArrayList;
 
 import by.istin.android.xcore.model.CursorModel;
 import by.istin.android.xcore.utils.CursorUtils;
@@ -32,7 +31,6 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
 
     private final ITouch mITouch;
     private MoviesListCursor mCursor;
-    private ArrayList<Long> mIdLists = new ArrayList<>();
 
     public FilmAdapter(MoviesListCursor moviesListCursor, ITouch iTouch) {
         mCursor = moviesListCursor;
@@ -47,37 +45,32 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final FilmAdapter.ViewHolder holder, final int position) {
-        CursorModel cursor = mCursor.get(position);
+        final MoviesListCursor cursor = (MoviesListCursor)mCursor.get(position);
+        final Context context = holder.itemView.getContext();
 
-        holder.mainView.setTag(CursorUtils.getLong(MovieItemEntity.EXTERNAL_ID, cursor));
+        holder.mainView.setTag(cursor.getExternalId());
         holder.mainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mITouch.touchAction((long) v.getTag());
             }
         });
-        holder.title.setText(CursorUtils.getString(MovieItemEntity.TITLE, cursor));
-        holder.date.setText(CursorUtils.getString(MovieItemEntity.RELEASE_DATE, cursor));
+        holder.title.setText(cursor.getTitle());
+        holder.date.setText(cursor.getReleaseDate());
 //        holder.rating.setRating(CursorUtils.getFloat(MovieItemEntity.VOTE_AVERAGE, cursor));
-        holder.ratingText.setText(String.format("%s/10 (%s)",
-                CursorUtils.getFloat(MovieItemEntity.VOTE_AVERAGE, cursor), CursorUtils.getInt(MovieItemEntity.VOTE_COUNT, cursor)));
+        holder.ratingText.setText(String.format(context.getString(R.string.rating_text_template), cursor.getVoteAverage(), cursor.getVoteCount()));
 
 //        ImageLoader.getInstance().
 //                displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_500X750_BACKDROP_500X281,
 //                        CursorUtils.getString(MovieItemEntity.BACKDROP_PATH, cursor)), holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
         ImageLoader.getInstance().
-                displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_92X138_BACKDROP_92X52,
-                        CursorUtils.getString(MovieItemEntity.POSTER_PATH, cursor)), holder.poster, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
+                displayImage(cursor.getPosterPath(ApiTMDB.POSTER_154X231_BACKDROP_154X87), holder.poster, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
     }
 
     @Override
     public int getItemCount() {
         return mCursor.size();
     }
-
-//    public void addAll(ArrayList<Film> filmArrayList) {
-//        mFilmList.addAll(filmArrayList);
-//    }
 
     public void swapCursor(MoviesListCursor moviesListCursor) {
         CursorUtils.close(mCursor);

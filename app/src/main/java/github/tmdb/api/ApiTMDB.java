@@ -13,6 +13,8 @@ import by.istin.android.xcore.utils.StringUtil;
  */
 public class ApiTMDB {
 
+    private static final String API_KEY = "f413bc4bacac8dff174a909f8ef535ae";
+
     public static final String POSTER_45X68_BACKDROP_45X25 = "w45";
     public static final String POSTER_92X138_BACKDROP_92X52 = "w92";
     public static final String POSTER_154X231_BACKDROP_154X87 = "w154";
