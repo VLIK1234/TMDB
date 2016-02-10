@@ -6,10 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         void touchAction(long idItem);
     }
 
-    private ITouch mITouch;
+    private final ITouch mITouch;
     private MoviesListCursor mCursor;
     private ArrayList<Long> mIdLists = new ArrayList<>();
 
@@ -55,7 +53,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         holder.mainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mITouch.touchAction((long)v.getTag());
+                mITouch.touchAction((long) v.getTag());
             }
         });
         holder.title.setText(CursorUtils.getString(MovieItemEntity.TITLE, cursor));
@@ -91,9 +89,9 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         private final CardView mainView;
         private final TextView title;
         private final TextView date;
-//        private final RatingBar rating;
+        //        private final RatingBar rating;
         private final TextView ratingText;
-//        private final ImageView backdrop;
+        //        private final ImageView backdrop;
         private final ImageView poster;
 
         public ViewHolder(View convertView) {

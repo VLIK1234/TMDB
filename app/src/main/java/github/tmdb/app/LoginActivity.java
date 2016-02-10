@@ -11,8 +11,8 @@ import github.tmdb.R;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
-    public static final int REQUEST_CODE_VK = 0;
-    public static final int REQUEST_CODE_RV = 1;
+    private static final int REQUEST_CODE_VK = 0;
+    private static final int REQUEST_CODE_RV = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

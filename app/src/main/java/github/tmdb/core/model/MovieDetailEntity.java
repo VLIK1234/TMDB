@@ -3,7 +3,6 @@ package github.tmdb.core.model;
 import android.content.ContentValues;
 import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -162,7 +161,7 @@ public class MovieDetailEntity implements BaseColumns, IOnProceedEntity {
         for (int i = 0; i < productionCountriesArray.size(); i++) {
             JsonObject genre = productionCountriesArray.get(i).getAsJsonObject();
             for (Map.Entry<String, JsonElement> itemGenre : genre.entrySet()) {
-                if (ProductionCountry.NAME.equals(itemGenre.getKey())||ProductionCountry.ISO_3166_1.equals(itemGenre.getKey())) {
+                if (ProductionCountry.NAME.equals(itemGenre.getKey()) || ProductionCountry.ISO_3166_1.equals(itemGenre.getKey())) {
                     productionCountryValue.put(itemGenre.getKey(), itemGenre.getValue().getAsString());
                 }
             }
@@ -179,7 +178,7 @@ public class MovieDetailEntity implements BaseColumns, IOnProceedEntity {
         for (int i = 0; i < spokenLanguagesArray.size(); i++) {
             JsonObject genre = spokenLanguagesArray.get(i).getAsJsonObject();
             for (Map.Entry<String, JsonElement> itemGenre : genre.entrySet()) {
-                if (SpokenLanguage.NAME.equals(itemGenre.getKey())||SpokenLanguage.ISO_3166_1.equals(itemGenre.getKey())) {
+                if (SpokenLanguage.NAME.equals(itemGenre.getKey()) || SpokenLanguage.ISO_3166_1.equals(itemGenre.getKey())) {
                     spokenLanguageValue.put(itemGenre.getKey(), itemGenre.getValue().getAsString());
                 }
             }

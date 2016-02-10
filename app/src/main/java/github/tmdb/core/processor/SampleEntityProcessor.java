@@ -10,9 +10,6 @@ import by.istin.android.xcore.provider.IDBContentProviderSupport;
 import by.istin.android.xcore.source.DataSourceRequest;
 import github.tmdb.core.model.SampleEntity;
 
-/**
- * Created by IstiN on 13.11.13.
- */
 public class SampleEntityProcessor extends AbstractGsonBatchProcessor<ContentValues[]> {
 
     public static final String APP_SERVICE_KEY = "core:sampleentity:processor";

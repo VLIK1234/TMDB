@@ -2,7 +2,6 @@ package github.tmdb.core.processor;
 
 import android.content.ContentValues;
 import android.os.Parcel;
-import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -15,9 +14,7 @@ import by.istin.android.xcore.model.ParcelableModel;
 import by.istin.android.xcore.processor.impl.AbstractGsonBatchProcessor;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
 import by.istin.android.xcore.source.DataSourceRequest;
-import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.core.model.Cast;
-import github.tmdb.core.model.MovieItemEntity;
 
 public class CastProcessor extends AbstractGsonBatchProcessor<CastProcessor.Response> {
 
@@ -69,6 +66,7 @@ public class CastProcessor extends AbstractGsonBatchProcessor<CastProcessor.Resp
     }
 
     private static final String TAG = "MovieEntityProcessor";
+
     @Override
     protected void onStartProcessing(DataSourceRequest dataSourceRequest, IDBConnection dbConnection) {
         super.onStartProcessing(dataSourceRequest, dbConnection);

@@ -6,7 +6,7 @@ import by.istin.android.xcore.model.CursorModel;
 
 public class MoviesListCursor extends CursorModel {
 
-    public MoviesListCursor(Cursor cursor) {
+    private MoviesListCursor(Cursor cursor) {
         super(cursor);
     }
 

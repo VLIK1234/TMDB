@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import github.tmdb.bo.JSONObjectWrapper;
 

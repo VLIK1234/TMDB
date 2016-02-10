@@ -4,7 +4,6 @@ import android.provider.BaseColumns;
 
 import com.google.gson.annotations.SerializedName;
 
-import by.istin.android.xcore.annotations.dbInteger;
 import by.istin.android.xcore.annotations.dbLong;
 import by.istin.android.xcore.annotations.dbString;
 

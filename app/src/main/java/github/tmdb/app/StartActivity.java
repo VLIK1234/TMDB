@@ -2,14 +2,14 @@ package github.tmdb.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import github.tmdb.utils.AuthUtils;
 
 
-public class StartActivity extends ActionBarActivity {
+public class StartActivity extends AppCompatActivity {
 
-    public static final int REQUEST_LOGIN = 0;
+    private static final int REQUEST_LOGIN = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

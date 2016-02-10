@@ -7,9 +7,6 @@ import com.google.gson.annotations.SerializedName;
 import by.istin.android.xcore.annotations.dbLong;
 import by.istin.android.xcore.annotations.dbString;
 
-/**
- * Created by IstiN on 13.11.13.
- */
 public class SampleEntity implements BaseColumns {
 
     @dbLong

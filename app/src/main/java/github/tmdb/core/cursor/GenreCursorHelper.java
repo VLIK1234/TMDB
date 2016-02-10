@@ -14,14 +14,7 @@ public class GenreCursorHelper {
 
     static {
         //SELECT s.*, p.ProductName FROM Products p INNER JOIN Suppliers s ON p.SupplierID = 11 AND s.SupplierID = 11
-        SQL_BY_MOVIE_ID = new StringBuilder()
-                .append("SELECT m.*, ").append(DBHelper.getTableName(MovieDetailEntity.class)).append(".").append(Genre.NAME)
-                .append(" FROM ")
-                .append(DBHelper.getTableName(MovieDetailEntity.class)).append(" m ")
-                .append("INNER JOIN ")
-                .append(DBHelper.getTableName(Genre.class)).append(" g ")
-                .append("ON g." + Genre.MOVIE_ID + " = %1$d AND m." + MovieDetailEntity._ID + " = %1$d")
-                .toString();
+        SQL_BY_MOVIE_ID = "SELECT m.*, " + DBHelper.getTableName(MovieDetailEntity.class) + "." + Genre.NAME + " FROM " + DBHelper.getTableName(MovieDetailEntity.class) + " m " + "INNER JOIN " + DBHelper.getTableName(Genre.class) + " g " + "ON g." + Genre.MOVIE_ID + " = %1$d AND m." + MovieDetailEntity._ID + " = %1$d";
     }
 
 //    static {

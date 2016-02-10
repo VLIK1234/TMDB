@@ -29,10 +29,10 @@ import github.tmdb.source.TMDBDataSource;
  */
 public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
-    private LinearLayoutManager mLayoutManager;
-    public RecyclerView.Adapter mAdapter;
+    private final LinearLayoutManager mLayoutManager;
+    private RecyclerView.Adapter mAdapter;
     private View mFooterProgress;
-    public String mUrl;
+    private final String mUrl;
     private int mPage = 1;
 
     public RecyclerViewScrollListener(LinearLayoutManager layoutManager, String url, RecyclerView.Adapter adapter) {
@@ -41,7 +41,7 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
         mAdapter = adapter;
     }
 
-    public String getUrl(int page) {
+    private String getUrl(int page) {
         StringBuilder controlUrl = new StringBuilder(mUrl.split("[?]")[0]);
         controlUrl.append("?api_key=f413bc4bacac8dff174a909f8ef535ae");
         controlUrl.append(ApiTMDB.getPage(controlUrl.toString(), page));
@@ -57,7 +57,7 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
         return new FilmArrayProcessor();
     }
 
-    boolean isUpdate = true;
+    private boolean isUpdate = true;
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         int visibleItemCount = mLayoutManager.getChildCount();

@@ -8,7 +8,7 @@ import github.tmdb.core.model.Cast;
 
 public class CastCursor extends CursorModel {
 
-    public CastCursor(Cursor cursor) {
+    private CastCursor(Cursor cursor) {
         super(cursor);
     }
 

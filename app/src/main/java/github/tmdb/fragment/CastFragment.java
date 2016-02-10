@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 
 import by.istin.android.xcore.fragment.collection.RecyclerViewFragment;
 import by.istin.android.xcore.model.CursorModel;
@@ -26,7 +25,7 @@ import github.tmdb.core.processor.CastProcessor;
  */
 public class CastFragment extends RecyclerViewFragment<CastAdapter.ViewHolder, CastAdapter, CastCursor> implements FilmAdapter.ITouch {
 
-    public static final String MOVIE_ID_KEY = "movie_id";
+    private static final String MOVIE_ID_KEY = "movie_id";
     private long movieId;
 
     @Override
@@ -90,7 +89,7 @@ public class CastFragment extends RecyclerViewFragment<CastAdapter.ViewHolder, C
 
     @Override
     public String getUrl() {
-        return "https://api.themoviedb.org/3/movie/"+movieId+"/credits?api_key=f413bc4bacac8dff174a909f8ef535ae";
+        return "https://api.themoviedb.org/3/movie/" + movieId + "/credits?api_key=f413bc4bacac8dff174a909f8ef535ae";
     }
 
     @Override

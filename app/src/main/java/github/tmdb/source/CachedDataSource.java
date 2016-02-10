@@ -49,11 +49,11 @@ public class CachedDataSource extends HttpDataSource {
 
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 8;
 
-    public static long copy(InputStream input, File file) throws IOException {
+    public static void copy(InputStream input, File file) throws IOException {
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(file);
-            return copy(input, fileOutputStream);
+            copy(input, fileOutputStream);
         } finally {
             close(fileOutputStream);
         }

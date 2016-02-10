@@ -12,7 +12,7 @@ public class DataManager {
 
     public static final boolean IS_ASYNC_TASK = true;
 
-    public static interface Callback<Result> {
+    public interface Callback<Result> {
         void onDataLoadStart();
 
         void onDone(Result data);
@@ -20,7 +20,7 @@ public class DataManager {
         void onError(Exception e);
     }
 
-    public static interface Loader<ProcessingResult, DataSourceResult, Params> {
+    public interface Loader<ProcessingResult, DataSourceResult, Params> {
 
         void load(final Callback<ProcessingResult> callback, String params, final DataSource<InputStream, String> dataSource, final Processor<ProcessingResult, InputStream> processor);
 

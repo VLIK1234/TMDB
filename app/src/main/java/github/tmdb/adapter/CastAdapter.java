@@ -10,10 +10,10 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import by.istin.android.xcore.utils.CursorUtils;
+import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.R;
 import github.tmdb.core.cursor.CastCursor;
 import github.tmdb.utils.BitmapDisplayOptions;
-import github.tmdb.utils.TextUtilsImpl;
 
 /**
  * @author IvanBakach
@@ -41,7 +41,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
         mCursor.moveToPosition(position);
         holder.nameCrew.setText(mCursor.getName());
         String charter = mCursor.getCharacter();
-        if (!TextUtilsImpl.isEmpty(charter)) {
+        if (!StringUtil.isEmpty(charter)) {
             holder.charterCrew.setText(String.format("as %s", charter));
         }
         //if color not set yet

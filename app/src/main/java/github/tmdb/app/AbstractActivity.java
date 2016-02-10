@@ -6,9 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import github.tmdb.R;
 
-/**
- * Created by IstiN on 13.11.13.
- */
 public abstract class AbstractActivity extends AppCompatActivity {
 
     @Override

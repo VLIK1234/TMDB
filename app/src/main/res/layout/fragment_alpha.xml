@@ -1,112 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/icons">
-    <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <RelativeLayout
         android:id="@+id/head"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/no_poster"
-                android:contentDescription="@string/no_poster"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/w342"
-                android:layout_margin="6dp"
-                android:scaleType="centerCrop"/>
-            <ImageView
-                android:id="@+id/backdrop"
-                android:contentDescription="@string/poster_description"
-                android:layout_width="170dip"
-                android:layout_height="256dip"
-                android:layout_margin="6dp"
-                android:scaleType="centerCrop"/>
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_toRightOf="@id/no_poster"
-                android:layout_toEndOf="@id/no_poster"/>
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
-                android:textSize="15sp"
-                android:textStyle="normal"
-                android:layout_margin="8dp"
-                android:layout_toRightOf="@id/no_poster"
-                android:layout_toEndOf="@id/no_poster"
-                android:layout_below="@id/title"/>
+        android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/genres"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/secondary_text"
-                android:layout_margin="8dp"
-                android:textSize="15sp"
-                android:layout_toRightOf="@id/no_poster"
-                android:layout_toEndOf="@id/no_poster"
-                android:layout_below="@+id/date"/>
+        <ImageView
+            android:id="@+id/no_poster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:contentDescription="@string/no_poster"
+            android:scaleType="centerCrop"
+            android:src="@drawable/w342"/>
 
-            <TextView
-                android:id="@+id/tagline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:textSize="15sp"
-                android:layout_toRightOf="@id/no_poster"
-                android:layout_toEndOf="@id/no_poster"
-                android:layout_below="@+id/genres"/>
-        </RelativeLayout>
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/backdrop"
+            android:layout_width="170dip"
+            android:layout_height="256dip"
+            android:layout_margin="6dp"
+            android:contentDescription="@string/poster_description"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_toEndOf="@id/no_poster"
+            android:layout_toRightOf="@id/no_poster"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_margin="8dp"
+            android:layout_toEndOf="@id/no_poster"
+            android:layout_toRightOf="@id/no_poster"
+            android:textColor="@color/secondary_text"
+            android:textSize="15sp"
+            android:textStyle="normal"/>
+
+        <TextView
+            android:id="@+id/genres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date"
+            android:layout_margin="8dp"
+            android:layout_toEndOf="@id/no_poster"
+            android:layout_toRightOf="@id/no_poster"
+            android:textColor="@color/secondary_text"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/tagline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/genres"
+            android:layout_margin="8dp"
+            android:layout_toEndOf="@id/no_poster"
+            android:layout_toRightOf="@id/no_poster"
+            android:textSize="15sp"/>
+    </RelativeLayout>
 
     <TextView
-        style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
         android:id="@+id/overview"
+        style="@style/Base.Theme.AppCompat.Light.DarkActionBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/head"
         android:layout_margin="6dp"
-        android:textSize="15sp"
         android:lineSpacingMultiplier="1.2"
-        android:layout_below="@id/head"/>
+        android:textSize="15sp"/>
+
     <View
         android:layout_width="match_parent"
-        android:layout_below="@id/overview"
         android:layout_height="1dp"
-        android:background="@color/divider" />
+        android:layout_below="@id/overview"
+        android:background="@color/divider"/>
 </RelativeLayout>
 
-<!--<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <RadioButton android:id="@+id/radio_default"
-        android:layout_width="wrap_content"
+    <!--<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Default"
-        android:onClick="onRadioButtonClicked"/>
-    <RadioButton android:id="@+id/radio_english"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="English"
-        android:onClick="onRadioButtonClicked"/>
-    <RadioButton android:id="@+id/radio_russian"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Russian"
-        android:onClick="onRadioButtonClicked"/>
-</RadioGroup>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Cancel"/> -->
+        android:orientation="vertical">
+        <RadioButton android:id="@+id/radio_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Default"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton android:id="@+id/radio_english"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="English"
+            android:onClick="onRadioButtonClicked"/>
+        <RadioButton android:id="@+id/radio_russian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Russian"
+            android:onClick="onRadioButtonClicked"/>
+    </RadioGroup>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Cancel"/> -->

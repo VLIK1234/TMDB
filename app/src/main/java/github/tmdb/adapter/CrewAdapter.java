@@ -1,6 +1,5 @@
 package github.tmdb.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
+import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.R;
-import github.tmdb.bo.Cast;
 import github.tmdb.bo.Crew;
 import github.tmdb.utils.BitmapDisplayOptions;
-import github.tmdb.utils.TextUtilsImpl;
 
 /**
  * @author IvanBakach
@@ -42,7 +40,7 @@ public class CrewAdapter extends RecyclerView.Adapter<CrewAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.nameCrew.setText(mCrewList.get(position).getName());
         String charter = mCrewList.get(position).getJob();
-        if (!TextUtilsImpl.isEmpty(charter)) {
+        if (!StringUtil.isEmpty(charter)) {
             holder.charterCrew.setText(String.format("as %s", charter));
         }
         //if color not set yet
@@ -58,11 +56,11 @@ public class CrewAdapter extends RecyclerView.Adapter<CrewAdapter.ViewHolder> {
         return mCrewList.size();
     }
 
-    public void setCharterLabelColor(int rgbColor){
+    public void setCharterLabelColor(int rgbColor) {
         mCharterLabelColor = rgbColor;
     }
 
-    public class ViewHolder  extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public final ImageView profileCrew;
         public final TextView nameCrew;
         public final TextView charterCrew;

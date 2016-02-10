@@ -5,7 +5,7 @@ import android.support.annotation.StringDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import github.tmdb.utils.TextUtilsImpl;
+import by.istin.android.xcore.utils.StringUtil;
 
 /**
  @author IvanBakach
@@ -37,16 +37,16 @@ public class ApiTMDB {
     @Retention(RetentionPolicy.SOURCE)
     public @interface SearchType {}
 
-    public static final String APPEND_TO_RESPONSE_ALTERNATIVE_TITLE = "alternative_titles";
-    public static final String APPEND_TO_RESPONSE_CREDITS = "credits";
-    public static final String APPEND_TO_RESPONSE_IMAGES = "images";
-    public static final String APPEND_TO_RESPONSE_KEYWORDS = "keywords";
-    public static final String APPEND_TO_RESPONSE_RELEASES = "releases";
-    public static final String APPEND_TO_RESPONSE_VIDEOS = "videos";
-    public static final String APPEND_TO_RESPONSE_TRANSLATIONS = "translations";
-    public static final String APPEND_TO_RESPONSE_SIMILAR = "similar";
-    public static final String APPEND_TO_RESPONSE_REVIEWS = "reviews";
-    public static final String APPEND_TO_RESPONSE_LISTS = "lists";
+    private static final String APPEND_TO_RESPONSE_ALTERNATIVE_TITLE = "alternative_titles";
+    private static final String APPEND_TO_RESPONSE_CREDITS = "credits";
+    private static final String APPEND_TO_RESPONSE_IMAGES = "images";
+    private static final String APPEND_TO_RESPONSE_KEYWORDS = "keywords";
+    private static final String APPEND_TO_RESPONSE_RELEASES = "releases";
+    private static final String APPEND_TO_RESPONSE_VIDEOS = "videos";
+    private static final String APPEND_TO_RESPONSE_TRANSLATIONS = "translations";
+    private static final String APPEND_TO_RESPONSE_SIMILAR = "similar";
+    private static final String APPEND_TO_RESPONSE_REVIEWS = "reviews";
+    private static final String APPEND_TO_RESPONSE_LISTS = "lists";
     @StringDef({APPEND_TO_RESPONSE_ALTERNATIVE_TITLE, APPEND_TO_RESPONSE_CREDITS, APPEND_TO_RESPONSE_IMAGES, APPEND_TO_RESPONSE_KEYWORDS,
             APPEND_TO_RESPONSE_RELEASES, APPEND_TO_RESPONSE_VIDEOS, APPEND_TO_RESPONSE_TRANSLATIONS, APPEND_TO_RESPONSE_SIMILAR,
             APPEND_TO_RESPONSE_REVIEWS, APPEND_TO_RESPONSE_LISTS})
@@ -77,7 +77,7 @@ public class ApiTMDB {
 //    public static final String ON_THE_AIR_GET = API_PATH_TMDB + ON_THE_AIR;
 //    public static final String DISCOVER_MOVIE_GET = API_PATH_TMDB + DISCOVER_MOVIE;
 
-    public static String sign(String url, String constant) {
+    private static String sign(String url, String constant) {
         if (url.contains("?")) {
             return "&" + constant;
         } else {
@@ -129,6 +129,6 @@ public class ApiTMDB {
 //    }
 
     public static String getImagePath(@ImageScale String sizePoster, String imageKey) {
-        return !TextUtilsImpl.isEmpty(imageKey) ? IMAGE_PATH_TMDB + sizePoster + imageKey : null;
+        return !StringUtil.isEmpty(imageKey) ? IMAGE_PATH_TMDB + sizePoster + imageKey : null;
     }
 }

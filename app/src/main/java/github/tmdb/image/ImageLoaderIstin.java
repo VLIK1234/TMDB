@@ -137,7 +137,7 @@ public class ImageLoaderIstin {
         }
     }
 
-    private Set<ImageView> delayedImagesViews = new HashSet<ImageView>();
+    private Set<ImageView> delayedImagesViews = new HashSet<>();
 
     public void loadAndDisplay(final String url, final ImageView imageView) {
         Bitmap bitmap = lruCache.get(url);

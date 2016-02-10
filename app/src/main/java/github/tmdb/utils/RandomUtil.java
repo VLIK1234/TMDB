@@ -1,7 +1,6 @@
 package github.tmdb.utils;
 
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Ivan Bakach

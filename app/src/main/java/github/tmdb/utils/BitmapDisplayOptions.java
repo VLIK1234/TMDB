@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.LoadedFrom;
@@ -22,7 +21,7 @@ public final class BitmapDisplayOptions {
     public static final int IMG_CACHE_SIZE = 20 * 1024 * 1024;
     public static final DisplayImageOptions EPG_GRID_OPTIONS = new DisplayImageOptions.Builder()
             .cacheInMemory(true)
-            .cacheOnDisc(true)
+            .cacheOnDisk(true)
             .extraForDownloader(false)
             .handler(new Handler(Looper.getMainLooper())) // default
             .build();

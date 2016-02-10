@@ -8,12 +8,6 @@ import android.text.Spanned;
  * @version on 22.10.2015
  */
 public class TextUtilsImpl {
-    public static boolean isEmpty(CharSequence str) {
-        if (str == null || str.length() == 0||str.equals("null"))
-            return true;
-        else
-            return false;
-    }
 
     public static Spanned setBold(String text) {
         return Html.fromHtml(String.format("<b>%1$s</b>", text));

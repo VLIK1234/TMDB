@@ -40,7 +40,7 @@ public class PreferenceUtil {
         getPref().edit().putBoolean(key, value).apply();
     }
 
-    public static SharedPreferences getPref() {
+    private static SharedPreferences getPref() {
         if (mSharedPreferences == null) {
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(CoreApplication.getAppContext());
         }

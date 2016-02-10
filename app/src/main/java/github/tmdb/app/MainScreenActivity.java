@@ -21,8 +21,8 @@ import android.widget.Toast;
 import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
+import github.tmdb.fragment.MapFragment;
 import github.tmdb.fragment.MoviesFragment;
-import github.tmdb.fragment.RecyclerViewFragment;
 
 /**
  * @author IvanBakach
@@ -104,7 +104,7 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
 
     private void onSearch(String search) {
         String urlSearch = ApiTMDB.getSearchMovie(StringUtil.encode(search), ApiTMDB.SEARCH_TYPE_PHRASE);
-        setCurrentFragment(RecyclerViewFragment.newInstance(urlSearch), true);
+//        setCurrentFragment(RecyclerViewFragment.newInstance(urlSearch), true);
     }
 
     @Override
@@ -141,18 +141,11 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_now_playing) {
+            setCurrentFragment(new MoviesFragment(), false);
+        } else if (id == R.id.nav_maps) {
+            setCurrentFragment(new MapFragment(), false);
+            Toast.makeText(getBaseContext(), "Maps", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

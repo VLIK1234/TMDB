@@ -50,7 +50,7 @@ public class SimpleAppModule extends XCoreHelper.BaseModule {
             Video.class
     };
 
-    public static DisplayImageOptions BITMAP_DISPLAYER_OPTIONS = new DisplayImageOptions.Builder()
+    private static final DisplayImageOptions BITMAP_DISPLAYER_OPTIONS = new DisplayImageOptions.Builder()
             .resetViewBeforeLoading(true)
             .delayBeforeLoading(300)
             .cacheInMemory(true)
@@ -62,21 +62,8 @@ public class SimpleAppModule extends XCoreHelper.BaseModule {
     protected void onCreate(Context context) {
         IDBContentProviderSupport dbContentProviderSupport = registerContentProvider(ENTITIES);
         registerAppService(new SampleEntityProcessor(dbContentProviderSupport));
-        registerAppService(new HttpDataSource(
-                        new HttpDataSource.DefaultHttpRequestBuilder(){
-
-                            @Override
-                            protected HttpRequest createGetRequest(DataSourceRequest dataSourceRequest, String url, Uri uri) {
-                                return super.createGetRequest(dataSourceRequest, url, uri);
-                            }
-                        },
-                        new HttpDataSource.DefaultResponseStatusHandler(){
-                            @Override
-                            public void statusHandle(HttpDataSource client, DataSourceRequest dataSourceRequest, HttpRequest request, HttpRequest response, Holder<Boolean> isCached) throws IOException {
-                                super.statusHandle(client, dataSourceRequest, request, response, isCached);
-                            }
-                        })
-        );
+        registerAppService(new HttpDataSource(new HttpDataSource.DefaultHttpRequestBuilder(),
+                           new HttpDataSource.DefaultResponseStatusHandler()));
         registerAppService(new ContentEntityProcessor(dbContentProviderSupport));
         registerAppService(new MovieEntityProcessor(dbContentProviderSupport));
         registerAppService(new MovieDetailProcessor(dbContentProviderSupport));

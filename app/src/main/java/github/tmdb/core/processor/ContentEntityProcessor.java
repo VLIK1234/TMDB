@@ -2,7 +2,6 @@ package github.tmdb.core.processor;
 
 import android.content.ContentValues;
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -18,9 +17,6 @@ import by.istin.android.xcore.source.DataSourceRequest;
 import github.tmdb.core.model.Content;
 import github.tmdb.core.model.SampleEntity;
 
-/**
- * Created by IstiN on 13.11.13.
- */
 public class ContentEntityProcessor extends AbstractGsonBatchProcessor<ContentEntityProcessor.Response> {
 
     public static final String APP_SERVICE_KEY = "core:advancedentity:processor";
