@@ -47,6 +47,8 @@ import github.tmdb.utils.UIUtil;
  */
 public class MovieDetailFragment extends XFragment<CursorModel> {
 
+    private Fragment mCastFragment;
+
     private static class ViewHolder {
 //        LinearLayout root;
         TextView title;
@@ -117,16 +119,18 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         FragmentManager fragmentManager = getFragmentManager();
+        mCastFragment = CastFragment.newInstance(idMovie);
         fragmentManager.beginTransaction()
-                .add(R.id.cast_container, CastFragment.newInstance(idMovie))
+                .add(R.id.cast_container, mCastFragment)
                 .commit();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d(TAG, "onDestroyView: ");
-        mLeak = null;
+        if (mCastFragment != null) {
+            getFragmentManager().beginTransaction().remove(mCastFragment).commit();
+        }
     }
 
     @Override
@@ -149,7 +153,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
 
     @Override
     public String getUrl() {
-        return ApiTMDB.getMovieDetail(idMovie) + "?api_key=f413bc4bacac8dff174a909f8ef535ae";
+        return ApiTMDB.getMovieDetail(idMovie) + "?"+"api_key=f413bc4bacac8dff174a909f8ef535ae";
     }
 
     @Override

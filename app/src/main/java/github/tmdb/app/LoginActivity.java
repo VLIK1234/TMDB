@@ -12,7 +12,6 @@ import github.tmdb.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     public static final int REQUEST_CODE_VK = 0;
-    public static final int REQUEST_CODE_RV = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,27 +21,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         noAuthButton.setOnClickListener(this);
         Button vkAuthButton = (Button) findViewById(R.id.bt_vk_auth);
         vkAuthButton.setOnClickListener(this);
-        Button alphaButton = (Button) findViewById(R.id.bt_alpha);
-        alphaButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_no_auth:
-                Intent intentNoAuth = new Intent(this, MainScreenActivity.class);
-                startActivityForResult(intentNoAuth, REQUEST_CODE_RV);
+                startActivity(new Intent(LoginActivity.this, MainScreenActivity.class));
                 break;
             case R.id.bt_vk_auth:
                 Intent intentVkAuth = new Intent(this, VkLoginActivity.class);
                 startActivityForResult(intentVkAuth, REQUEST_CODE_VK);
                 break;
-            case R.id.bt_alpha:
-                Intent intentAlpha = new Intent(this, VkLoginActivity.class);
-                startActivityForResult(intentAlpha, REQUEST_CODE_VK);
-                break;
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
