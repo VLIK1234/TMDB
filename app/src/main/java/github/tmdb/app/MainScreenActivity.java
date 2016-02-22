@@ -144,7 +144,8 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
         if (id == R.id.nav_now_playing) {
             setCurrentFragment(new MoviesFragment(), false);
         } else if (id == R.id.nav_maps) {
-            setCurrentFragment(new MapFragment(), false);
+            Intent mapActivity = new Intent(this, MapActivity.class);
+            startActivity(mapActivity);
             Toast.makeText(getBaseContext(), "Maps", Toast.LENGTH_SHORT).show();
         }
 
