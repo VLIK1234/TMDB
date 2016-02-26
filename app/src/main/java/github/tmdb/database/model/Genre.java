@@ -1,4 +1,4 @@
-package github.tmdb.core.model;
+package github.tmdb.database.model;
 
 import android.provider.BaseColumns;
 
@@ -7,19 +7,21 @@ import com.google.gson.annotations.SerializedName;
 import by.istin.android.xcore.annotations.dbLong;
 import by.istin.android.xcore.annotations.dbString;
 
-public class SampleEntity implements BaseColumns {
+/**
+ * @author Ivan Bakach
+ * @version on 03.01.2016
+ */
+public class Genre implements BaseColumns{
 
     @dbLong
     @SerializedName(value = "id")
     public static final String ID = _ID;
 
-    @dbString
-    public static final String TITLE = "title";
+    public static final String ID_KEY = "id";
 
     @dbString
-    public static final String ABOUT = "about";
+    public static final String NAME = "name";
 
-    @dbString
-    public static final String IMAGE_URL = "image_url";
-
+    @dbLong
+    public static final String MOVIE_ID = "movieId";
 }

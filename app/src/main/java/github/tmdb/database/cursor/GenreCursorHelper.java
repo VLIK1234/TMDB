@@ -1,7 +1,7 @@
-package github.tmdb.core.cursor;
+package github.tmdb.database.cursor;
 import by.istin.android.xcore.db.impl.DBHelper;
-import github.tmdb.core.model.Genre;
-import github.tmdb.core.model.MovieDetailEntity;
+import github.tmdb.database.model.Genre;
+import github.tmdb.database.model.MovieDetailEntity;
 
 /**
  * @author IvanBakach

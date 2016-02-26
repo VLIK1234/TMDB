@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
 import by.istin.android.xcore.fragment.collection.RecyclerViewFragment;
 import by.istin.android.xcore.model.CursorModel;
@@ -15,15 +17,17 @@ import by.istin.android.xcore.source.DataSourceRequest;
 import github.tmdb.R;
 import github.tmdb.adapter.CastAdapter;
 import github.tmdb.adapter.FilmAdapter;
-import github.tmdb.core.cursor.CastCursor;
-import github.tmdb.core.model.Cast;
-import github.tmdb.core.processor.CastProcessor;
+import github.tmdb.app.MainScreenActivity;
+import github.tmdb.database.cursor.CastCursor;
+import github.tmdb.database.model.Cast;
+import github.tmdb.database.processor.CastProcessor;
+import github.tmdb.listener.IClickCallback;
 
 /**
  * @author IvanBakach
  * @version on 13.11.2015
  */
-public class CastFragment extends RecyclerViewFragment<CastAdapter.ViewHolder, CastAdapter, CastCursor> implements FilmAdapter.ITouch {
+public class CastFragment extends RecyclerViewFragment<CastAdapter.ViewHolder, CastAdapter, CastCursor> implements FilmAdapter.ITouch, IClickCallback {
 
     private static final String MOVIE_ID_KEY = "movie_id";
     private long movieId;
@@ -39,7 +43,7 @@ public class CastFragment extends RecyclerViewFragment<CastAdapter.ViewHolder, C
 
     @Override
     public CastAdapter createAdapter(FragmentActivity fragmentActivity, CastCursor cursor) {
-        return new CastAdapter(cursor);
+        return new CastAdapter(cursor, this);
     }
 
     public static Fragment newInstance(long movieId) {
@@ -105,5 +109,12 @@ public class CastFragment extends RecyclerViewFragment<CastAdapter.ViewHolder, C
     @Override
     public void touchAction(long idItem) {
 //        ((MainScreenActivity) getActivity()).setCurrentFragment(MovieDetailFragment.newInstance(idItem), true);
+    }
+
+    @Override
+    public void onClickCallback(View view) {
+        long personId = (long) view.getTag();
+        ((MainScreenActivity)getActivity()).setCurrentFragment(PersonFragment.newInstance(personId), true);
+        Toast.makeText(getContext(), "It's id " + personId, Toast.LENGTH_SHORT).show();
     }
 }

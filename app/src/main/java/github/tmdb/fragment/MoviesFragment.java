@@ -20,9 +20,9 @@ import github.tmdb.R;
 import github.tmdb.adapter.FilmAdapter;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.app.MainScreenActivity;
-import github.tmdb.core.cursor.MoviesListCursor;
-import github.tmdb.core.model.MovieItemEntity;
-import github.tmdb.core.processor.MovieEntityProcessor;
+import github.tmdb.database.cursor.MoviesListCursor;
+import github.tmdb.database.model.MovieItemEntity;
+import github.tmdb.database.processor.MovieEntityProcessor;
 import github.tmdb.listener.RecyclerViewScrollListener;
 
 /**

@@ -1,4 +1,4 @@
-package github.tmdb.core.processor;
+package github.tmdb.database.processor;
 
 import android.content.ContentValues;
 import android.os.Parcel;
@@ -14,8 +14,8 @@ import by.istin.android.xcore.model.ParcelableModel;
 import by.istin.android.xcore.processor.impl.AbstractGsonBatchProcessor;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
 import by.istin.android.xcore.source.DataSourceRequest;
-import github.tmdb.core.model.Content;
-import github.tmdb.core.model.SampleEntity;
+import github.tmdb.database.model.Content;
+import github.tmdb.database.model.SampleEntity;
 
 public class ContentEntityProcessor extends AbstractGsonBatchProcessor<ContentEntityProcessor.Response> {
 

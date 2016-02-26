@@ -1,10 +1,10 @@
-package github.tmdb.core.cursor;
+package github.tmdb.database.cursor;
 
 import android.database.Cursor;
 
 import by.istin.android.xcore.model.CursorModel;
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.core.model.MovieItemEntity;
+import github.tmdb.database.model.MovieItemEntity;
 
 public class MoviesListCursor extends CursorModel {
 

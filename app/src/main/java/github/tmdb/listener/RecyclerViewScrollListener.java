@@ -17,9 +17,7 @@ import by.istin.android.xcore.service.StatusResultReceiver;
 import by.istin.android.xcore.source.DataSourceRequest;
 import by.istin.android.xcore.source.impl.http.HttpDataSource;
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.bo.Film;
-import github.tmdb.core.processor.MovieEntityProcessor;
-import github.tmdb.processing.FilmArrayProcessor;
+import github.tmdb.database.processor.MovieEntityProcessor;
 import github.tmdb.source.DataSource;
 import github.tmdb.source.TMDBDataSource;
 
@@ -53,9 +51,9 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
         return new TMDBDataSource();
     }
 
-    public FilmArrayProcessor getProcessor() {
-        return new FilmArrayProcessor();
-    }
+//    public FilmArrayProcessor getProcessor() {
+//        return new FilmArrayProcessor();
+//    }
 
     private boolean isUpdate = true;
     @Override
@@ -118,17 +116,17 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
         }
     }
 
-    private void updateAdapter(List<Film> data) {
-//        if (data != null && data.size() == COUNT) {
-//            mIsPagingEnabled = true;
-////            mListView.addFooterView(mFooterProgress, null, false);
-//        } else {
-//            mIsPagingEnabled = false;
-////            mListView.removeFooterView(mFooterProgress);
-//        }
-//        mAdapter.addAll((ArrayList<Film>) data);
-        mAdapter.notifyDataSetChanged();
-    }
+//    private void updateAdapter(List<Film> data) {
+////        if (data != null && data.size() == COUNT) {
+////            mIsPagingEnabled = true;
+//////            mListView.addFooterView(mFooterProgress, null, false);
+////        } else {
+////            mIsPagingEnabled = false;
+//////            mListView.removeFooterView(mFooterProgress);
+////        }
+////        mAdapter.addAll((ArrayList<Film>) data);
+//        mAdapter.notifyDataSetChanged();
+//    }
 
     private void refreshFooter() {
 //        if (mFooterProgress != null) {

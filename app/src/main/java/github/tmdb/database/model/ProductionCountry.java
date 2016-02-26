@@ -1,4 +1,4 @@
-package github.tmdb.core.model;
+package github.tmdb.database.model;
 
 import android.provider.BaseColumns;
 
@@ -11,16 +11,17 @@ import by.istin.android.xcore.annotations.dbString;
  * @author Ivan Bakach
  * @version on 03.01.2016
  */
-public class Genre implements BaseColumns{
+public class ProductionCountry implements BaseColumns {
 
     @dbLong
     @SerializedName(value = "id")
     public static final String ID = _ID;
 
-    public static final String ID_KEY = "id";
-
     @dbString
     public static final String NAME = "name";
+
+    @dbString
+    public static final String ISO_3166_1 = "iso_3166_1";
 
     @dbLong
     public static final String MOVIE_ID = "movieId";

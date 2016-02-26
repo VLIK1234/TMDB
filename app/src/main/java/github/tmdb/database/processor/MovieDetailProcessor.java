@@ -1,4 +1,4 @@
-package github.tmdb.core.processor;
+package github.tmdb.database.processor;
 
 import android.content.ContentValues;
 
@@ -6,12 +6,12 @@ import by.istin.android.xcore.db.IDBConnection;
 import by.istin.android.xcore.processor.impl.AbstractGsonBatchProcessor;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
 import by.istin.android.xcore.source.DataSourceRequest;
-import github.tmdb.core.model.Cast;
-import github.tmdb.core.model.Crew;
-import github.tmdb.core.model.Genre;
-import github.tmdb.core.model.MovieDetailEntity;
-import github.tmdb.core.model.ProductionCompany;
-import github.tmdb.core.model.ProductionCountry;
+import github.tmdb.database.model.Cast;
+import github.tmdb.database.model.Crew;
+import github.tmdb.database.model.Genre;
+import github.tmdb.database.model.MovieDetailEntity;
+import github.tmdb.database.model.ProductionCompany;
+import github.tmdb.database.model.ProductionCountry;
 
 /**
  * @author IvanBakach

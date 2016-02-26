@@ -1,4 +1,4 @@
-package github.tmdb.core.model;
+package github.tmdb.database.model;
 
 import android.content.ContentValues;
 import android.provider.BaseColumns;

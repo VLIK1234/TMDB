@@ -1,38 +1,34 @@
 package github.tmdb;
 
 import android.content.Context;
-import android.net.Uri;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
-import java.io.IOException;
-
 import by.istin.android.xcore.XCoreHelper;
 import by.istin.android.xcore.error.ErrorHandler;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
-import by.istin.android.xcore.source.DataSourceRequest;
 import by.istin.android.xcore.source.impl.http.HttpDataSource;
-import by.istin.android.xcore.source.impl.http.HttpRequest;
-import by.istin.android.xcore.utils.Holder;
-import github.tmdb.core.model.Cast;
-import github.tmdb.core.model.Content;
-import github.tmdb.core.model.Crew;
-import github.tmdb.core.model.Genre;
-import github.tmdb.core.model.MovieDetailEntity;
-import github.tmdb.core.model.MovieItemEntity;
-import github.tmdb.core.model.ProductionCompany;
-import github.tmdb.core.model.ProductionCountry;
-import github.tmdb.core.model.SampleEntity;
-import github.tmdb.core.model.SpokenLanguage;
-import github.tmdb.core.model.Video;
-import github.tmdb.core.processor.CastProcessor;
-import github.tmdb.core.processor.ContentEntityProcessor;
-import github.tmdb.core.processor.MovieDetailProcessor;
-import github.tmdb.core.processor.MovieEntityProcessor;
-import github.tmdb.core.processor.SampleEntityProcessor;
+import github.tmdb.database.model.Cast;
+import github.tmdb.database.model.Content;
+import github.tmdb.database.model.Crew;
+import github.tmdb.database.model.Genre;
+import github.tmdb.database.model.MovieDetailEntity;
+import github.tmdb.database.model.MovieItemEntity;
+import github.tmdb.database.model.Person;
+import github.tmdb.database.model.ProductionCompany;
+import github.tmdb.database.model.ProductionCountry;
+import github.tmdb.database.model.SampleEntity;
+import github.tmdb.database.model.SpokenLanguage;
+import github.tmdb.database.model.Video;
+import github.tmdb.database.processor.CastProcessor;
+import github.tmdb.database.processor.ContentEntityProcessor;
+import github.tmdb.database.processor.MovieDetailProcessor;
+import github.tmdb.database.processor.MovieEntityProcessor;
+import github.tmdb.database.processor.PersonProcessor;
+import github.tmdb.database.processor.SampleEntityProcessor;
 
 public class SimpleAppModule extends XCoreHelper.BaseModule {
 
@@ -47,7 +43,8 @@ public class SimpleAppModule extends XCoreHelper.BaseModule {
             ProductionCompany.class,
             ProductionCountry.class,
             SpokenLanguage.class,
-            Video.class
+            Video.class,
+            Person.class
     };
 
     private static final DisplayImageOptions BITMAP_DISPLAYER_OPTIONS = new DisplayImageOptions.Builder()
@@ -68,6 +65,7 @@ public class SimpleAppModule extends XCoreHelper.BaseModule {
         registerAppService(new MovieEntityProcessor(dbContentProviderSupport));
         registerAppService(new MovieDetailProcessor(dbContentProviderSupport));
         registerAppService(new CastProcessor(dbContentProviderSupport));
+        registerAppService(new PersonProcessor(dbContentProviderSupport));
         registerAppService(new ErrorHandler(
                 "Error",
                 "Check your internet connection",

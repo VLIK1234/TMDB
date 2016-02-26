@@ -7,14 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import java.util.ArrayList;
-
-import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.R;
-import github.tmdb.bo.Crew;
-import github.tmdb.utils.BitmapDisplayOptions;
 
 /**
  * @author IvanBakach
@@ -22,10 +16,10 @@ import github.tmdb.utils.BitmapDisplayOptions;
  */
 public class CrewAdapter extends RecyclerView.Adapter<CrewAdapter.ViewHolder> {
 
-    private final ArrayList<Crew> mCrewList;
+    private final ArrayList mCrewList;
     private int mCharterLabelColor;
 
-    public CrewAdapter(ArrayList<Crew> crewList) {
+    public CrewAdapter(ArrayList crewList) {
         mCrewList = crewList;
     }
 
@@ -38,17 +32,17 @@ public class CrewAdapter extends RecyclerView.Adapter<CrewAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.nameCrew.setText(mCrewList.get(position).getName());
-        String charter = mCrewList.get(position).getJob();
-        if (!StringUtil.isEmpty(charter)) {
-            holder.charterCrew.setText(String.format("as %s", charter));
-        }
-        //if color not set yet
-        if (mCharterLabelColor != 0) {
-            holder.charterCrew.setTextColor(mCharterLabelColor);
-        }
-        String profilePath = mCrewList.get(position).getProfilePath();
-        ImageLoader.getInstance().displayImage(profilePath, holder.profileCrew, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
+//        holder.nameCrew.setText(mCrewList.get(position).getName());
+//        String charter = mCrewList.get(position).getJob();
+//        if (!StringUtil.isEmpty(charter)) {
+//            holder.charterCrew.setText(String.format("as %s", charter));
+//        }
+//        //if color not set yet
+//        if (mCharterLabelColor != 0) {
+//            holder.charterCrew.setTextColor(mCharterLabelColor);
+//        }
+////        String profilePath = mCrewList.get(position).getProfilePath();
+//        ImageLoader.getInstance().displayImage(profilePath, holder.profileCrew, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package github.tmdb.core.provider;
+package github.tmdb.database.provider;
 
 import java.util.List;
 

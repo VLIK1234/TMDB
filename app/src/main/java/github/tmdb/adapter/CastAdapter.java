@@ -6,13 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import by.istin.android.xcore.utils.CursorUtils;
 import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.R;
-import github.tmdb.core.cursor.CastCursor;
+import github.tmdb.database.cursor.CastCursor;
+import github.tmdb.listener.IClickCallback;
 import github.tmdb.utils.BitmapDisplayOptions;
 
 /**
@@ -23,10 +25,12 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
     private CastCursor mCursor;
     private int mCharterLabelColor;
+    private IClickCallback mClickCallback;
 
-    public CastAdapter(CastCursor cursors) {
+    public CastAdapter(CastCursor cursors, IClickCallback clickCallback) {
         swapCursor(cursors);
         mCursor = cursors;
+        mClickCallback = clickCallback;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         mCursor.moveToPosition(position);
         holder.nameCrew.setText(mCursor.getName());
         String charter = mCursor.getCharacter();
@@ -50,6 +54,13 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
         }
         String profilePath = mCursor.getProfilePath();
         ImageLoader.getInstance().displayImage(profilePath, holder.profileCrew, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
+        holder.itemView.setTag(mCursor.getId());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClickCallback.onClickCallback(v);
+            }
+        });
     }
 
     @Override

@@ -11,12 +11,10 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import by.istin.android.xcore.model.CursorModel;
 import by.istin.android.xcore.utils.CursorUtils;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.core.cursor.MoviesListCursor;
-import github.tmdb.core.model.MovieItemEntity;
+import github.tmdb.database.cursor.MoviesListCursor;
 import github.tmdb.utils.BitmapDisplayOptions;
 
 /**

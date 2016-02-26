@@ -1,10 +1,10 @@
-package github.tmdb.core.cursor;
+package github.tmdb.database.cursor;
 
 import android.database.Cursor;
 
 import by.istin.android.xcore.model.CursorModel;
 import github.tmdb.api.ApiTMDB;
-import github.tmdb.core.model.Cast;
+import github.tmdb.database.model.Cast;
 
 public class CastCursor extends CursorModel {
 

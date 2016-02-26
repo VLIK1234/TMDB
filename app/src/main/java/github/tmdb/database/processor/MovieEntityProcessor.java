@@ -1,4 +1,4 @@
-package github.tmdb.core.processor;
+package github.tmdb.database.processor;
 
 import android.content.ContentValues;
 import android.os.Parcel;
@@ -16,7 +16,7 @@ import by.istin.android.xcore.processor.impl.AbstractGsonBatchProcessor;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
 import by.istin.android.xcore.source.DataSourceRequest;
 import by.istin.android.xcore.utils.StringUtil;
-import github.tmdb.core.model.MovieItemEntity;
+import github.tmdb.database.model.MovieItemEntity;
 
 
 public class MovieEntityProcessor extends AbstractGsonBatchProcessor<MovieEntityProcessor.Response> {
