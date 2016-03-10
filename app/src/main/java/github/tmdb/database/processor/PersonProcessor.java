@@ -3,6 +3,7 @@ package github.tmdb.database.processor;
 import android.content.ContentValues;
 
 import by.istin.android.xcore.db.IDBConnection;
+import by.istin.android.xcore.db.impl.DBHelper;
 import by.istin.android.xcore.processor.impl.AbstractGsonBatchProcessor;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
 import by.istin.android.xcore.source.DataSourceRequest;
@@ -24,12 +25,13 @@ public class PersonProcessor extends AbstractGsonBatchProcessor<ContentValues> {
     public static final String SYSTEM_SERVICE_KEY = "xcore:person:processor";
 
     public PersonProcessor(IDBContentProviderSupport contentProviderSupport) {
-        super(MovieDetailEntity.class, ContentValues.class, contentProviderSupport);
+        super(Person.class, ContentValues.class, contentProviderSupport);
     }
 
     @Override
     protected void onStartProcessing(DataSourceRequest dataSourceRequest, IDBConnection dbConnection) {
         super.onStartProcessing(dataSourceRequest, dbConnection);
+        dbConnection.delete(DBHelper.getTableName(Person.class), null, null);
     }
 
     @Override

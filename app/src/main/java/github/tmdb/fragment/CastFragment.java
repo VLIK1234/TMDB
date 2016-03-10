@@ -1,5 +1,6 @@
 package github.tmdb.fragment;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import github.tmdb.R;
 import github.tmdb.adapter.CastAdapter;
 import github.tmdb.adapter.FilmAdapter;
 import github.tmdb.app.MainScreenActivity;
+import github.tmdb.app.PersonActivity;
 import github.tmdb.database.cursor.CastCursor;
 import github.tmdb.database.model.Cast;
 import github.tmdb.database.processor.CastProcessor;
@@ -114,7 +116,11 @@ public class CastFragment extends RecyclerViewFragment<CastAdapter.ViewHolder, C
     @Override
     public void onClickCallback(View view) {
         long personId = (long) view.getTag();
-        ((MainScreenActivity)getActivity()).setCurrentFragment(PersonFragment.newInstance(personId), true);
+        Intent intent = new Intent(getActivity(), PersonActivity.class);
+        intent.putExtra(PersonFragment.PERSON_ID, personId);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         Toast.makeText(getContext(), "It's id " + personId, Toast.LENGTH_SHORT).show();
     }
 }

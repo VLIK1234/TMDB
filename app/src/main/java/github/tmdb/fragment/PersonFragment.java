@@ -4,13 +4,21 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import by.istin.android.xcore.fragment.XFragment;
 import by.istin.android.xcore.provider.ModelContract;
+import by.istin.android.xcore.utils.CursorUtils;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.database.model.Person;
 import github.tmdb.database.processor.PersonProcessor;
+import github.tmdb.utils.BitmapDisplayOptions;
 
 /**
  * @author IvanBakach
@@ -20,6 +28,7 @@ public class PersonFragment extends XFragment {
 
     public static final String PERSON_ID = "person_id";
     private long mPersonId;
+    private ImageView mProfilePath;
 
     public static Fragment newInstance(long personId) {
         PersonFragment fragment = new PersonFragment();
@@ -39,9 +48,19 @@ public class PersonFragment extends XFragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPersonId = getPersonId();
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mPersonId = getPersonId();
+
+        final View view = getView();
+        if (view != null) {
+            mProfilePath = (ImageView) getView().findViewById(R.id.profile);
+        }
     }
 
     @Override
@@ -66,7 +85,9 @@ public class PersonFragment extends XFragment {
 
     @Override
     protected void onLoadFinished(Cursor cursor) {
-       ApiTMDB.getImagePath(ApiTMDB.POSTER_342X513_BACKDROP_342X192, Person.PROFILE_PATH);
+        ImageLoader.getInstance().displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_342X513_BACKDROP_342X192,
+                CursorUtils.getString(Person.PROFILE_PATH, cursor)), mProfilePath,
+                BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
     }
 
     @Override

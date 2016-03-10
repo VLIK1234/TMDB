@@ -72,6 +72,11 @@
             android:launchMode="standard"
             android:screenOrientation="fullSensor"/>
 
+        <activity
+            android:name="github.tmdb.app.PersonActivity"
+            android:launchMode="standard"
+            android:screenOrientation="fullSensor"/>
+
     </application>
 
 </manifest>

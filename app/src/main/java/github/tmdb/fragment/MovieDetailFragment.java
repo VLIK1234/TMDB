@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -31,6 +32,7 @@ import github.tmdb.database.model.MovieDetailEntity;
 import github.tmdb.database.processor.MovieDetailProcessor;
 import github.tmdb.utils.BitmapDisplayOptions;
 import github.tmdb.utils.TextUtilsImpl;
+import github.tmdb.utils.UIUtil;
 
 /**
  * @author Ivan Bakach
@@ -55,6 +57,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     private TextView mOverview;
     private FrameLayout mCastContainer;
     private Fragment mCastFragment;
+    private RelativeLayout mRoot;
 
     public static Fragment newInstance(long idMovie) {
         MovieDetailFragment fragmentPart = new MovieDetailFragment();
@@ -73,6 +76,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mLeak = inflater.inflate(R.layout.fragment_detail, container, false);
+        mRoot = (RelativeLayout) mLeak.findViewById(R.id.root);
         mPoster = (ImageView) mLeak.findViewById(R.id.poster);
         mTitle = (TextView) mLeak.findViewById(R.id.title);
         mDate = (TextView) mLeak.findViewById(R.id.date);
@@ -218,7 +222,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     }
 
     private void setPaletteColor(int rootColor, int primaryTextColor, int secondaryTextColor) {
-//        holder.root.setBackgroundColor(UIUtil.adjustAlpha(rootColor, BACKGROUND_ROOT_ALPHA));
+        mRoot.setBackgroundColor(rootColor);
         setPrimaryTextColor(primaryTextColor);
         setSecondTextColor(secondaryTextColor);
     }

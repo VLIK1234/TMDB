@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,7 +15,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/detail_side_margin"
                 android:layout_marginRight="@dimen/detail_side_margin"
-                android:background="@color/icons">
+                android:id="@+id/root">
 
                 <ImageView
                     android:id="@+id/poster"
