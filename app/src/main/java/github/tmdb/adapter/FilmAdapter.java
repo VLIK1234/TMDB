@@ -58,11 +58,10 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
 //        holder.rating.setRating(CursorUtils.getFloat(MovieItemEntity.VOTE_AVERAGE, cursor));
         holder.ratingText.setText(String.format(context.getString(R.string.rating_text_template), cursor.getVoteAverage(), cursor.getVoteCount()));
 
-//        ImageLoader.getInstance().
-//                displayImage(ApiTMDB.getImagePath(ApiTMDB.POSTER_500X750_BACKDROP_500X281,
-//                        CursorUtils.getString(MovieItemEntity.BACKDROP_PATH, cursor)), holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
         ImageLoader.getInstance().
-                displayImage(cursor.getPosterPath(ApiTMDB.POSTER_154X231_BACKDROP_154X87), holder.poster, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
+                displayImage(cursor.getBackdropPath(ApiTMDB.POSTER_780X1170_BACKDROP_780X439), holder.backdrop, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
+        ImageLoader.getInstance().
+                displayImage(cursor.getPosterPath(ApiTMDB.POSTER_342X513_BACKDROP_342X192), holder.poster, BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
     }
 
     @Override
@@ -82,17 +81,17 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         private final TextView date;
         //        private final RatingBar rating;
         private final TextView ratingText;
-        //        private final ImageView backdrop;
+        private final ImageView backdrop;
         private final ImageView poster;
 
         public ViewHolder(View convertView) {
             super(convertView);
             mainView = (CardView) convertView.findViewById(R.id.card_view);
-            title = (TextView) convertView.findViewById(R.id.title);
+            title = (TextView) convertView.findViewById(R.id.tv_title);
             date = (TextView) convertView.findViewById(R.id.date);
 //            rating = (RatingBar) convertView.findViewById(R.id.rating);
             ratingText = (TextView) convertView.findViewById(R.id.rating_text);
-//            backdrop = (ImageView) convertView.findViewById(R.id.backdrop);
+            backdrop = (ImageView) convertView.findViewById(R.id.backdrop);
             poster = (ImageView) convertView.findViewById(R.id.poster);
         }
 

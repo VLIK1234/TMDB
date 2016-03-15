@@ -116,11 +116,12 @@ public class CastFragment extends RecyclerViewFragment<CastAdapter.ViewHolder, C
     @Override
     public void onClickCallback(View view) {
         long personId = (long) view.getTag();
-        Intent intent = new Intent(getActivity(), PersonActivity.class);
-        intent.putExtra(PersonFragment.PERSON_ID, personId);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        Toast.makeText(getContext(), "It's id " + personId, Toast.LENGTH_SHORT).show();
+        ((MainScreenActivity)getActivity()).setCurrentFragment(PersonFragment.newInstance(personId), true);
+//        Intent intent = new Intent(getActivity(), PersonActivity.class);
+//        intent.putExtra(PersonFragment.PERSON_ID, personId);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(intent);
     }
 }

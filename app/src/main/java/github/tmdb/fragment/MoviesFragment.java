@@ -31,7 +31,7 @@ import github.tmdb.listener.RecyclerViewScrollListener;
  */
 public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder, FilmAdapter, MoviesListCursor> implements FilmAdapter.ITouch {
 
-    private static final int SPAN_COUNT = 4;
+    private static final int SPAN_COUNT = 1;
 //    private View mEmptyView;
     private SwipeRefreshLayout swipeRefreshLayout;
 

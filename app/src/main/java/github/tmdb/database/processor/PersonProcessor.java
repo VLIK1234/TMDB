@@ -31,7 +31,7 @@ public class PersonProcessor extends AbstractGsonBatchProcessor<ContentValues> {
     @Override
     protected void onStartProcessing(DataSourceRequest dataSourceRequest, IDBConnection dbConnection) {
         super.onStartProcessing(dataSourceRequest, dbConnection);
-        dbConnection.delete(DBHelper.getTableName(Person.class), null, null);
+//        dbConnection.delete(DBHelper.getTableName(Person.class), null, null);
     }
 
     @Override
