@@ -64,7 +64,6 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 //        if (mFooterProgress == null) {
 //            mFooterProgress = View.inflate(mContext, R.layout.view_footer_progress, null);
 //        }
-        Log.d("TAG", visibleItemCount + " " + pastVisiblesItems+ " " + totalItemCount + " " + ((visibleItemCount + pastVisiblesItems)>=totalItemCount) );
 
         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
             if (isUpdate) {
