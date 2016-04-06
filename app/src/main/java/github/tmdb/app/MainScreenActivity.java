@@ -24,6 +24,7 @@ import android.widget.Toast;
 import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
+import github.tmdb.fragment.HomeFragment;
 import github.tmdb.fragment.MapFragment;
 import github.tmdb.fragment.MovieDetailFragment;
 import github.tmdb.fragment.MoviesFragment;
@@ -38,6 +39,7 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
     private Toolbar mToolbar;
     private static final String TAG = "MainScreenActivity";
     private ActionBarDrawerToggle mToggle;
+    private DrawerLayout mDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +49,10 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mToggle = new ActionBarDrawerToggle(
-                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(mToggle);
+                this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawer.addDrawerListener(mToggle);
         mToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -64,11 +66,10 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Navigate click", Toast.LENGTH_LONG).show();
                 if (shouldDisplayHomeUp()) {
                     onBackPressed();
                 } else {
-                    drawer.openDrawer(Gravity.START);
+                    mDrawer.openDrawer(Gravity.START);
                 }
             }
         });
@@ -76,16 +77,14 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
         shouldDisplayHomeUp();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mDrawer.removeDrawerListener(mToggle);
+    }
+
     public void setCurrentFragment(Fragment fragment, boolean withBackStack) {
         String fragmentName = fragment.getClass().getName();
-        if (MovieDetailFragment.class.getName().equals(fragmentName)) {
-            fragment.setTargetFragment(mMoviesFragment, 777);
-//            if (getSupportActionBar() != null) {
-//                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//                getSupportActionBar().setDisplayShowHomeEnabled(true);
-//            }
-        }
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.content, fragment, fragmentName);
@@ -152,6 +151,9 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.nav_home:
+                setCurrentFragment(new HomeFragment(), false);
+                break;
             case R.id.nav_now_playing:
                 setCurrentFragment(new MoviesFragment(), false);
                 break;
@@ -177,7 +179,6 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
         //Enable Up button only  if there are entries in the back stack
         boolean canback = getSupportFragmentManager().getBackStackEntryCount()>0;
         getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
-        mToggle.setDrawerIndicatorEnabled(true);
         return canback;
     }
 

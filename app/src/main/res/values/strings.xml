@@ -60,4 +60,7 @@
     <string name="rating_template"> %1$s/10 from %2$s</string>
     <string name="default_content_description">DefaultContentDescription</string>
     <string name="rating_text_template">%1$s/10 (%2$s)</string>
+    <string name="label_home_movies">Movies</string>
+    <string name="label_home_series">Series</string>
+    <string name="label_home_people">People</string>
 </resources>
