@@ -13,7 +13,7 @@ import by.istin.android.xcore.utils.StringUtil;
  */
 public class ApiTMDB {
 
-    private static final String API_KEY = "f413bc4bacac8dff174a909f8ef535ae";
+    public static final String API_KEY = "f413bc4bacac8dff174a909f8ef535ae";
 
     public static final String POSTER_45X68_BACKDROP_45X25 = "w45";
     public static final String POSTER_92X138_BACKDROP_92X52 = "w92";
@@ -132,5 +132,9 @@ public class ApiTMDB {
 
     public static String getImagePath(@ImageScale String sizePoster, String imageKey) {
         return !StringUtil.isEmpty(imageKey) ? IMAGE_PATH_TMDB + sizePoster + imageKey : null;
+    }
+
+    public static String getTvOnTheAir() {
+        return String.format(API_PATH_TMDB, ON_THE_AIR);
     }
 }

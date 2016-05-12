@@ -1,0 +1,74 @@
+package github.tmdb.fragment;
+
+import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import by.istin.android.xcore.fragment.collection.RecyclerViewFragment;
+import by.istin.android.xcore.model.CursorModel;
+import by.istin.android.xcore.provider.ModelContract;
+import by.istin.android.xcore.source.DataSourceRequest;
+import github.tmdb.R;
+import github.tmdb.adapter.FilmAdapter;
+import github.tmdb.adapter.SeriesAdapter;
+import github.tmdb.api.ApiTMDB;
+import github.tmdb.app.MainScreenActivity;
+import github.tmdb.database.cursor.MoviesListCursor;
+import github.tmdb.database.cursor.SeriesCursor;
+import github.tmdb.database.model.MovieItemEntity;
+import github.tmdb.database.model.Series;
+import github.tmdb.database.processor.MovieEntityProcessor;
+import github.tmdb.database.processor.SeriesProcessor;
+import github.tmdb.listener.IClickCallback;
+
+/**
+ * @author Ivan Bakach
+ * @version on 27.03.2016
+ */
+public class HomeSeriesFragment extends RecyclerViewFragment<SeriesAdapter.ViewHolder,SeriesAdapter, SeriesCursor> {
+
+    @Override
+    public SeriesAdapter createAdapter(FragmentActivity fragmentActivity, SeriesCursor cursor) {
+        return new SeriesAdapter(cursor);
+    }
+
+    @Override
+    public void swap(SeriesAdapter seriesAdapter, SeriesCursor cursor) {
+
+    }
+
+    @Override
+    public CursorModel.CursorModelCreator<SeriesCursor> getCursorModelCreator() {
+        return SeriesCursor.CREATOR;
+    }
+
+    @Override
+    protected RecyclerView.LayoutManager createLayoutManager() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(OrientationHelper.HORIZONTAL);
+        return layoutManager;
+    }
+
+    @Override
+    public int getViewLayout() {
+        return R.layout.fragment_recycler_main;
+    }
+
+    @Override
+    public Uri getUri() {
+        return ModelContract.getUri(Series.class);
+    }
+
+    @Override
+    public String getUrl() {
+        return ApiTMDB.getTvOnTheAir() + "?"+"api_key="+ApiTMDB.API_KEY;
+    }
+
+    @Override
+    public String getProcessorKey() {
+        return SeriesProcessor.APP_SERVICE_KEY;
+    }
+}

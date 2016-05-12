@@ -3,6 +3,7 @@ package github.tmdb.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +25,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getFragmentManager().beginTransaction().add(R.id.movies_container,
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.movies_container,
                 Fragment.instantiate(getContext(), HomeMoviesFragment.class.getName())).commit();
-        getFragmentManager().beginTransaction().add(R.id.people_container,
+        fragmentManager.beginTransaction().add(R.id.series_container,
+                Fragment.instantiate(getContext(), HomeSeriesFragment.class.getName())).commit();
+        fragmentManager.beginTransaction().add(R.id.people_container,
                 Fragment.instantiate(getContext(), HomeCastFragment.class.getName())).commit();
 
     }

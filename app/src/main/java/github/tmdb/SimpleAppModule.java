@@ -21,6 +21,7 @@ import github.tmdb.database.model.Person;
 import github.tmdb.database.model.ProductionCompany;
 import github.tmdb.database.model.ProductionCountry;
 import github.tmdb.database.model.SampleEntity;
+import github.tmdb.database.model.Series;
 import github.tmdb.database.model.SpokenLanguage;
 import github.tmdb.database.model.Video;
 import github.tmdb.database.processor.CastProcessor;
@@ -29,6 +30,7 @@ import github.tmdb.database.processor.MovieDetailProcessor;
 import github.tmdb.database.processor.MovieEntityProcessor;
 import github.tmdb.database.processor.PersonProcessor;
 import github.tmdb.database.processor.SampleEntityProcessor;
+import github.tmdb.database.processor.SeriesProcessor;
 
 public class SimpleAppModule extends XCoreHelper.BaseModule {
 
@@ -44,7 +46,8 @@ public class SimpleAppModule extends XCoreHelper.BaseModule {
             ProductionCountry.class,
             SpokenLanguage.class,
             Video.class,
-            Person.class
+            Person.class,
+            Series.class
     };
 
     private static final DisplayImageOptions BITMAP_DISPLAYER_OPTIONS = new DisplayImageOptions.Builder()
@@ -66,6 +69,7 @@ public class SimpleAppModule extends XCoreHelper.BaseModule {
         registerAppService(new MovieDetailProcessor(dbContentProviderSupport));
         registerAppService(new CastProcessor(dbContentProviderSupport));
         registerAppService(new PersonProcessor(dbContentProviderSupport));
+        registerAppService(new SeriesProcessor(dbContentProviderSupport));
         registerAppService(new ErrorHandler(
                 "Error",
                 "Check your internet connection",
