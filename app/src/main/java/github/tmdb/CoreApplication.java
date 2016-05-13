@@ -2,6 +2,7 @@ package github.tmdb;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.StrictMode;
 
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -33,6 +34,24 @@ public class CoreApplication extends Application {
         serviceMap.put(VkDataSource.KEY, new VkDataSource(this));
         serviceMap.put(CachedDataSource.KEY, new CachedDataSource(this));
         serviceMap.put(TMDBDataSource.KEY, new TMDBDataSource());
+
+        boolean DEVELOPER_MODE = true;// FIXME: 5/13/16
+        StrictMode.setThreadPolicy(new
+                StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()     // or .detectAll() for all
+                // detectable problems
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build());
+        if (DEVELOPER_MODE) {
+        }
     }
 
     @Override

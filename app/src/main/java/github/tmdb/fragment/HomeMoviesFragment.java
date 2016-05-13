@@ -1,8 +1,6 @@
 package github.tmdb.fragment;
 
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -14,15 +12,11 @@ import by.istin.android.xcore.model.CursorModel;
 import by.istin.android.xcore.provider.ModelContract;
 import by.istin.android.xcore.source.DataSourceRequest;
 import github.tmdb.R;
-import github.tmdb.adapter.CastAdapter;
-import github.tmdb.adapter.FilmAdapter;
+import github.tmdb.adapter.HomeMoviesAdapter;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.app.MainScreenActivity;
-import github.tmdb.database.cursor.CastCursor;
 import github.tmdb.database.cursor.MoviesListCursor;
-import github.tmdb.database.model.Cast;
 import github.tmdb.database.model.MovieItemEntity;
-import github.tmdb.database.processor.CastProcessor;
 import github.tmdb.database.processor.MovieEntityProcessor;
 import github.tmdb.listener.IClickCallback;
 
@@ -30,11 +24,11 @@ import github.tmdb.listener.IClickCallback;
  * @author Ivan Bakach
  * @version on 27.03.2016
  */
-public class HomeMoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder, FilmAdapter, MoviesListCursor> implements FilmAdapter.ITouch, IClickCallback {
+public class HomeMoviesFragment extends RecyclerViewFragment<HomeMoviesAdapter.ViewHolder, HomeMoviesAdapter, MoviesListCursor> implements HomeMoviesAdapter.ITouch, IClickCallback {
 
     @Override
-    public FilmAdapter createAdapter(FragmentActivity fragmentActivity, MoviesListCursor cursor) {
-        return new FilmAdapter(cursor, this);
+    public HomeMoviesAdapter createAdapter(FragmentActivity fragmentActivity, MoviesListCursor cursor) {
+        return new HomeMoviesAdapter(cursor, this);
     }
 
     @Override
@@ -45,7 +39,7 @@ public class HomeMoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHol
     }
 
     @Override
-    public void swap(FilmAdapter castAdapter, MoviesListCursor cursor) {
+    public void swap(HomeMoviesAdapter castAdapter, MoviesListCursor cursor) {
         castAdapter.swapCursor(cursor);
     }
 

@@ -16,6 +16,7 @@ import by.istin.android.xcore.fragment.collection.RecyclerViewFragment;
 import by.istin.android.xcore.model.CursorModel;
 import by.istin.android.xcore.provider.ModelContract;
 import by.istin.android.xcore.source.DataSourceRequest;
+import by.istin.android.xcore.utils.StringUtil;
 import github.tmdb.R;
 import github.tmdb.adapter.FilmAdapter;
 import github.tmdb.api.ApiTMDB;
@@ -33,7 +34,31 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
 
     private static final int SPAN_COUNT = 1;
 //    private View mEmptyView;
+    private static final String KEY_URL = "URL";
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    public static MoviesFragment newInstance(String url) {
+        Bundle args = new Bundle();
+        args.putString(KEY_URL, url);
+        MoviesFragment fragment = new MoviesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    private String getUrlForLoad() {
+        Bundle bundle = getArguments();
+        return bundle !=null ? bundle.getString(KEY_URL) : ApiTMDB.getMoviePopular();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (ApiTMDB.getMovieNowPlaying().equals(getUrlForLoad())) {
+            getActivity().setTitle(getString(R.string.now_playing));
+        } else {
+            getActivity().setTitle("Popular");
+        }
+    }
 
     @Override
     public FilmAdapter createAdapter(FragmentActivity fragmentActivity, MoviesListCursor cursor) {
@@ -99,7 +124,7 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
 
     @Override
     public String getUrl() {
-        return ApiTMDB.getMovieNowPlaying()+"?api_key=f413bc4bacac8dff174a909f8ef535ae&page=1";
+        return getUrlForLoad()+"?api_key=f413bc4bacac8dff174a909f8ef535ae&page=1";
     }
 
     @Override

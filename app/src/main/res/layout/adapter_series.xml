@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content">
-    <ImageView
-        android:id="@+id/series_poster"
-        android:layout_width="@dimen/crew_profile_width"
-        android:layout_height="@dimen/crew_profile_height"
-        android:contentDescription="@string/default_content_description"/>
-
-    <TextView
-        android:id="@+id/series_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-</LinearLayout>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/series_label"
+    android:layout_width="@dimen/crew_profile_width"
+    android:layout_height="@dimen/home_container_height"
+    android:layout_margin="4dp"
+    android:lines="2"
+    android:ellipsize="end"
+    tools:text="Very very long text and you think it has infinity size"
+    tools:drawableTop="@drawable/no_avatar"/>

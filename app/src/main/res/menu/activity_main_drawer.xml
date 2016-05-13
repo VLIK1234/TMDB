@@ -4,29 +4,60 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home"
             android:title="Home"/>
-        <item
-            android:id="@+id/nav_now_playing"
-            android:title="Now playing"/>
-        <item
-            android:id="@+id/nav_popular"
-            android:title="Popular"/>
-        <item
-            android:id="@+id/nav_maps"
-            android:title="Maps"/>
+        <item android:title="MOVIE">
+            <menu>
+                <item
+                    android:id="@+id/nav_now_playing"
+                    android:icon="@drawable/ic_now_playing"
+                    android:title="Now playing"/>
+                <item
+                    android:id="@+id/nav_popular"
+                    android:icon="@drawable/ic_popular"
+                    android:title="Popular"/>
+            </menu>
+        </item>
+
+        <item android:title="SERIES">
+            <menu>
+                <item
+                    android:id="@+id/nav_series"
+                    android:icon="@drawable/ic_now_playing"
+                    android:title="On the air"/>
+            </menu>
+        </item>
+        <item android:title="PERSON">
+            <menu>
+                <item
+                    android:id="@+id/nav_person_popular"
+                    android:icon="@drawable/ic_popular"
+                    android:title="Popular"/>
+            </menu>
+
+        </item>
+        <item android:title="OTHER">
+            <menu>
+                <item
+                    android:id="@+id/nav_maps"
+                    android:icon="@drawable/ic_maps"
+                    android:title="Maps"/>
+            </menu>
+
+        </item>
     </group>
 
     <!--<item android:title="Communicate">-->
-        <!--<menu>-->
-            <!--<item-->
-                <!--android:id="@+id/nav_share"-->
-                <!--android:icon="@drawable/ic_menu_share"-->
-                <!--android:title="Share"/>-->
-            <!--<item-->
-                <!--android:id="@+id/nav_send"-->
-                <!--android:icon="@drawable/ic_menu_send"-->
-                <!--android:title="Send"/>-->
-        <!--</menu>-->
+    <!--<menu>-->
+    <!--<item-->
+    <!--android:id="@+id/nav_share"-->
+    <!--android:icon="@drawable/ic_menu_share"-->
+    <!--android:title="Share"/>-->
+    <!--<item-->
+    <!--android:id="@+id/nav_send"-->
+    <!--android:icon="@drawable/ic_menu_send"-->
+    <!--android:title="Send"/>-->
+    <!--</menu>-->
     <!--</item>-->
 
 </menu>

@@ -1,5 +1,9 @@
 package github.tmdb.adapter;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import by.istin.android.xcore.utils.CursorUtils;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
+import github.tmdb.database.cursor.MoviesListCursor;
 import github.tmdb.database.cursor.SeriesCursor;
+import github.tmdb.utils.BitmapDisplayOptions;
 
 /**
  * @author Ivan_Bakach
@@ -31,10 +39,20 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final Context context = holder.itemView.getContext();
         final SeriesCursor cursor = (SeriesCursor) mSeriesCursor.get(position);
         holder.mSeriesLabel.setText(cursor.getName());
-        ImageLoader.getInstance().displayImage(cursor.getPosterPath(ApiTMDB.POSTER_185X278_BACKDROP_185X104), holder.mSeriesPoster);
+
+        ImageLoader.getInstance().loadImage(cursor.getPosterPath(ApiTMDB.POSTER_300X450_BACKDROP_300X169),
+                BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS, new SimpleImageLoadingListener(){
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        super.onLoadingComplete(imageUri, view, loadedImage);
+                        Drawable topImage = new BitmapDrawable(context.getResources(), loadedImage);
+                        holder.mSeriesLabel.setCompoundDrawablesWithIntrinsicBounds(null, topImage, null, null);
+                    }
+                });
     }
 
     @Override
@@ -45,13 +63,17 @@ public class SeriesAdapter extends RecyclerView.Adapter<SeriesAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public final TextView mSeriesLabel;
-        public final ImageView mSeriesPoster;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mSeriesLabel = (TextView) itemView.findViewById(R.id.series_label);
-            mSeriesPoster = (ImageView) itemView.findViewById(R.id.series_poster);
         }
+    }
+
+    public void swapCursor(SeriesCursor moviesListCursor) {
+        CursorUtils.close(mSeriesCursor);
+        mSeriesCursor = moviesListCursor;
+        notifyDataSetChanged();
     }
 
 }
