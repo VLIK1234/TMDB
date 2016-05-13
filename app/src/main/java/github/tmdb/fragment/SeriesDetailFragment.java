@@ -203,7 +203,7 @@ public class SeriesDetailFragment extends XFragment<CursorModel> {
                             if (palette != null) {
                                 if (palette.getDarkMutedColor() != null && palette.getLightMutedColor() != null && palette.getMutedColor() != null) {
                                     setPaletteColor(palette.getDarkMutedColor().getRgb(), palette.getLightMutedColor().getRgb(), palette.getMutedColor().getRgb());
-                                } else {
+                                } else if (palette.getDarkVibrantColor() != null && palette.getLightVibrantColor() != null && palette.getVibrantColor() != null) {
                                     setPaletteColor(palette.getDarkVibrantColor().getRgb(), palette.getLightVibrantColor().getRgb(), palette.getVibrantColor().getRgb());
                                 }
                             }

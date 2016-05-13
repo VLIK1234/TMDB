@@ -25,7 +25,7 @@ import by.istin.android.xcore.source.DataSourceRequest;
  * @author Ivan Bakach
  * @version on 03.01.2016
  */
-public class SeriesDetailEntity implements BaseColumns {
+public class SeriesDetailEntity implements BaseColumns, IOnProceedEntity {
 
 //                created_by: [
 //        {
@@ -134,28 +134,28 @@ public class SeriesDetailEntity implements BaseColumns {
 
     public static final String GENRES = "genres";
 
-//    @Override
-//    public boolean onProceedEntity(DBHelper dbHelper, IDBConnection db, DataSourceRequest dataSourceRequest, @Nullable ContentValues parent, ContentValues contentValues, int position, JsonElement jsonElement) {
-//        JsonObject jsonObject = jsonElement.getAsJsonObject();
-//        long id = jsonObject.get(ID_KEY).getAsLong();
-//        for (Map.Entry<String, JsonElement> item : jsonObject.entrySet()) {
-//            String keyJsonElement = item.getKey();
-//            JsonElement value = item.getValue();
-//            if (GENRES.equals(keyJsonElement)) {
-//                parseGenres(dbHelper, db, dataSourceRequest, id, value);
+    @Override
+    public boolean onProceedEntity(DBHelper dbHelper, IDBConnection db, DataSourceRequest dataSourceRequest, @Nullable ContentValues parent, ContentValues contentValues, int position, JsonElement jsonElement) {
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        long id = jsonObject.get(ID_KEY).getAsLong();
+        for (Map.Entry<String, JsonElement> item : jsonObject.entrySet()) {
+            String keyJsonElement = item.getKey();
+            JsonElement value = item.getValue();
+            if (GENRES.equals(keyJsonElement)) {
+                parseGenres(dbHelper, db, dataSourceRequest, id, value);
+            }
+//            else if (PRODUCTION_COMPANIES.equals(keyJsonElement)) {
+//                parseProductionCompanies(dbHelper, db, dataSourceRequest, id, value);
+//            } else if (PRODUCTION_COUNTRIES.equals(keyJsonElement)) {
+//                parseProductionCountries(dbHelper, db, dataSourceRequest, id, value);
+//            } else if (SPOKEN_LANGUAGES.equals(keyJsonElement)) {
+//                parseSpokenLanguages(dbHelper, db, dataSourceRequest, id, value);
 //            }
-////            else if (PRODUCTION_COMPANIES.equals(keyJsonElement)) {
-////                parseProductionCompanies(dbHelper, db, dataSourceRequest, id, value);
-////            } else if (PRODUCTION_COUNTRIES.equals(keyJsonElement)) {
-////                parseProductionCountries(dbHelper, db, dataSourceRequest, id, value);
-////            } else if (SPOKEN_LANGUAGES.equals(keyJsonElement)) {
-////                parseSpokenLanguages(dbHelper, db, dataSourceRequest, id, value);
-////            }
-//        }
-//        dbHelper.updateOrInsert(dataSourceRequest, db, SeriesDetailEntity.class, contentValues);
-//        return false;
-//    }
-//
+        }
+        dbHelper.updateOrInsert(dataSourceRequest, db, SeriesDetailEntity.class, contentValues);
+        return false;
+    }
+
     private void parseGenres(DBHelper dbHelper, IDBConnection db, DataSourceRequest dataSourceRequest, long id, JsonElement value) {
         ContentValues genresValue = new ContentValues();
         JsonArray genresArray = value.getAsJsonArray();

@@ -24,7 +24,7 @@ public class SeriesDetailProcessor extends AbstractGsonBatchProcessor<ContentVal
     public static final String SYSTEM_SERVICE_KEY = "xcore:seriesdetail:processor";
 
     public SeriesDetailProcessor(IDBContentProviderSupport contentProviderSupport) {
-        super(MovieDetailEntity.class, ContentValues.class, contentProviderSupport);
+        super(SeriesDetailEntity.class, ContentValues.class, contentProviderSupport);
     }
 
     @Override
