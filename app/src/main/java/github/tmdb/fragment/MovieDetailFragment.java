@@ -75,18 +75,18 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mLeak = inflater.inflate(R.layout.fragment_detail, container, false);
-        mRoot = (RelativeLayout) mLeak.findViewById(R.id.root);
-        mPoster = (ImageView) mLeak.findViewById(R.id.poster);
-        mTitle = (TextView) mLeak.findViewById(R.id.title);
-        mDate = (TextView) mLeak.findViewById(R.id.date);
-        mGenres = (TextView) mLeak.findViewById(R.id.genres);
-        mRuntime = (TextView) mLeak.findViewById(R.id.runtime);
-        mRatingText = (TextView) mLeak.findViewById(R.id.rating_pic_text);
-        mTagline = (TextView) mLeak.findViewById(R.id.tagline);
-        mOverview = (TextView) mLeak.findViewById(R.id.overview);
-        mCastContainer = (FrameLayout) mLeak.findViewById(R.id.cast_container);
-        return mLeak;
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
+        mRoot = (RelativeLayout) view.findViewById(R.id.root);
+        mPoster = (ImageView) view.findViewById(R.id.poster);
+        mTitle = (TextView) view.findViewById(R.id.title);
+        mDate = (TextView) view.findViewById(R.id.date);
+        mGenres = (TextView) view.findViewById(R.id.genres);
+        mRuntime = (TextView) view.findViewById(R.id.runtime);
+        mRatingText = (TextView) view.findViewById(R.id.rating_pic_text);
+        mTagline = (TextView) view.findViewById(R.id.tagline);
+        mOverview = (TextView) view.findViewById(R.id.overview);
+        mCastContainer = (FrameLayout) view.findViewById(R.id.cast_container);
+        return view;
     }
 
 
@@ -98,20 +98,6 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
         fragmentManager.beginTransaction()
                 .add(R.id.cast_container, mCastFragment)
                 .commit();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mCastFragment != null) {
-            getFragmentManager().beginTransaction().remove(mCastFragment).commit();
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mLeak = null;
     }
 
     @Override
@@ -223,6 +209,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
 
     private void setPaletteColor(int rootColor, int primaryTextColor, int secondaryTextColor) {
         mRoot.setBackgroundColor(rootColor);
+        ((CastFragment)mCastFragment).setRootColor(rootColor);
         setPrimaryTextColor(primaryTextColor);
         setSecondTextColor(secondaryTextColor);
     }

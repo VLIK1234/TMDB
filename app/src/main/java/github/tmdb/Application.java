@@ -12,7 +12,7 @@ public class Application extends CoreApplication {
 
     static {
         APP_MODULES = new ArrayList<>();
-        APP_MODULES.add(SimpleAppModule.class);
+        APP_MODULES.add(XCoreAppModule.class);
     }
 
     @Override

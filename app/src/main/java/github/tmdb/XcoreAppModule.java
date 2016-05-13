@@ -30,7 +30,7 @@ import github.tmdb.database.processor.MovieEntityProcessor;
 import github.tmdb.database.processor.PersonProcessor;
 import github.tmdb.database.processor.SampleEntityProcessor;
 
-public class SimpleAppModule extends XCoreHelper.BaseModule {
+public class XCoreAppModule extends XCoreHelper.BaseModule {
 
     private static final Class<?>[] ENTITIES = new Class<?>[]{
             SampleEntity.class,

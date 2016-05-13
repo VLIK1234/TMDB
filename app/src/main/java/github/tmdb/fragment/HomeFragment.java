@@ -24,9 +24,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getFragmentManager().beginTransaction().add(R.id.movies_container,
+        getChildFragmentManager().beginTransaction().add(R.id.movies_container,
                 Fragment.instantiate(getContext(), HomeMoviesFragment.class.getName())).commit();
-        getFragmentManager().beginTransaction().add(R.id.people_container,
+        getChildFragmentManager().beginTransaction().add(R.id.people_container,
                 Fragment.instantiate(getContext(), HomeCastFragment.class.getName())).commit();
 
     }
