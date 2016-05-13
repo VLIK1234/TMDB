@@ -173,7 +173,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     }
 
     private void setTextInfo(Cursor cursor) {
-        mGenres.setText(CursorUtils.getString(Genre.NAME, cursor));
+        mGenres.setText(CursorUtils.getString(Genre.GENRE_NAME, cursor));
         mRuntime.setText(String.format(getString(R.string.min), CursorUtils.getInt(MovieDetailEntity.RUNTIME, cursor)));
 
         String voteAverage = String.valueOf(CursorUtils.getDouble(MovieDetailEntity.VOTE_AVERAGE, cursor));

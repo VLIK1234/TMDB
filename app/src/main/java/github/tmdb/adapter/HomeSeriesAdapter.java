@@ -27,6 +27,12 @@ public class HomeSeriesAdapter extends RecyclerView.Adapter<HomeSeriesAdapter.Vi
 
     private SeriesCursor mSeriesCursor;
     private SeriesAdapter.ITouch mITouch;
+    private View.OnClickListener mClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mITouch.touchAction((long) v.getTag());
+        }
+    };
 
     public HomeSeriesAdapter(SeriesCursor seriesCursor, SeriesAdapter.ITouch iTouch) {
         mSeriesCursor = seriesCursor;
@@ -43,13 +49,8 @@ public class HomeSeriesAdapter extends RecyclerView.Adapter<HomeSeriesAdapter.Vi
         final Context context = holder.itemView.getContext();
         final SeriesCursor cursor = (SeriesCursor) mSeriesCursor.get(position);
 
-        holder.itemView.setTag(cursor.getId());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mITouch.touchAction((long) v.getTag());
-            }
-        });
+        holder.mSeriesLabel.setTag(cursor.getId());
+        holder.mSeriesLabel.setOnClickListener(mClickListener);
 
         holder.mSeriesLabel.setText(cursor.getName());
 

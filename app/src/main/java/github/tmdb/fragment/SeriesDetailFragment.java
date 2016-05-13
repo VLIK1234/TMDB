@@ -24,6 +24,7 @@ import by.istin.android.xcore.utils.CursorUtils;
 import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.database.cursor.SeriesDetailCursor;
+import github.tmdb.database.model.Genre;
 import github.tmdb.database.model.SeriesDetailEntity;
 import github.tmdb.database.processor.SeriesDetailProcessor;
 import github.tmdb.utils.BitmapDisplayOptions;
@@ -45,7 +46,7 @@ public class SeriesDetailFragment extends XFragment<CursorModel> {
     private ImageView mPoster;
     private TextView mTitle;
     private TextView mDate;
-//    private TextView mGenres;
+    private TextView mGenres;
 //    private TextView mRuntime;
     private TextView mRatingText;
 //    private TextView mTagline;
@@ -75,7 +76,7 @@ public class SeriesDetailFragment extends XFragment<CursorModel> {
         mPoster = (ImageView) mLeak.findViewById(R.id.poster);
         mTitle = (TextView) mLeak.findViewById(R.id.title);
         mDate = (TextView) mLeak.findViewById(R.id.date);
-//        mGenres = (TextView) mLeak.findViewById(R.id.genres);
+        mGenres = (TextView) mLeak.findViewById(R.id.genres);
 //        mRuntime = (TextView) mLeak.findViewById(R.id.runtime);
         mRatingText = (TextView) mLeak.findViewById(R.id.rating_pic_text);
 //        mTagline = (TextView) mLeak.findViewById(R.id.tagline);
@@ -162,15 +163,14 @@ public class SeriesDetailFragment extends XFragment<CursorModel> {
 
     private void setSecondTextColor(int rgbColor) {
         mDate.setTextColor(rgbColor);
-//        mGenres.setTextColor(rgbColor);
+        mGenres.setTextColor(rgbColor);
     }
 
     private void setTextInfo(Cursor cursor) {
-//        mGenres.setText(CursorUtils.getString(Genre.NAME, cursor));
+        mGenres.setText(CursorUtils.getString(Genre.GENRE_NAME, cursor));
 //        mRuntime.setText(String.format(getString(R.string.min), CursorUtils.getInt(SeriesDetailEntity.RUNTIME, cursor)));
 
         String voteAverage = String.valueOf(CursorUtils.getDouble(SeriesDetailEntity.VOTE_AVERAGE, cursor));
-//        holder.rating.setText(voteAverage);
         String voteCount = String.valueOf(CursorUtils.getInt(SeriesDetailEntity.VOTE_COUNT, cursor));
         SpannableStringBuilder ratingBuilder = new SpannableStringBuilder();
         ratingBuilder

@@ -1,5 +1,6 @@
 package github.tmdb.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,13 +26,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
         FragmentManager fragmentManager = getChildFragmentManager();
         fragmentManager.beginTransaction().add(R.id.movies_container,
-                Fragment.instantiate(getContext(), HomeMoviesFragment.class.getName())).commit();
+                Fragment.instantiate(context, HomeMoviesFragment.class.getName())).commit();
         fragmentManager.beginTransaction().add(R.id.series_container,
-                Fragment.instantiate(getContext(), HomeSeriesFragment.class.getName())).commit();
+                Fragment.instantiate(context, HomeSeriesFragment.class.getName())).commit();
         fragmentManager.beginTransaction().add(R.id.people_container,
-                Fragment.instantiate(getContext(), HomeCastFragment.class.getName())).commit();
+                Fragment.instantiate(context, HomeCastFragment.class.getName())).commit();
 
     }
 }

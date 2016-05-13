@@ -13,15 +13,18 @@ import by.istin.android.xcore.annotations.dbString;
  */
 public class Genre implements BaseColumns{
 
+    public static final String GENRE_NAME = "genre_name";
+
     @dbLong
     @SerializedName(value = "id")
     public static final String ID = _ID;
-
-    public static final String ID_KEY = "id";
 
     @dbString
     public static final String NAME = "name";
 
     @dbLong
     public static final String MOVIE_ID = "movieId";
+
+    @dbLong
+    public static final String SERIES_ID = "seriesId";
 }

@@ -42,6 +42,7 @@ public class SeriesDetailProcessor extends AbstractGsonBatchProcessor<ContentVal
     protected void onProcessingFinish(DataSourceRequest dataSourceRequest, ContentValues followListResponse) throws Exception {
         super.onProcessingFinish(dataSourceRequest, followListResponse);
         notifyChange(getHolderContext(), SeriesDetailEntity.class);
+        notifyChange(getHolderContext(), Genre.class);
     }
 
     @Override

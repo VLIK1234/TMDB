@@ -132,40 +132,43 @@ public class SeriesDetailEntity implements BaseColumns {
     @dbDouble
     public static final String VOTE_COUNT = "vote_count";
 
+    public static final String GENRES = "genres";
+
 //    @Override
 //    public boolean onProceedEntity(DBHelper dbHelper, IDBConnection db, DataSourceRequest dataSourceRequest, @Nullable ContentValues parent, ContentValues contentValues, int position, JsonElement jsonElement) {
 //        JsonObject jsonObject = jsonElement.getAsJsonObject();
-//        long idMovie = jsonObject.get(ID_KEY).getAsLong();
+//        long id = jsonObject.get(ID_KEY).getAsLong();
 //        for (Map.Entry<String, JsonElement> item : jsonObject.entrySet()) {
 //            String keyJsonElement = item.getKey();
 //            JsonElement value = item.getValue();
 //            if (GENRES.equals(keyJsonElement)) {
-//                parseGenres(dbHelper, db, dataSourceRequest, idMovie, value);
-//            } else if (PRODUCTION_COMPANIES.equals(keyJsonElement)) {
-//                parseProductionCompanies(dbHelper, db, dataSourceRequest, idMovie, value);
-//            } else if (PRODUCTION_COUNTRIES.equals(keyJsonElement)) {
-//                parseProductionCountries(dbHelper, db, dataSourceRequest, idMovie, value);
-//            } else if (SPOKEN_LANGUAGES.equals(keyJsonElement)) {
-//                parseSpokenLanguages(dbHelper, db, dataSourceRequest, idMovie, value);
+//                parseGenres(dbHelper, db, dataSourceRequest, id, value);
 //            }
+////            else if (PRODUCTION_COMPANIES.equals(keyJsonElement)) {
+////                parseProductionCompanies(dbHelper, db, dataSourceRequest, id, value);
+////            } else if (PRODUCTION_COUNTRIES.equals(keyJsonElement)) {
+////                parseProductionCountries(dbHelper, db, dataSourceRequest, id, value);
+////            } else if (SPOKEN_LANGUAGES.equals(keyJsonElement)) {
+////                parseSpokenLanguages(dbHelper, db, dataSourceRequest, id, value);
+////            }
 //        }
 //        dbHelper.updateOrInsert(dataSourceRequest, db, SeriesDetailEntity.class, contentValues);
 //        return false;
 //    }
 //
-//    private void parseGenres(DBHelper dbHelper, IDBConnection db, DataSourceRequest dataSourceRequest, long idMovie, JsonElement value) {
-//        ContentValues genresValue = new ContentValues();
-//        JsonArray genresArray = value.getAsJsonArray();
-//        for (int i = 0; i < genresArray.size(); i++) {
-//            JsonObject genre = genresArray.get(i).getAsJsonObject();
-//            String genreName = genre.get(Genre.NAME).getAsString();
-//            genresValue.put(Genre.NAME, genreName);
-//            genresValue.put(Genre.MOVIE_ID, idMovie);
-//            genresValue.put(Genre.ID, genreName.hashCode() + idMovie);
-//            dbHelper.updateOrInsert(dataSourceRequest, db, Genre.class, genresValue);
-//            genresValue.clear();
-//        }
-//    }
+    private void parseGenres(DBHelper dbHelper, IDBConnection db, DataSourceRequest dataSourceRequest, long id, JsonElement value) {
+        ContentValues genresValue = new ContentValues();
+        JsonArray genresArray = value.getAsJsonArray();
+        for (int i = 0; i < genresArray.size(); i++) {
+            JsonObject genre = genresArray.get(i).getAsJsonObject();
+            String genreName = genre.get(Genre.NAME).getAsString();
+            genresValue.put(Genre.NAME, genreName);
+            genresValue.put(Genre.SERIES_ID, id);
+            genresValue.put(Genre.ID, genreName.hashCode() + id);
+            dbHelper.updateOrInsert(dataSourceRequest, db, Genre.class, genresValue);
+            genresValue.clear();
+        }
+    }
 //
 //    private void parseProductionCompanies(DBHelper dbHelper, IDBConnection db, DataSourceRequest dataSourceRequest, long idMovie, JsonElement value) {
 //        ContentValues productionCompanyValue = new ContentValues();
