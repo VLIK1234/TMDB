@@ -26,9 +26,6 @@ public class MovieItemEntity implements BaseColumns, IBeforeArrayUpdate {
     @SerializedName(value = "id")
     public static final String ID = _ID;
 
-    @dbLong
-    public static final String EXTERNAL_ID = "id";
-
     @dbString
     public static final String POSTER_PATH = "poster_path";
 

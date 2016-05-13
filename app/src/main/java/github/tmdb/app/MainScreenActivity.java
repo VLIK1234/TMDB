@@ -24,6 +24,7 @@ import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.fragment.HomeFragment;
 import github.tmdb.fragment.MoviesFragment;
+import github.tmdb.fragment.SeriesFragment;
 
 /**
  * @author IvanBakach
@@ -155,6 +156,9 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
                 Intent mapActivity = new Intent(this, MapActivity.class);
                 startActivity(mapActivity);
                 Toast.makeText(getBaseContext(), "Maps", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_series_on_the_air:
+                setCurrentFragment(SeriesFragment.newInstance(ApiTMDB.getTvOnTheAir()), false);
                 break;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -8,40 +8,48 @@
             android:title="Home"/>
         <item android:title="MOVIE">
             <menu>
-                <item
-                    android:id="@+id/nav_now_playing"
-                    android:icon="@drawable/ic_now_playing"
-                    android:title="Now playing"/>
-                <item
-                    android:id="@+id/nav_popular"
-                    android:icon="@drawable/ic_popular"
-                    android:title="Popular"/>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_now_playing"
+                        android:icon="@drawable/ic_now_playing"
+                        android:title="Now playing"/>
+                    <item
+                        android:id="@+id/nav_popular"
+                        android:icon="@drawable/ic_popular"
+                        android:title="Popular"/>
+                </group>
             </menu>
         </item>
 
         <item android:title="SERIES">
             <menu>
-                <item
-                    android:id="@+id/nav_series"
-                    android:icon="@drawable/ic_now_playing"
-                    android:title="On the air"/>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_series_on_the_air"
+                        android:icon="@drawable/ic_now_playing"
+                        android:title="On the air"/>
+                </group>
             </menu>
         </item>
         <item android:title="PERSON">
             <menu>
-                <item
-                    android:id="@+id/nav_person_popular"
-                    android:icon="@drawable/ic_popular"
-                    android:title="Popular"/>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_person_popular"
+                        android:icon="@drawable/ic_popular"
+                        android:title="Popular"/>
+                </group>
             </menu>
 
         </item>
         <item android:title="OTHER">
             <menu>
-                <item
-                    android:id="@+id/nav_maps"
-                    android:icon="@drawable/ic_maps"
-                    android:title="Maps"/>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_maps"
+                        android:icon="@drawable/ic_maps"
+                        android:title="Maps"/>
+                </group>
             </menu>
 
         </item>

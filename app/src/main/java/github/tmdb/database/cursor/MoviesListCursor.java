@@ -23,8 +23,8 @@ public class MoviesListCursor extends CursorModel {
         }
     };
 
-    public long getExternalId() {
-        return getLong(MovieItemEntity.EXTERNAL_ID);
+    public long getId() {
+        return getLong(MovieItemEntity.ID);
     }
 
     public String getTitle() {

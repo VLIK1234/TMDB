@@ -46,7 +46,7 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.ViewHolder> {
         final MoviesListCursor cursor = (MoviesListCursor)mCursor.get(position);
         final Context context = holder.itemView.getContext();
 
-        holder.mainView.setTag(cursor.getExternalId());
+        holder.mainView.setTag(cursor.getId());
         holder.mainView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,6 +3,7 @@ package github.tmdb.database.cursor;
 import android.database.Cursor;
 
 import by.istin.android.xcore.model.CursorModel;
+import by.istin.android.xcore.utils.Log;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.database.model.MovieItemEntity;
 import github.tmdb.database.model.Series;
@@ -27,6 +28,10 @@ public class SeriesCursor extends CursorModel {
             return new SeriesCursor(cursor);
         }
     };
+
+    public Long getId() {
+        return getLong(Series.ID);
+    }
 
     public String getBackdropPath(@ApiTMDB.ImageScale String sizeImage) {
         return ApiTMDB.getImagePath(sizeImage, getString(Series.BACKDROP_PATH));

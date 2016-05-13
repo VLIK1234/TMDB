@@ -55,7 +55,7 @@ public class ApiTMDB {
     @Retention(RetentionPolicy.SOURCE)
     public @interface AppendToResponse {}
 
-    private static final String API_PATH_TMDB = "https://api.themoviedb.org/3/%1$s";
+    private static final String API_PATH_TMDB = "https://api.themoviedb.org/3/";
     private static final String IMAGE_PATH_TMDB = "https://image.tmdb.org/t/p/";
 
     private static final String MOVIE_POPULAR = "popular";
@@ -63,10 +63,10 @@ public class ApiTMDB {
     private static final String MOVIE_NOW_PLAYING = "now_playing";
     private static final String MOVIE_UPCOMING = "upcoming";
 
-    private static final String MOVIE_TEMPLATE = "movie/%1$s";
+    private static final String MOVIE_TEMPLATE = "movie/";
 
     private static final String TV = "tv/";
-    private static final String ON_THE_AIR = "tv/on_the_air";
+    private static final String ON_THE_AIR = "on_the_air";
 
     private static final String SEARCH_MOVIE = "search/movie";
     private static final String DISCOVER_MOVIE = "discover/movie";
@@ -103,38 +103,46 @@ public class ApiTMDB {
     }
 
     private static String getMoviePath(){
-        return String.format(API_PATH_TMDB, MOVIE_TEMPLATE);
+        return API_PATH_TMDB + MOVIE_TEMPLATE;
+    }
+
+    private static String getTVPath(){
+        return API_PATH_TMDB + TV;
+    }
+
+    private static String getAppendToResponseVideosPath(){
+        return API_PATH_TMDB + MOVIE_TEMPLATE;
     }
 
     public static String getMovieNowPlaying() {
-        return String.format(getMoviePath(), MOVIE_NOW_PLAYING);
+        return getMoviePath() + MOVIE_NOW_PLAYING;
     }
 
     public static String getMoviePopular() {
-        return String.format(getMoviePath(), MOVIE_POPULAR);
+        return getMoviePath() + MOVIE_POPULAR;
     }
 
     public static String getMovieTopRated() {
-        return String.format(getMoviePath(), MOVIE_TOP_RATED);
+        return getMoviePath() + MOVIE_TOP_RATED;
     }
 
     public static String getMovieUpcoming() {
-        return String.format(getMoviePath(), MOVIE_UPCOMING);
+        return getMoviePath() + MOVIE_UPCOMING;
     }
 
     public static String getMovieDetail(Long id) {
-        return String.format(getMoviePath(), id);
+        return getMoviePath() + id;
     }
 
-//    public static String getTV(Long id) {
-//        return API_PATH_TMDB + TV + id;
-//    }
+    public static String getTVDetail(Long id) {
+        return getTVPath() + id;
+    }
 
     public static String getImagePath(@ImageScale String sizePoster, String imageKey) {
         return !StringUtil.isEmpty(imageKey) ? IMAGE_PATH_TMDB + sizePoster + imageKey : null;
     }
 
     public static String getTvOnTheAir() {
-        return String.format(API_PATH_TMDB, ON_THE_AIR);
+        return API_PATH_TMDB + TV + ON_THE_AIR;
     }
 }

@@ -26,14 +26,11 @@ import github.tmdb.utils.BitmapDisplayOptions;
  */
 public class HomeMoviesAdapter extends RecyclerView.Adapter<HomeMoviesAdapter.ViewHolder> {
 
-    public interface ITouch {
-        void touchAction(long idItem);
-    }
+    private final FilmAdapter.ITouch mITouch;
 
-    private final ITouch mITouch;
     private MoviesListCursor mCursor;
 
-    public HomeMoviesAdapter(MoviesListCursor moviesListCursor, ITouch iTouch) {
+    public HomeMoviesAdapter(MoviesListCursor moviesListCursor, FilmAdapter.ITouch iTouch) {
         mCursor = moviesListCursor;
         mITouch = iTouch;
     }
@@ -48,9 +45,15 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<HomeMoviesAdapter.Vi
     public void onBindViewHolder(final HomeMoviesAdapter.ViewHolder holder, final int position) {
         final MoviesListCursor cursor = (MoviesListCursor)mCursor.get(position);
         final Context context = holder.itemView.getContext();
-
         holder.mTitle.setText(cursor.getTitle());
 
+        holder.itemView.setTag(cursor.getId());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mITouch.touchAction((long) v.getTag());
+            }
+        });
         ImageLoader.getInstance().loadImage(cursor.getPosterPath(ApiTMDB.POSTER_300X450_BACKDROP_300X169),
                 BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS, new SimpleImageLoadingListener(){
             @Override
