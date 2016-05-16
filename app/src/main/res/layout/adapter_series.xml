@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/series_label"
-    android:layout_width="@dimen/crew_profile_width"
+    android:layout_width="133dp"
     android:layout_height="@dimen/home_container_height"
-    android:layout_margin="4dp"
-    android:lines="2"
-    android:ellipsize="end"
-    tools:text="Very very long text and you think it has infinity size"
-    tools:drawableTop="@drawable/no_avatar"/>
+    android:layout_margin="4dp">
+
+    <ImageView
+        android:id="@+id/series_poster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/default_content_description"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/no_avatar"/>
+
+    <TextView
+        android:id="@+id/series_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black_with_alpha"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:lines="2"
+        android:paddingBottom="4dp"
+        android:textColor="@android:color/white"
+        tools:text="Very very long text and you think it has infinity size"/>
+
+</RelativeLayout>

@@ -34,7 +34,7 @@ import github.tmdb.database.processor.SampleEntityProcessor;
 import github.tmdb.database.processor.SeriesDetailProcessor;
 import github.tmdb.database.processor.SeriesProcessor;
 
-public class SimpleAppModule extends XCoreHelper.BaseModule {
+public class XcoreAppModule extends XCoreHelper.BaseModule {
 
     private static final Class<?>[] ENTITIES = new Class<?>[]{
             SampleEntity.class,
@@ -75,7 +75,7 @@ public class SimpleAppModule extends XCoreHelper.BaseModule {
         registerAppService(new SeriesProcessor(dbContentProviderSupport));
         registerAppService(new SeriesDetailProcessor(dbContentProviderSupport));
         registerAppService(new ErrorHandler(
-                "Error",
+                 "Error",
                 "Check your internet connection",
                 "Server error",
                 "Developer error",

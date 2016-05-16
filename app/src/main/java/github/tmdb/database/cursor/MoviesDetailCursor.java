@@ -16,7 +16,7 @@ public class MoviesDetailCursor extends CursorModel {
         + "GROUP_CONCAT(g." + Genre.NAME + ", ' | ') AS " + Genre.GENRE_NAME +
         " FROM " + DBHelper.getTableName(MovieDetailEntity.class) + " m "
         + "LEFT JOIN " + DBHelper.getTableName(Genre.class) + " g ON g."
-        + Genre.MOVIE_ID + " = %1$d " + "AND m." + MovieDetailEntity._ID + " = %1$d";
+        + Genre.MOVIE_ID + " = %1$d " + "WHERE m." + MovieDetailEntity._ID + " = %1$d";
     private MoviesDetailCursor(Cursor cursor) {
         super(cursor);
     }

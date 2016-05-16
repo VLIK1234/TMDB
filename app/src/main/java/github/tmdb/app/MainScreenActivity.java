@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,12 +81,13 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
         String fragmentName = fragment.getClass().getName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.content, fragment, fragmentName);
+        fragmentTransaction.replace(R.id.content, fragment, fragmentName);
         if (withBackStack) {
             getSupportFragmentManager().popBackStack(fragmentName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentTransaction.addToBackStack(fragmentName);
         }
         fragmentTransaction.commit();
+        Log.d(TAG, "Size: " + fragmentManager.getFragments().size());
     }
 
     @Override

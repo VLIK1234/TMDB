@@ -29,6 +29,12 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<HomeMoviesAdapter.Vi
     private final FilmAdapter.ITouch mITouch;
 
     private MoviesListCursor mCursor;
+    private View.OnClickListener mClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mITouch.touchAction((long) v.getTag());
+        }
+    };;
 
     public HomeMoviesAdapter(MoviesListCursor moviesListCursor, FilmAdapter.ITouch iTouch) {
         mCursor = moviesListCursor;
@@ -44,25 +50,14 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<HomeMoviesAdapter.Vi
     @Override
     public void onBindViewHolder(final HomeMoviesAdapter.ViewHolder holder, final int position) {
         final MoviesListCursor cursor = (MoviesListCursor)mCursor.get(position);
-        final Context context = holder.itemView.getContext();
         holder.mTitle.setText(cursor.getTitle());
 
         holder.itemView.setTag(cursor.getId());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mITouch.touchAction((long) v.getTag());
-            }
-        });
-        ImageLoader.getInstance().loadImage(cursor.getPosterPath(ApiTMDB.POSTER_300X450_BACKDROP_300X169),
-                BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS, new SimpleImageLoadingListener(){
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                super.onLoadingComplete(imageUri, view, loadedImage);
-                Drawable topImage = new BitmapDrawable(context.getResources(), loadedImage);
-                holder.mTitle.setCompoundDrawablesWithIntrinsicBounds(null, topImage, null, null);
-            }
-        });
+        holder.itemView.setOnClickListener(mClickListener);
+
+        ImageLoader.getInstance().displayImage(cursor.getPosterPath(ApiTMDB.POSTER_300X450_BACKDROP_300X169),
+                holder.mSeriesPoster,
+                BitmapDisplayOptions.PORTRAIT_BITMAP_DISPLAY_OPTIONS);
     }
 
     @Override
@@ -78,11 +73,12 @@ public class HomeMoviesAdapter extends RecyclerView.Adapter<HomeMoviesAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView mTitle;
+        public final ImageView mSeriesPoster;
 
         public ViewHolder(View convertView) {
             super(convertView);
             mTitle = (TextView) convertView.findViewById(R.id.series_label);
+            mSeriesPoster = (ImageView) itemView.findViewById(R.id.series_poster);
         }
-
     }
 }
