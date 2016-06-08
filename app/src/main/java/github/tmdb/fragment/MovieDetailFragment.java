@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -57,7 +58,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     private TextView mOverview;
     private FrameLayout mCastContainer;
     private Fragment mCastFragment;
-    private RelativeLayout mRoot;
+    private ScrollView mRoot;
 
     public static Fragment newInstance(long idMovie) {
         MovieDetailFragment fragmentPart = new MovieDetailFragment();
@@ -76,7 +77,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
-        mRoot = (RelativeLayout) view.findViewById(R.id.root);
+        mRoot = (ScrollView) view.findViewById(R.id.root);
         mPoster = (ImageView) view.findViewById(R.id.poster);
         mTitle = (TextView) view.findViewById(R.id.title);
         mDate = (TextView) view.findViewById(R.id.date);

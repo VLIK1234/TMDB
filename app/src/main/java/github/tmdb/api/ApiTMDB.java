@@ -76,6 +76,10 @@ public class ApiTMDB {
     private static final String SEARCH_TYPE = "search_type=";
     private static final String LANGUAGE = "language=";
 
+    public static final String MEDIA_TYPE_TV = "tv";
+    public static final String MEDIA_TYPE_MOVIE = "movie";
+    public static final String MEDIA_TYPE_PERSON = "person";
+
 //    public static final String ON_THE_AIR_GET = API_PATH_TMDB + ON_THE_AIR;
 //    public static final String DISCOVER_MOVIE_GET = API_PATH_TMDB + DISCOVER_MOVIE;
 
@@ -97,6 +101,13 @@ public class ApiTMDB {
 
     public static String getSearchMovie(String query, @SearchType String searchType) {
         StringBuilder url = new StringBuilder(API_PATH_TMDB + SEARCH_MOVIE);
+        url.append(sign(url.toString(), QUERY)).append(query);
+        url.append(sign(url.toString(), SEARCH_TYPE)).append(searchType);
+        return url.toString();
+    }
+
+    public static String getSearch(String query, @SearchType String searchType) {
+        StringBuilder url = new StringBuilder(API_PATH_TMDB + "search/multi?api_key=f413bc4bacac8dff174a909f8ef535ae");
         url.append(sign(url.toString(), QUERY)).append(query);
         url.append(sign(url.toString(), SEARCH_TYPE)).append(searchType);
         return url.toString();

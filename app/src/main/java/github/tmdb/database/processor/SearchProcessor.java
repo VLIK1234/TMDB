@@ -2,6 +2,7 @@ package github.tmdb.database.processor;
 
 import android.content.ContentValues;
 import android.os.Parcel;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -14,11 +15,14 @@ import by.istin.android.xcore.model.ParcelableModel;
 import by.istin.android.xcore.processor.impl.AbstractGsonBatchProcessor;
 import by.istin.android.xcore.provider.IDBContentProviderSupport;
 import by.istin.android.xcore.source.DataSourceRequest;
-import github.tmdb.database.model.Cast;
+import by.istin.android.xcore.utils.StringUtil;
+import github.tmdb.database.model.MovieItemEntity;
+import github.tmdb.database.model.SearchItem;
 
-public class PeopleProcessor extends AbstractGsonBatchProcessor<PeopleProcessor.Response> {
 
-    public static final String APP_SERVICE_KEY = "core:people:processor";
+public class SearchProcessor extends AbstractGsonBatchProcessor<SearchProcessor.Response> {
+
+    public static final String APP_SERVICE_KEY = "core:search:processor";
 
     public static class Response extends ParcelableModel {
 
@@ -56,8 +60,8 @@ public class PeopleProcessor extends AbstractGsonBatchProcessor<PeopleProcessor.
         }
     }
 
-    public PeopleProcessor(IDBContentProviderSupport contentProviderSupport) {
-        super(Cast.class, Response.class, contentProviderSupport);
+    public SearchProcessor(IDBContentProviderSupport contentProviderSupport) {
+        super(SearchItem.class, Response.class, contentProviderSupport);
     }
 
     @Override
@@ -68,13 +72,13 @@ public class PeopleProcessor extends AbstractGsonBatchProcessor<PeopleProcessor.
     @Override
     protected void onStartProcessing(DataSourceRequest dataSourceRequest, IDBConnection dbConnection) {
         super.onStartProcessing(dataSourceRequest, dbConnection);
-        dbConnection.delete(DBHelper.getTableName(Cast.class), null, null);
+        dbConnection.delete(DBHelper.getTableName(SearchItem.class), null, null);
     }
 
     @Override
     protected void onProcessingFinish(DataSourceRequest dataSourceRequest, Response response) throws Exception {
         super.onProcessingFinish(dataSourceRequest, response);
-        notifyChange(ContextHolder.get(), Cast.class);
+        notifyChange(ContextHolder.get(), SearchItem.class);
     }
 
     @Override

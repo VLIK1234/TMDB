@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -53,7 +54,7 @@ public class SeriesDetailFragment extends XFragment<CursorModel> {
     private TextView mOverview;
 //    private FrameLayout mCastContainer;
 //    private Fragment mCastFragment;
-    private RelativeLayout mRoot;
+    private ScrollView mRoot;
 
     public static Fragment newInstance(long id) {
         SeriesDetailFragment fragmentPart = new SeriesDetailFragment();
@@ -72,7 +73,7 @@ public class SeriesDetailFragment extends XFragment<CursorModel> {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mLeak = inflater.inflate(R.layout.fragment_detail, container, false);
-        mRoot = (RelativeLayout) mLeak.findViewById(R.id.root);
+        mRoot = (ScrollView) mLeak.findViewById(R.id.root);
         mPoster = (ImageView) mLeak.findViewById(R.id.poster);
         mTitle = (TextView) mLeak.findViewById(R.id.title);
         mDate = (TextView) mLeak.findViewById(R.id.date);

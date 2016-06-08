@@ -7,7 +7,7 @@
     android:layout_margin="4dp">
 
     <ImageView
-        android:id="@+id/series_poster"
+        android:id="@+id/poster"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/default_content_description"
@@ -15,7 +15,7 @@
         tools:src="@drawable/no_avatar"/>
 
     <TextView
-        android:id="@+id/series_label"
+        android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

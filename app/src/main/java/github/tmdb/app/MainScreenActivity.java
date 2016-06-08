@@ -25,6 +25,7 @@ import github.tmdb.R;
 import github.tmdb.api.ApiTMDB;
 import github.tmdb.fragment.HomeFragment;
 import github.tmdb.fragment.MoviesFragment;
+import github.tmdb.fragment.SearchFragment;
 import github.tmdb.fragment.SeriesFragment;
 
 /**
@@ -52,21 +53,25 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
         mToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(this);
+        }
 
         Fragment homeFragment = Fragment.instantiate(getBaseContext(), HomeFragment.class.getName());
         setCurrentFragment(homeFragment, false);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (shouldDisplayHomeUp()) {
-                    onBackPressed();
-                } else {
-                    mDrawer.openDrawer(GravityCompat.START);
+        if (toolbar != null) {
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (shouldDisplayHomeUp()) {
+                        onBackPressed();
+                    } else {
+                        mDrawer.openDrawer(GravityCompat.START);
+                    }
                 }
-            }
-        });
+            });
+        }
         getSupportFragmentManager().addOnBackStackChangedListener(this);
         shouldDisplayHomeUp();
     }
@@ -81,7 +86,8 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
         String fragmentName = fragment.getClass().getName();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content, fragment, fragmentName);
+        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .replace(R.id.content, fragment, fragmentName);
         if (withBackStack) {
             getSupportFragmentManager().popBackStack(fragmentName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentTransaction.addToBackStack(fragmentName);
@@ -115,8 +121,9 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
     }
 
     private void onSearch(String search) {
-        String urlSearch = ApiTMDB.getSearchMovie(StringUtil.encode(search), ApiTMDB.SEARCH_TYPE_PHRASE);
-//        setCurrentFragment(RecyclerViewFragment.newInstance(urlSearch), true);
+        String urlSearch = ApiTMDB.getSearch(StringUtil.encode(search), ApiTMDB.SEARCH_TYPE_PHRASE);
+        setCurrentFragment(SearchFragment.newInstance(urlSearch), true);
+        Toast.makeText(MainScreenActivity.this, urlSearch, Toast.LENGTH_SHORT).show();
     }
 
     @Override

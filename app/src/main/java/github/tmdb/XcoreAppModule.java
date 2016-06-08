@@ -21,6 +21,7 @@ import github.tmdb.database.model.Person;
 import github.tmdb.database.model.ProductionCompany;
 import github.tmdb.database.model.ProductionCountry;
 import github.tmdb.database.model.SampleEntity;
+import github.tmdb.database.model.SearchItem;
 import github.tmdb.database.model.Series;
 import github.tmdb.database.model.SeriesDetailEntity;
 import github.tmdb.database.model.SpokenLanguage;
@@ -29,8 +30,10 @@ import github.tmdb.database.processor.CastProcessor;
 import github.tmdb.database.processor.ContentEntityProcessor;
 import github.tmdb.database.processor.MovieDetailProcessor;
 import github.tmdb.database.processor.MovieEntityProcessor;
+import github.tmdb.database.processor.PeopleProcessor;
 import github.tmdb.database.processor.PersonProcessor;
 import github.tmdb.database.processor.SampleEntityProcessor;
+import github.tmdb.database.processor.SearchProcessor;
 import github.tmdb.database.processor.SeriesDetailProcessor;
 import github.tmdb.database.processor.SeriesProcessor;
 
@@ -50,7 +53,8 @@ public class XcoreAppModule extends XCoreHelper.BaseModule {
             Video.class,
             Person.class,
             Series.class,
-            SeriesDetailEntity.class
+            SeriesDetailEntity.class,
+            SearchItem.class
     };
 
     private static final DisplayImageOptions BITMAP_DISPLAYER_OPTIONS = new DisplayImageOptions.Builder()
@@ -74,6 +78,8 @@ public class XcoreAppModule extends XCoreHelper.BaseModule {
         registerAppService(new PersonProcessor(dbContentProviderSupport));
         registerAppService(new SeriesProcessor(dbContentProviderSupport));
         registerAppService(new SeriesDetailProcessor(dbContentProviderSupport));
+        registerAppService(new PeopleProcessor(dbContentProviderSupport));
+        registerAppService(new SearchProcessor(dbContentProviderSupport));
         registerAppService(new ErrorHandler(
                  "Error",
                 "Check your internet connection",

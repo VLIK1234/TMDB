@@ -1,9 +1,5 @@
 package github.tmdb.adapter;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import by.istin.android.xcore.utils.CursorUtils;
 import github.tmdb.R;
@@ -71,8 +66,8 @@ public class HomeSeriesAdapter extends RecyclerView.Adapter<HomeSeriesAdapter.Vi
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mSeriesLabel = (TextView) itemView.findViewById(R.id.series_label);
-            mSeriesPoster = (ImageView) itemView.findViewById(R.id.series_poster);
+            mSeriesLabel = (TextView) itemView.findViewById(R.id.label);
+            mSeriesPoster = (ImageView) itemView.findViewById(R.id.poster);
         }
     }
 

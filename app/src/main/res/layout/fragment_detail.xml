@@ -6,16 +6,16 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/detail_side_margin"
+        android:layout_marginLeft="@dimen/detail_side_margin"
         android:background="@android:color/white">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/detail_side_margin"
-                android:layout_marginRight="@dimen/detail_side_margin"
-                android:id="@+id/root">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/poster"
