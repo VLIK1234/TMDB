@@ -41,4 +41,16 @@ public class SearchCursor extends CursorModel {
     public String getProfilePath(@ApiTMDB.ImageScale String sizeImage) {
         return ApiTMDB.getImagePath(sizeImage, getString(SearchItem.PROFILE_PATH));
     }
+
+    public String getOverview() {
+        return getString(SearchItem.OVERVIEW);
+    }
+
+    public String getName() {
+        return getString(SearchItem.NAME);
+    }
+
+    public String getMovieTitle() {
+        return getString(SearchItem.TITLE);
+    }
 }

@@ -46,7 +46,8 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
         holder.nameCrew.setText(mCursor.getName());
         String charter = mCursor.getCharacter();
         if (!StringUtil.isEmpty(charter)) {
-            holder.charterCrew.setText(String.format("as %s", charter));
+            final String charterLabel = "as " + charter;
+            holder.charterCrew.setText(charterLabel);
         }
         //if color not set yet
         if (mCharterLabelColor != 0) {

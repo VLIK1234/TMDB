@@ -75,12 +75,11 @@ public class PersonFragment extends XFragment<PersonCursor> {
     public Uri getUri() {
         return ModelContract.getSQLQueryUri("SELECT p.* FROM "+ DBHelper.getTableName(Person.class) +" p WHERE p."
                 + Person.ID + " == " + mPersonId, ModelContract.getUri(Person.class));
-//        return ModelContract.getUri(Person.class);
     }
 
     @Override
     public String getUrl() {
-        return String.format("https://api.themoviedb.org/3/person/%1$s?api_key=f413bc4bacac8dff174a909f8ef535ae", mPersonId);
+        return String.format("https://api.themoviedb.org/3/person/%1$s?api_key=" + ApiTMDB.API_KEY, mPersonId);
     }
 
     @Override

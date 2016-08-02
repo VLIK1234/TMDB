@@ -37,16 +37,7 @@ public final class BitmapDisplayOptions {
         }
 
     };
-    //    public static final DisplayImageOptions DEFAULT_BITMAP_DISPLAY_OPTIONS = new DisplayImageOptions.Builder()
-//            .showImageForEmptyUri(R.drawable.no_image_vertical)
-//            .showImageOnFail(R.drawable.no_image_vertical)
-//            .resetViewBeforeLoading(true)
-//            .delayBeforeLoading(100)
-//            .cacheInMemory(true)
-//            .extraForDownloader(true)
-//            .cacheOnDisc(true)
-//            .displayer(FADE_IN_BITMAP_DISPLAYER) // default
-//            .build();
+
     public static final DisplayImageOptions IMAGE_OPTIONS_EMPTY_PH = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(android.R.color.transparent)
             .showImageOnFail(android.R.color.transparent)
@@ -71,32 +62,7 @@ public final class BitmapDisplayOptions {
         }
 
     };
-    //    public static final DisplayImageOptions BLURRED_BITMAP_DISPLAY_OPTIONS = new DisplayImageOptions.Builder()
-//            .showImageForEmptyUri(R.drawable.no_image_vertical)
-//            .showImageOnFail(R.drawable.no_image_vertical)
-//            .resetViewBeforeLoading(true)
-//            .delayBeforeLoading(100)
-//            .cacheInMemory(true)
-//            .extraForDownloader(true)
-//            .cacheOnDisc(true)
-//            .displayer(FADE_IN_BLUR_BITMAP_DISPLAYER) // default
-//            .build();
-//
-// public static final DisplayImageOptions ROUNDED_BITMAP_DISPLAY_OPTIONS = new DisplayImageOptions.Builder()
-//            .showImageOnLoading(android.R.color.transparent)
-//            .showImageForEmptyUri(R.drawable.ic_placeholder_profile)
-//            .showImageOnFail(R.drawable.ic_placeholder_profile)
-//            .preProcessor(new BitmapProcessor() {
-//                @Override
-//                public Bitmap process(Bitmap bitmap) {
-//                    return CircleImageHelper.circleDimAround(bitmap,
-//                            CircleImageHelper.createCircle(bitmap.getWidth(), bitmap.getHeight()));
-//                }
-//            })
-//            .cacheInMemory(true)
-//            .cacheOnDisc(true)
-//            .bitmapConfig(Bitmap.Config.RGB_565).build();
-//
+
     public static final DisplayImageOptions PORTRAIT_BITMAP_DISPLAY_OPTIONS = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.no_avatar)
             .showImageOnFail(R.drawable.no_avatar)

@@ -164,7 +164,7 @@ public class MovieDetailFragment extends XFragment<CursorModel> {
         mRuntime.setText(String.format(getString(R.string.min), CursorUtils.getInt(MovieDetailEntity.RUNTIME, cursor)));
 
         String voteAverage = String.valueOf(CursorUtils.getDouble(MovieDetailEntity.VOTE_AVERAGE, cursor));
-//        holder.rating.setText(voteAverage);
+
         String voteCount = String.valueOf(CursorUtils.getInt(MovieDetailEntity.VOTE_COUNT, cursor));
         SpannableStringBuilder ratingBuilder = new SpannableStringBuilder();
         ratingBuilder

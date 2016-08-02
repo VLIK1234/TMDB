@@ -28,32 +28,21 @@ import github.tmdb.source.TMDBDataSource;
 public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
     private final LinearLayoutManager mLayoutManager;
-    private RecyclerView.Adapter mAdapter;
-    private View mFooterProgress;
     private final String mUrl;
     private int mPage = 1;
 
-    public RecyclerViewScrollListener(LinearLayoutManager layoutManager, String url, RecyclerView.Adapter adapter) {
+    public RecyclerViewScrollListener(LinearLayoutManager layoutManager, String url) {
         mLayoutManager = layoutManager;
         mUrl = url;
-        mAdapter = adapter;
     }
 
     private String getUrl(int page) {
         StringBuilder controlUrl = new StringBuilder(mUrl.split("[?]")[0]);
-        controlUrl.append("?api_key=f413bc4bacac8dff174a909f8ef535ae");
+        controlUrl.append("?api_key="+ApiTMDB.API_KEY);
         controlUrl.append(ApiTMDB.getPage(controlUrl.toString(), page));
         controlUrl.append(ApiTMDB.getLanguage(controlUrl.toString())).append(Locale.getDefault().getLanguage());
         return controlUrl.toString();
     }
-
-    public DataSource getDataSource() {
-        return new TMDBDataSource();
-    }
-
-//    public FilmArrayProcessor getProcessor() {
-//        return new FilmArrayProcessor();
-//    }
 
     private boolean isUpdate = true;
     @Override
@@ -61,9 +50,6 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
         int visibleItemCount = mLayoutManager.getChildCount();
         final int totalItemCount = mLayoutManager.getItemCount();
         int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
-//        if (mFooterProgress == null) {
-//            mFooterProgress = View.inflate(mContext, R.layout.view_footer_progress, null);
-//        }
 
         if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
             if (isUpdate) {
@@ -83,7 +69,6 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
                             @Override
                             public void onDone(Bundle resultData) {
-//                            mAdapter.notifyDataSetChanged();
                                 mPage++;
                                 isUpdate = true;
                             }
@@ -94,46 +79,6 @@ public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
                         }
                 );
             }
-//            DataManager.loadData(new DataManager.Callback<ArrayList<Film>>() {
-//                                     @Override
-//                                     public void onDataLoadStart() {
-//                                         refreshFooter();
-//                                     }
-//
-//                                     @Override
-//                                     public void onDone(ArrayList<Film> data) {
-//                                         updateAdapter(data);
-//                                     }
-//
-//                                     @Override
-//                                     public void onError(Exception e) {
-//                                     }
-//                                 },
-//                    getUrl(mPage),
-//                    getDataSource(),
-//                    getProcessor());
         }
-    }
-
-//    private void updateAdapter(List<Film> data) {
-////        if (data != null && data.size() == COUNT) {
-////            mIsPagingEnabled = true;
-//////            mListView.addFooterView(mFooterProgress, null, false);
-////        } else {
-////            mIsPagingEnabled = false;
-//////            mListView.removeFooterView(mFooterProgress);
-////        }
-////        mAdapter.addAll((ArrayList<Film>) data);
-//        mAdapter.notifyDataSetChanged();
-//    }
-
-    private void refreshFooter() {
-//        if (mFooterProgress != null) {
-//            if (mIsPagingEnabled) {
-//                mFooterProgress.setVisibility(View.VISIBLE);
-//            } else {
-//                mFooterProgress.setVisibility(View.GONE);
-//            }
-//        }
     }
 }

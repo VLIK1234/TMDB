@@ -21,7 +21,7 @@ import github.tmdb.database.processor.SearchProcessor;
  * @author Ivan Bakach
  * @version on 04.06.2016
  */
-public class SearchFragment extends RecyclerViewFragment<SearchAdapter.ViewHolder, SearchAdapter, SearchCursor> {
+public class SearchFragment extends RecyclerViewFragment<RecyclerView.ViewHolder, SearchAdapter, SearchCursor> {
 
     public static final String KEY_URL = "Url";
 

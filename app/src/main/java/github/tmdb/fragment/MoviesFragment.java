@@ -32,8 +32,8 @@ import github.tmdb.listener.RecyclerViewScrollListener;
  */
 public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder, FilmAdapter, MoviesListCursor> implements FilmAdapter.ITouch {
 
-    private static final int SPAN_COUNT = 1;
-//    private View mEmptyView;
+    private static final int SPAN_COUNT = 2;
+
     private static final String KEY_URL = "URL";
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -88,7 +88,7 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
         RecyclerView recyclerView = super.getCollectionView();
         LinearLayoutManager layoutManager = new GridLayoutManager(getContext(), SPAN_COUNT);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager, ApiTMDB.getMovieNowPlaying(), recyclerView.getAdapter()));
+        recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager, ApiTMDB.getMovieNowPlaying()));
         return recyclerView;
     }
 

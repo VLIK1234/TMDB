@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/home_container_height"
+              android:layout_margin="8dp"
+              android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/poster"
+        android:layout_width="133dp"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/default_content_description"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/no_avatar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/series_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextView_Title"
+            android:layout_marginBottom="8dp"
+            tools:text="Title"/>
+
+        <TextView
+            android:id="@+id/series_overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="4"
+            android:ellipsize="end"
+            tools:text="Seven noble families fight for control of the mythical land of Westeros. Friction between the houses leads to full-scale war. All while a very ancient evil awakens in the farthest north. Amidst the war, a neglected military order of misfits, the Night's Watch, is all that stands between the realms of men and icy horrors beyond."/>
+
+    </LinearLayout>
+
+</LinearLayout>

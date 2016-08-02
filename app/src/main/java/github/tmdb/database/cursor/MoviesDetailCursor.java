@@ -11,7 +11,6 @@ public class MoviesDetailCursor extends CursorModel {
 
     public static String SQL_REQUEST = "SELECT " + "m.* " + "FROM " + DBHelper.getTableName(MovieDetailEntity.class) + " m " + "WHERE m." + MovieDetailEntity.ID + " = %1$s";
 
-//    SELECT s.SupplierID, s.SupplierName, GROUP_CONCAT(p.ProductName) FROM Suppliers s LEFT JOIN Products p ON p.SupplierID = 11 WHERE s.SupplierID = 11
     private static final String DETAIL_SQL_REQUEST = "SELECT m.*, "
         + "GROUP_CONCAT(g." + Genre.NAME + ", ' | ') AS " + Genre.GENRE_NAME +
         " FROM " + DBHelper.getTableName(MovieDetailEntity.class) + " m "
