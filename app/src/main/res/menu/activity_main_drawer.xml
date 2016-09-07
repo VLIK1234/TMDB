@@ -6,6 +6,9 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
             android:title="Home"/>
+        <item
+            android:id="@+id/nav_tabs"
+            android:title="Tabs"/>
         <item android:title="MOVIE">
             <menu>
                 <group android:checkableBehavior="single">
@@ -54,18 +57,5 @@
 
         </item>
     </group>
-
-    <!--<item android:title="Communicate">-->
-    <!--<menu>-->
-    <!--<item-->
-    <!--android:id="@+id/nav_share"-->
-    <!--android:icon="@drawable/ic_menu_share"-->
-    <!--android:title="Share"/>-->
-    <!--<item-->
-    <!--android:id="@+id/nav_send"-->
-    <!--android:icon="@drawable/ic_menu_send"-->
-    <!--android:title="Send"/>-->
-    <!--</menu>-->
-    <!--</item>-->
 
 </menu>

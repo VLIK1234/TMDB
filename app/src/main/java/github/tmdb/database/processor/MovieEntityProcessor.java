@@ -75,9 +75,9 @@ public class MovieEntityProcessor extends AbstractGsonBatchProcessor<MovieEntity
         super.onStartProcessing(dataSourceRequest, dbConnection);
 //        dbConnection.delete(DBHelper.getTableName(MovieItemEntity.class), null, null);
         Log.d(TAG, "onStartProcessing: " + StringUtil.decode(dataSourceRequest.getUri()));
-        if (StringUtil.decode(dataSourceRequest.getUri()).contains("page=1") || !StringUtil.decode(dataSourceRequest.getUri()).contains("page=")) {
-            dbConnection.delete(DBHelper.getTableName(MovieItemEntity.class), null, null);
-        }
+//        if (StringUtil.decode(dataSourceRequest.getUri()).contains("page=1") || !StringUtil.decode(dataSourceRequest.getUri()).contains("page=")) {
+//            dbConnection.delete(DBHelper.getTableName(MovieItemEntity.class), null, null);
+//        }
     }
 
     @Override

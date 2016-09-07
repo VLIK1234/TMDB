@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import by.istin.android.xcore.db.impl.DBHelper;
 import by.istin.android.xcore.fragment.collection.RecyclerViewFragment;
 import by.istin.android.xcore.model.CursorModel;
 import by.istin.android.xcore.provider.ModelContract;
@@ -104,7 +105,7 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
 
     @Override
     public long getCacheExpiration() {
-        return DateUtils.DAY_IN_MILLIS;
+        return 0;
     }
 
     @Override
@@ -119,7 +120,8 @@ public class MoviesFragment extends RecyclerViewFragment<FilmAdapter.ViewHolder,
 
     @Override
     public Uri getUri() {
-        return ModelContract.getUri(MovieItemEntity.class);
+        return ModelContract.getSQLQueryUri("SELECT * FROM " + DBHelper.getTableName(MovieItemEntity.class)
+                + " as m WHERE m." + MovieItemEntity.CATEGORY + " = \"" + getUrlForLoad()+"\"", ModelContract.getUri(MovieItemEntity.class));
     }
 
     @Override

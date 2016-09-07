@@ -27,6 +27,7 @@ import github.tmdb.fragment.HomeFragment;
 import github.tmdb.fragment.MoviesFragment;
 import github.tmdb.fragment.SearchFragment;
 import github.tmdb.fragment.SeriesFragment;
+import github.tmdb.fragment.TabsFragment;
 
 /**
  * @author IvanBakach
@@ -153,6 +154,9 @@ public class MainScreenActivity extends AppCompatActivity implements SearchView.
         switch (item.getItemId()) {
             case R.id.nav_home:
                 setCurrentFragment(new HomeFragment(), false);
+                break;
+            case R.id.nav_tabs:
+                setCurrentFragment(new TabsFragment(), false);
                 break;
             case R.id.nav_now_playing:
                 setCurrentFragment(MoviesFragment.newInstance(ApiTMDB.getMovieNowPlaying()), false);

@@ -65,12 +65,24 @@ public class MovieItemEntity implements BaseColumns, IBeforeArrayUpdate {
     @dbInteger
     public static final String POSITION = "position";
 
+    @dbString
+    public static final String CATEGORY = "category";
+
+
     @Override
     public void onBeforeListUpdate(DBHelper dbHelper, IDBConnection dbConnection, DataSourceRequest dataSourceRequest, int position, ContentValues contentValues) {
         if (dataSourceRequest == null) {
             return;
         }
+
+        String urlSource = StringUtil.isEmpty(dataSourceRequest.getUri()) ? null : dataSourceRequest.getUri().split("[?]")[0];
+
+        if (!StringUtil.isEmpty(urlSource)) {
+            contentValues.put(CATEGORY, urlSource);
+        }
+
         String range = dataSourceRequest.getParam("range");
+
         if (!StringUtil.isEmpty(range)) {
             Integer startPosition = Integer.parseInt(range);
             contentValues.put(POSITION, position + startPosition);
